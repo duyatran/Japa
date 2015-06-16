@@ -39,22 +39,13 @@ public class ProcessingArc implements Shape, ProcessingConstants
         this.h = h;
         this.start = start;
         this.stop = stop;
-        this.fillMode = mode;
-        this.strokeMode = mode;
         this.att = current.copy();
+        if (mode != -1){
+        	this.fillMode = mode;
+        	this.strokeMode = mode;
+        }
     }
 
-    public ProcessingArc(float x, float y, float w, float h, 
-    		float start, float stop, ShapeAttributes current){
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.start = start;
-        this.stop = stop;
-        this.att = current.copy();
-    }
-    
     public ShapeAttributes getAttributes(){
     	return this.att;
     }

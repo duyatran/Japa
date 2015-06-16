@@ -189,7 +189,7 @@ public class Processing implements ProcessingConstants{
      * @param  stop - The angular extent of the arc in degrees.
      */
     public static void arc(float x, float y, float w, float h, float start, float stop){
-        canvas.arc(x, y, w, h, start, stop);
+        canvas.arc(x, y, w, h, start, stop, -1);
     }
     
     /**

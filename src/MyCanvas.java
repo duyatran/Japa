@@ -155,20 +155,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
     public void arc(float x, float y, float w, float h, float start, float stop, int mode){
     	// Arguments modified to produce Processing-like arc with Java2D Arc2D constructor,
     	// which draws arc counter-clockwise and use 'extent' instead of 'stop' angle.
-        shapeList.add(new ProcessingArc(x, y, w, h, TWO_PI-stop, stop-start, mode, att));
-    }
-    
-    /** Default arc mode is PIE fill and OPEN stroke
-     * @param x  by default, x-coordinate of the ellipse
-     * @param y  by default, y-coordinate of the ellipse
-     * @param w  by default, width of the rectangle
-     * @param h  by default, height of the rectangle
-     * @param  start - The starting angle of the arc in degrees.
-     * @param  stop - The angular extent of the arc in degrees.
-     */
-    
-    public void arc(float x, float y, float w, float h, float start, float stop){
-        shapeList.add(new ProcessingArc(x, y, w, h, TWO_PI-stop, stop-start, att));
+    	shapeList.add(new ProcessingArc(x, y, w, h, TWO_PI-stop, stop-start, mode, att));	
     }
 
     public void ellipse(float x, float y, float w, float h){

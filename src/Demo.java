@@ -137,7 +137,7 @@ public class Demo implements ProcessingConstants{
         Processing.rect(150, 40, 80, 80);
         Processing.ellipse(70, 200, 100, 50);
         Processing.ellipse(190, 200, 80, 80);
-        Processing.arc(300, 180, 100, 100, 0, 90);
+        Processing.arc(300, 180, 100, 100, 0, 90, PIE);
         Processing.triangle(50, 300, 110, 320, 90, 360);
         Processing.line(300, 40, 340, 100);
         Processing.point(300, 320);
