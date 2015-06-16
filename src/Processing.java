@@ -124,21 +124,6 @@ public class Processing implements ProcessingConstants{
         canvas.stroke(v1,v2,v3,alpha);
     }
     
-    
-    /**
-     * Disables drawing the stroke(outline).
-     */    
-    public static void noStroke(){
-        canvas.noStroke();
-    }
-    
-    /**
-     * Disables filling geometry.
-     */    
-    public static void noFill(){
-        canvas.noFill();
-    }
-    
     /**
      * Sets the style for rendering stroke endings.
      * @param cap - either SQUARE, ROUND or PROJECT
@@ -164,6 +149,20 @@ public class Processing implements ProcessingConstants{
      */    
     public static void strokeWeight(float w){
         canvas.setStrokeWeight(w);
+    }
+    
+    /**
+     * Disables drawing the stroke(outline).
+     */    
+    public static void noStroke(){
+        canvas.noStroke();
+    }
+    
+    /**
+     * Disables filling geometry.
+     */    
+    public static void noFill(){
+        canvas.noFill();
     }
     
     /**
@@ -202,11 +201,6 @@ public class Processing implements ProcessingConstants{
     public static void ellipse(float x, float y, float w, float h){
         canvas.ellipse(x, y, w, h);
     }
-    
-    /**
-     * TO-DO
-     */
-    public static void ellipseMode(){}
     
     /**
      * Draws a line to the screen.
@@ -285,19 +279,16 @@ public class Processing implements ProcessingConstants{
     }
     
     /**
-     * Draws all geometry with smooth (anti-aliased) edges.
-     * smooth() is active by default.
+     * Turn on anti-aliasing, which is on by default.
      */
     public static void smooth(){
         canvas.smooth();
     }
     
     /**
-     * Draws all geometry with jagged (aliased) edges. smooth()
-     * is active by default, so it is necessary to call this
-     * method to disable anti-aliasing.
-     * smooth() is active by default.
-     */
+     * Turn off anti-aliasing. smooth() is active by default, 
+     * so it is necessary to call this method to disable anti-aliasing.
+    */
     public static void noSmooth(){
         canvas.noSmooth();
     }

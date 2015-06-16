@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*; // Event-handling
 import java.awt.geom.*; //to use Graphics2D
 import java.util.*;
+
 import javax.swing.*;
 
 /**
@@ -117,7 +118,12 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
 //        colorCalc(v1,v2,v3,alpha);
     	getColor(v1, v2, v3);
     }
-       
+    
+    /**
+     * Sets the style for rendering stroke endings.
+     * @param cap - either SQUARE, ROUND or PROJECT
+     * @throws IllegalArgumentException
+     */
     public void setStrokeCap(int cap){
     	// TO-DO
 //                throw new IllegalArgumentException
@@ -126,18 +132,34 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
 
     }
     
+    /**
+     * Sets the style of the joints between strokes.
+     * @param join - either MITER, BEVEL, and ROUND
+     * @throws IllegalArgumentException
+     */
     public void setStrokeJoin(int join){
         att.setStrokeJoin(join);
     }
     
+    /**
+     * Sets the width (in pixels) of the stroke used for 
+     * lines, points, and the border around shapes.
+     * @throws IllegalArgumentException
+     */    
     public void setStrokeWeight(float w){
         att.setStrokeWeight(w);
     }
     
+    /**
+     * Disables drawing the stroke(outline).
+     */
     public void noStroke(){
         att.setStroke(false);
     }
     
+    /**
+     * Disables filling geometry.
+     */  
     public void noFill(){
         att.setFill(false);
     } 
@@ -168,6 +190,11 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
     public void ellipse(float x, float y, float w, float h){
         shapeList.add(new ProcessingEllipse(x, y, w, h, att));
     }
+    
+    /**
+     * TO-DO
+     */
+    public static void ellipseMode(){}
     
     /**
      * Adds a line to the shapeList.
@@ -218,6 +245,11 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
     }
     
     /**
+     * TO-DO
+     */
+    public static void rectMode(){}
+    
+    /**
      * Adds a triangle to the shapeList.
      * @param x1	x-coordinate of the first vertex
      * @param y1	y-coordinate of the first vertex
@@ -233,12 +265,22 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
     }
     
     /**
+     * TO-DO: Save image as image file
+     * @param filename
+     */
+    public void save(String filename){        
+    }
+    
+    /**
      * Turn on anti-aliasing, which is on by default.
      */
     public void smooth(){
         att.setSmooth(true);
     }
     
+    /**
+     * Turn off anti-aliasing.
+     */
     public void noSmooth(){
         att.setSmooth(false);
     }
