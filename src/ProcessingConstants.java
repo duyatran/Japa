@@ -1,3 +1,11 @@
+/**
+ * Summer 2015 - Processing-inspired Java Graphics Library
+ * ProcessingConstants.java
+ * Purpose: Create an interface (TBD) that holds all constants for convenience
+ *
+ * @author Duy Tran
+ * @version 1.0 6/10/2015
+ */
 
 public interface ProcessingConstants {
 	static final float EPSILON = 0.0001f;
