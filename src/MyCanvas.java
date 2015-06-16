@@ -143,7 +143,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
     } 
     
     /**
-     * Draws an arc to the screen.
+     * Adds an arc to the shapeList.
      * @param x  by default, x-coordinate of the ellipse
      * @param y  by default, y-coordinate of the ellipse
      * @param w  by default, width of the rectangle
@@ -157,40 +157,84 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
     	// which draws arc counter-clockwise and use 'extent' instead of 'stop' angle.
     	shapeList.add(new ProcessingArc(x, y, w, h, TWO_PI-stop, stop-start, mode, att));	
     }
-
+    
+    /**
+     * Adds an ellipse to the shapeList.
+     * @param x  by default, x-coordinate of the rectangle containing the ellipse
+     * @param y  by default, y-coordinate of the rectangle containing the ellipse
+     * @param w  by default, width of the ellipse
+     * @param h  by default, height of the ellipse
+     */
     public void ellipse(float x, float y, float w, float h){
         shapeList.add(new ProcessingEllipse(x, y, w, h, att));
     }
     
+    /**
+     * Adds a line to the shapeList.
+     * @param x1  x-coordinate of the first point
+     * @param y1  y-coordinate of the first point
+     * @param x2  x-coordinate of the second point
+     * @param y2  y-coordinate of the second point
+     */
     public void line(float x1, float y1, float x2, float y2){
         shapeList.add(new ProcessingLine(x1, y1, x2, y2, att));
     }
     
     /**
-     * Draws a point to the screen.
-     * @param x  x-coordinate of the point
-     * @param y  y-coordinate of the point
+     * Adds a point to the shapeList.
+     * @param x1  x-coordinate of the point
+     * @param y1  y-coordinate of the point
      */
     public void point(float x, float y){
         shapeList.add(new ProcessingLine(x, y, x+EPSILON, y+EPSILON, att));
     }
     
+    /**
+     * Adds a four-sided polygon to the screen
+     * @param x1	x-coordinate of the first corner
+     * @param y1	y-coordinate of the first corner
+     * @param x2	x-coordinate of the second corner
+     * @param y2	y-coordinate of the second corner
+     * @param x3	x-coordinate of the third corner
+     * @param y3	y-coordinate of the third corner
+     * @param x4	x-coordinate of the fourth corner
+     * @param y4	y-coordinate of the fourth corner
+     */
     public void quad(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4){
     	float[] x = new float[] {x1, x2, x3, x4};
     	float[] y = new float[] {y1, y2, y3, y4};
     	shapeList.add(new ProcessingPolygon(x, y, att));
     }
     
+    /**
+     * Adds a rectangle to the shapeList.
+     * @param x  by default, x-coordinate of the rectangle
+     * @param y  by default, y-coordinate of the rectangle
+     * @param w  by default, width of the rectangle
+     * @param h  by default, height of the rectangle
+     */
     public void rect(float x, float y, float w, float h){
         shapeList.add(new ProcessingRect(x, y, w, h, att));
     }
-
+    
+    /**
+     * Adds a triangle to the shapeList.
+     * @param x1	x-coordinate of the first vertex
+     * @param y1	y-coordinate of the first vertex
+     * @param x2	x-coordinate of the second vertex
+     * @param y2	y-coordinate of the second vertex
+     * @param x3	x-coordinate of the third vertex
+     * @param y3	y-coordinate of the third vertex
+     */
     public void triangle(float x1, float y1, float x2, float y2, float x3, float y3){
     	float[] x = new float[] {x1, x2, x3};
     	float[] y = new float[] {y1, y2, y3};
     	shapeList.add(new ProcessingPolygon(x, y, att));
     }
     
+    /**
+     * Turn on anti-aliasing, which is on by default.
+     */
     public void smooth(){
         att.setSmooth(true);
     }

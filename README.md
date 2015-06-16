@@ -58,7 +58,17 @@ every class that uses constants implement that interface.
   * Data encapsulation
   * Maintenance difficulty
 
-  Possible solution: Use of enum.
+  Read more:
+
+  http://docs.oracle.com/javase/1.5.0/docs/guide/language/enums.html
+
+  https://en.wikipedia.org/wiki/Constant_interface
+
+  http://stackoverflow.com/questions/10896111/sharing-constant-strings-in-java-across-many-classes
+
+  http://docs.oracle.com/javase/7/docs/technotes/guides/language/static-import.html
+
+  Possible solution: Best practice would be to use enum type, but I think a class of constants (used with static import to be able to call CONSTANT and not PConstants.CONSTANT) would work as well.
 
 2. Color:
   - In Processing, methods that take in a color parameter have six different signatures, [for example]:
