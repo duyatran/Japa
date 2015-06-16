@@ -145,6 +145,6 @@ public class Demo implements ProcessingConstants{
     }
     
     public static void main(String[] args){
-        student2();
+        test();
     }
 }

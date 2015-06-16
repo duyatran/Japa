@@ -15,7 +15,7 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class MyCanvas extends JFrame implements ProcessingConstants{
-    private String colorMode = "RGB";
+	private String colorMode = "RGB";
     private Color backgroundColor = Color.LIGHT_GRAY;
     private ShapeAttributes att = new ShapeAttributes();
     private ArrayList<Shape> shapeList = new ArrayList<Shape>();
@@ -39,6 +39,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
         cp.add(drawCanvas);
    
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setResizable(false);
         this.pack();
         this.setTitle("My Canvas");
         this.setVisible(true);

@@ -42,6 +42,9 @@ public class Processing implements ProcessingConstants{
      */
     public static void size(int width, int height){
         canvas = new MyCanvas(width, height);
+        //TO-DO
+        //why not this.width = width;
+        //and this.height = height;
         width = canvas.getWidth();
         height = canvas.getHeight();
     }
