@@ -14,15 +14,15 @@ import javax.swing.*;
  */
 
 @SuppressWarnings("serial")
-public class MyCanvas extends JFrame implements ProcessingConstants{
-	private int colorMode = RGB;
+public class MyCanvas extends JFrame{
+	private int colorMode = Consts.RGB;
     private Color backgroundColor = Color.LIGHT_GRAY;
     private ShapeAttributes att = new ShapeAttributes();
     private ArrayList<Shape> shapeList = new ArrayList<Shape>();
     private DrawCanvas drawCanvas;
     
     public MyCanvas(){
-        init(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        init(Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
     }
     
     public MyCanvas(int w, int h){ 
@@ -52,7 +52,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
      *****************************************************/
     
     public void setColorMode(int mode){
-        if (mode == RGB || mode == HSB)
+        if (mode == Consts.RGB || mode == Consts.HSB)
             colorMode = mode;
         else{
             throw new 
@@ -136,7 +136,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
     public void arc(double x, double y, double w, double h, double start, double stop, int mode){
     	// Arguments modified to produce Processing-like arc with Java2D Arc2D constructor,
     	// which draws arc counter-clockwise and use 'extent' instead of 'stop' angle.
-    	shapeList.add(new ProcessingArc(x, y, w, h, TWO_PI-stop, stop-start, mode, att));	
+    	shapeList.add(new ProcessingArc(x, y, w, h, Consts.TWO_PI-stop, stop-start, mode, att));	
     }
     
     /**
@@ -172,7 +172,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
      * @param y1  y-coordinate of the point
      */
     public void point(double x, double y){
-        shapeList.add(new ProcessingLine(x, y, x+EPSILON, y+EPSILON, att));
+        shapeList.add(new ProcessingLine(x, y, x+Consts.EPSILON, y+Consts.EPSILON, att));
     }
     
     /**

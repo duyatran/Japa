@@ -10,7 +10,7 @@ import java.awt.geom.Arc2D;
  * @version 1.0 6/10/2015
  */
 
-public class ProcessingArc implements Shape, ProcessingConstants{
+public class ProcessingArc implements Shape{
    
 	private double x;
     private double y;
@@ -18,8 +18,8 @@ public class ProcessingArc implements Shape, ProcessingConstants{
     private double h;
     private double start;
     private double stop;
-    private int fillMode = PIE;
-    private int strokeMode = OPEN;
+    private int fillMode = Consts.PIE;
+    private int strokeMode = Consts.OPEN;
     private ShapeAttributes att;
 
     /** 

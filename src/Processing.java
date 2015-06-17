@@ -13,7 +13,7 @@ import javax.swing.*;
  * @version 1.0 6/10/2015
  */
 
-public class Processing implements ProcessingConstants{
+public class Processing{
 
     public static int width;
     public static int height;

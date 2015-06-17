@@ -7,7 +7,7 @@
  * @version 1.0 6/10/2015
  */
 
-public class Demo implements ProcessingConstants{
+public class Demo{
     public static void student1(){
     	Processing.size(720, 580);
 
@@ -89,7 +89,7 @@ public class Demo implements ProcessingConstants{
 
     	Processing.stroke(0);//fallen trees background
     	Processing.strokeWeight(50);
-    	Processing.strokeCap(SQUARE);
+    	Processing.strokeCap(Consts.SQUARE);
     	Processing.line(290, -50, 550, 515);//far left fallen tree
     	Processing.line(530, -50, 700, 400);//left fallen tree
     	Processing.line(650, -50, 400, 500);//right fallen tree
@@ -114,7 +114,7 @@ public class Demo implements ProcessingConstants{
 
     	Processing.stroke(0);
     	Processing.strokeWeight(10);
-    	Processing.strokeCap(SQUARE);
+    	Processing.strokeCap(Consts.SQUARE);
     	Processing.line(630, 430, 700, 430);//brim of witch's hat
 
     	Processing.fill(0);//witch's hat
@@ -262,7 +262,7 @@ public class Demo implements ProcessingConstants{
     	Processing.ellipse(812.5,350.5,40,25);
 
     	//fingers data
-    	Processing.strokeCap(SQUARE);
+    	Processing.strokeCap(Consts.SQUARE);
     	Processing.stroke(247,224,145);//fleshtone
     	Processing.strokeWeight(40);
 
@@ -538,7 +538,7 @@ public class Demo implements ProcessingConstants{
     	//5th small window
     	Processing.stroke(15,95,43);
     	Processing.strokeWeight(70);
-    	Processing.strokeCap(SQUARE);
+    	Processing.strokeCap(Consts.SQUARE);
     	Processing.line(530,50,530,180);
 
     	Processing.noStroke();
@@ -566,7 +566,7 @@ public class Demo implements ProcessingConstants{
     	//the 4th small window
     	Processing.stroke(15,95,43);
     	Processing.strokeWeight(70);
-    	Processing.strokeCap(SQUARE);
+    	Processing.strokeCap(Consts.SQUARE);
     	Processing.line(410,50,410,180);
 
     	Processing.noStroke();
@@ -589,7 +589,7 @@ public class Demo implements ProcessingConstants{
 
     	Processing.stroke(15,95,43);
     	Processing.strokeWeight(70);
-    	Processing.strokeCap(SQUARE);
+    	Processing.strokeCap(Consts.SQUARE);
 
     	//the other small windows
     	Processing.line(50,50,50,180);
@@ -649,7 +649,7 @@ public class Demo implements ProcessingConstants{
         Processing.rect(150, 40, 80, 80);
         Processing.ellipse(70, 200, 100, 50);
         Processing.ellipse(190, 200, 80, 80);
-        Processing.arc(300, 180, 100, 100, 0, 90, PIE);
+        Processing.arc(300, 180, 100, 100, 0, 90, Consts.PIE);
         Processing.triangle(50, 300, 110, 320, 90, 360);
         Processing.line(300, 40, 340, 100);
         Processing.point(300, 320);
