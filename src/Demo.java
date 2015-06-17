@@ -11,15 +11,15 @@ public class Demo{
     public static void student1(){
     	Processing.size(720, 580);
 
-    	//Processing.colorMode(HSB);
+    	Processing.colorMode(Consts.HSB);
 
-    	Processing.size(720, 580);
+    	//Processing.size(720, 580);
     	for (int i=0; i<580; i++) {
-    	  Processing.stroke(200, 200, i*.2);
+    	  Processing.stroke(200, 200, i*0.2);
     	  Processing.line(0, i, 720, i);
     	}
 
-    	//Processing.colorMode(RGB);
+    	Processing.colorMode(Consts.RGB);
 
     	Processing.smooth();
     	Processing.stroke(0);
@@ -645,14 +645,17 @@ public class Demo{
     
     public static void test(){
         Processing.size();
+        Processing.background(255);
+        Processing.fill(120,27,222);
         Processing.rect(20, 40, 100, 50);
-        Processing.rect(150, 40, 80, 80);
-        Processing.ellipse(70, 200, 100, 50);
-        Processing.ellipse(190, 200, 80, 80);
-        Processing.arc(300, 180, 100, 100, 0, 90, Consts.PIE);
-        Processing.triangle(50, 300, 110, 320, 90, 360);
-        Processing.line(300, 40, 340, 100);
-        Processing.point(300, 320);
+//        Processing.rect(20, 40, 100, 50);
+//        Processing.rect(150, 40, 80, 80);
+//        Processing.ellipse(70, 200, 100, 50);
+//        Processing.ellipse(190, 200, 80, 80);
+//        Processing.arc(300, 180, 100, 100, 0, 90, Consts.PIE);
+//        Processing.triangle(50, 300, 110, 320, 90, 360);
+//        Processing.line(300, 40, 340, 100);
+//        Processing.point(300, 320);
         
     }
     

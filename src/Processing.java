@@ -1,9 +1,3 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
-
-import javax.swing.*;
-
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
  * Processing.java
@@ -13,12 +7,14 @@ import javax.swing.*;
  * @version 1.0 6/10/2015
  */
 
-public class Processing{
-
+public class Processing {
+	public static int screenWidth;
+	public static int screenHeight;
     public static int width;
     public static int height;
-    public static double mouseX;
-    public static double mouseY;
+//    public static double mouseX;
+//    public static double mouseY;
+    private static MyColor colorObject = new MyColor();
     private static MyCanvas canvas; // not sure about access level, 
                                     // but not public.
     
@@ -55,29 +51,33 @@ public class Processing{
      * done. 
      *****************************************************/
     public static void colorMode(int mode){
-        canvas.setColorMode(mode);
+        colorObject.setColorMode(mode);
     }
     
-    public static void background(int rgb){
-        canvas.background(new MyColor(rgb));
+    public static void colorMode(int mode, double max){
+        colorObject.setColorMode(mode, max);
     }
     
-    public static void background(int rgb, double alpha){
-        canvas.background(new MyColor(rgb, alpha));
+    public static void colorMode(int mode, double max1, double max2, double max3){
+        colorObject.setColorMode(mode, max1, max2, max3);
+    }
+    
+    public static void colorMode(int mode, double max1, double max2, double max3, double maxA){
+        colorObject.setColorMode(mode, max1, max2, max3, maxA);
     }
     
     /**
-     * Sets the grayscale color used for the background 
+     * Sets the gray scale color used for the background 
      * of the displaying. The default background is light 
      * gray.
-     * @param int  Background color (grayscale).
+     * @param int  Background color (gray scale).
      */
     public static void background(double gray){
-        canvas.background(new MyColor(gray));
+        canvas.background(colorObject.calc(gray));
     }
     
     public static void background(double gray, double alpha){
-        canvas.background(new MyColor(gray, alpha));
+        canvas.background(colorObject.calc(gray, alpha));
     }
     
     /**
@@ -87,58 +87,50 @@ public class Processing{
      * @param height Desired height of the display window.
      */
     public static void background(double v1, double v2, double v3){
-        canvas.background(new MyColor(v1, v2, v3));
+        canvas.background(colorObject.calc(v1, v2, v3));
     }
     
     public static void background(double v1, double v2, double v3, double alpha){
-        canvas.background(new MyColor(v1, v2, v3, alpha));
+        canvas.background(colorObject.calc(v1, v2, v3, alpha));
     }
     
-    /**
+    /** LOW-PRIORITY
      * TO-DO: Sets the background of the display window 
      * to an image.
      * @throws IOException
      */
     public static void background(String image){}
+ 
+    public static void fill(double gray){
+        canvas.fill(colorObject.calc(gray));
+    }
     
-    public static void fill(int rgb){
-        canvas.fill(new MyColor(rgb));
+    public static void fill(double gray, double alpha){
+        canvas.fill(colorObject.calc(gray, alpha));
     }
-   
-    public static void fill(int rgb, double alpha){
-        canvas.fill(new MyColor(rgb, alpha));
-    }
-   
+    
     public static void fill(double v1, double v2, double v3){
-        canvas.fill(new MyColor(v1, v2, v3));
+        canvas.fill(colorObject.calc(v1, v2, v3));
     }
     
     public static void fill(double v1, double v2, double v3, double alpha){
-        canvas.fill(new MyColor(v1, v2, v3, alpha));
+        canvas.fill(colorObject.calc(v1, v2, v3, alpha));
     }
-    
-    public static void stroke(int rgb){
-    	canvas.stroke(rgb);
-    }
-    
-    public static void stroke(int rgb, double alpha) {
-        canvas.stroke(rgb, alpha);
-      }
 
     public static void stroke(double gray){
-        canvas.stroke(gray);
+        canvas.stroke(colorObject.calc(gray));
     }
     
     public static void stroke(double gray, double alpha){
-        canvas.stroke(gray, alpha);
+        canvas.stroke(colorObject.calc(gray, alpha));
     }
     
     public static void stroke(double v1, double v2, double v3){
-        canvas.stroke(v1,v2,v3);
+        canvas.stroke(colorObject.calc(v1, v2, v3));
     }
     
     public static void stroke(double v1, double v2, double v3, double alpha){
-        canvas.stroke(v1,v2,v3,alpha);
+        canvas.stroke(colorObject.calc(v1, v2, v3, alpha));
     }
     
     /**

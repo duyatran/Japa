@@ -1,8 +1,14 @@
-import java.awt.*;
-import java.awt.event.*; // Event-handling
-import java.util.*;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
-import javax.swing.*;
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
@@ -15,7 +21,6 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class MyCanvas extends JFrame{
-	private int colorMode = Consts.RGB;
     private Color backgroundColor = Color.LIGHT_GRAY;
     private ShapeAttributes att = new ShapeAttributes();
     private ArrayList<Shape> shapeList = new ArrayList<Shape>();
@@ -51,29 +56,16 @@ public class MyCanvas extends JFrame{
      * done. 
      *****************************************************/
     
-    public void setColorMode(int mode){
-        if (mode == Consts.RGB || mode == Consts.HSB)
-            colorMode = mode;
-        else{
-            throw new 
-            IllegalArgumentException("Color must be either RGB or HSB");
-        }
-    }
-    
-    public int getColorMode(){
-    	return colorMode;
-    }
-    
-    public void background(MyColor c){
+    public void background(Color c){
         backgroundColor = c;
     }
     
-    public void fill(MyColor c){
+    public void fill(Color c){
         att.setFill(true);
         att.setFillColor(c);
     }
     
-    public void stroke(MyColor c){
+    public void stroke(Color c){
     	att.setStroke(true);
     	att.setStrokeColor(c);
     }
