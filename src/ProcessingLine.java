@@ -12,10 +12,10 @@ import java.awt.geom.Line2D;
 
 public class ProcessingLine implements Shape
 {
-    private float x1;
-    private float y1;
-    private float x2;
-    private float y2;
+    private double x1;
+    private double y1;
+    private double x2;
+    private double y2;
     private ShapeAttributes att;
 
     /**
@@ -25,8 +25,8 @@ public class ProcessingLine implements Shape
      * @param x2 the x-coordinate of the ending point
      * @param y2 the y-coordinate of the ending point
      */
-    public ProcessingLine(float x1, float y1, 
-                          float x2, float y2, ShapeAttributes current){
+    public ProcessingLine(double x1, double y1, 
+                          double x2, double y2, ShapeAttributes current){
         this.x1 = x1;
         this.x2 = x2;
         this.y1 = y1;
@@ -47,7 +47,7 @@ public class ProcessingLine implements Shape
         if (att.getStroke() == true){
             g2.setStroke(att.getStrokeStyle());
             g2.setColor(att.getStrokeColor());
-            g2.draw(new Line2D.Float(x1, y1, x2, y2));
+            g2.draw(new Line2D.Double(x1, y1, x2, y2));
         }
     }
 }

@@ -17,8 +17,8 @@ public class Processing implements ProcessingConstants{
 
     public static int width;
     public static int height;
-    public static float mouseX;
-    public static float mouseY;
+    public static double mouseX;
+    public static double mouseY;
     private static MyCanvas canvas; // not sure about access level, 
                                     // but not public.
     
@@ -54,6 +54,17 @@ public class Processing implements ProcessingConstants{
      * not complete because the color handler method is not
      * done. 
      *****************************************************/
+    public static void colorMode(int mode){
+        canvas.setColorMode(mode);
+    }
+    
+    public static void background(int rgb){
+        canvas.background(new MyColor(rgb));
+    }
+    
+    public static void background(int rgb, double alpha){
+        canvas.background(new MyColor(rgb, alpha));
+    }
     
     /**
      * Sets the grayscale color used for the background 
@@ -61,8 +72,12 @@ public class Processing implements ProcessingConstants{
      * gray.
      * @param int  Background color (grayscale).
      */
-    public static void background(float gray){
-        canvas.background(gray,gray,gray);
+    public static void background(double gray){
+        canvas.background(new MyColor(gray));
+    }
+    
+    public static void background(double gray, double alpha){
+        canvas.background(new MyColor(gray, alpha));
     }
     
     /**
@@ -71,8 +86,12 @@ public class Processing implements ProcessingConstants{
      * @param width  Desired width of the display window.
      * @param height Desired height of the display window.
      */
-    public static void background(float v1, float v2, float v3){
-        canvas.background(v1,v2,v3);
+    public static void background(double v1, double v2, double v3){
+        canvas.background(new MyColor(v1, v2, v3));
+    }
+    
+    public static void background(double v1, double v2, double v3, double alpha){
+        canvas.background(new MyColor(v1, v2, v3, alpha));
     }
     
     /**
@@ -82,45 +101,43 @@ public class Processing implements ProcessingConstants{
      */
     public static void background(String image){}
     
-    public static void colorMode(String mode){
-        canvas.setColorMode(mode);
-    }
-    
     public static void fill(int rgb){
-        canvas.fill(rgb);
+        canvas.fill(new MyColor(rgb));
     }
    
-    public static void fill(int rgb, float alpha){}
+    public static void fill(int rgb, double alpha){
+        canvas.fill(new MyColor(rgb, alpha));
+    }
    
-    public static void fill(int r, int g, int b){
-        canvas.fill(r,g,b);
+    public static void fill(double v1, double v2, double v3){
+        canvas.fill(new MyColor(v1, v2, v3));
     }
     
-    public static void fill(int r, int g, int b, float alpha){
-        canvas.fill(r,g,b);
+    public static void fill(double v1, double v2, double v3, double alpha){
+        canvas.fill(new MyColor(v1, v2, v3, alpha));
     }
     
     public static void stroke(int rgb){
     	canvas.stroke(rgb);
     }
     
-    public static void stroke(int rgb, float alpha) {
+    public static void stroke(int rgb, double alpha) {
         canvas.stroke(rgb, alpha);
       }
 
-    public static void stroke(float gray){
+    public static void stroke(double gray){
         canvas.stroke(gray);
     }
     
-    public static void stroke(float gray, float alpha){
+    public static void stroke(double gray, double alpha){
         canvas.stroke(gray, alpha);
     }
     
-    public static void stroke(float v1, float v2, float v3){
+    public static void stroke(double v1, double v2, double v3){
         canvas.stroke(v1,v2,v3);
     }
     
-    public static void stroke(float v1, float v2, float v3, float alpha){
+    public static void stroke(double v1, double v2, double v3, double alpha){
         canvas.stroke(v1,v2,v3,alpha);
     }
     
@@ -147,8 +164,8 @@ public class Processing implements ProcessingConstants{
      * lines, points, and the border around shapes.
      * @throws IllegalArgumentException
      */    
-    public static void strokeWeight(float w){
-        canvas.setStrokeWeight(w);
+    public static void strokeWeight(double w){
+        canvas.setStrokeWeight((float)w);
     }
     
     /**
@@ -175,7 +192,7 @@ public class Processing implements ProcessingConstants{
      * @param  stop - The angular extent of the arc in degrees.
      * @param  mode - The closure type for the arc: Arc2D.OPEN, Arc2D.CHORD, or Arc2D.PIE.
      */
-    public static void arc(float x, float y, float w, float h, float start, float stop, int mode){
+    public static void arc(double x, double y, double w, double h, double start, double stop, int mode){
         canvas.arc(x, y, w, h, start, stop, mode);
     }
     
@@ -187,7 +204,7 @@ public class Processing implements ProcessingConstants{
      * @param  start - The starting angle of the arc in degrees.
      * @param  stop - The angular extent of the arc in degrees.
      */
-    public static void arc(float x, float y, float w, float h, float start, float stop){
+    public static void arc(double x, double y, double w, double h, double start, double stop){
         canvas.arc(x, y, w, h, start, stop, -1);
     }
     
@@ -198,7 +215,7 @@ public class Processing implements ProcessingConstants{
      * @param w  by default, width of the rectangle
      * @param h  by default, height of the rectangle
      */
-    public static void ellipse(float x, float y, float w, float h){
+    public static void ellipse(double x, double y, double w, double h){
         canvas.ellipse(x, y, w, h);
     }
     
@@ -209,7 +226,7 @@ public class Processing implements ProcessingConstants{
      * @param x2  x-coordinate of the second point
      * @param y2  y-coordinate of the second point
      */
-    public static void line(float x1, float y1, float x2, float y2){
+    public static void line(double x1, double y1, double x2, double y2){
         canvas.line(x1, y1, x2, y2);
     }
     
@@ -218,7 +235,7 @@ public class Processing implements ProcessingConstants{
      * @param x1  x-coordinate of the point
      * @param y1  y-coordinate of the point
      */
-    public static void point(float x, float y){
+    public static void point(double x, double y){
         canvas.point(x, y);
     }
     
@@ -235,8 +252,8 @@ public class Processing implements ProcessingConstants{
      * @param y4	y-coordinate of the fourth corner
 
      */
-    public static void quad(float x1, float y1, float x2, float y2, 
-    		float x3, float y3, float x4, float y4){
+    public static void quad(double x1, double y1, double x2, double y2, 
+    		double x3, double y3, double x4, double y4){
     	canvas.quad(x1, y1, x2, y2, x3, y3, x4, y4);
 
     }
@@ -249,7 +266,7 @@ public class Processing implements ProcessingConstants{
      * @param w  by default, width of the rectangle
      * @param h  by default, height of the rectangle
      */
-    public static void rect(float x, float y, float w, float h){
+    public static void rect(double x, double y, double w, double h){
         canvas.rect(x, y, w, h);
     }
     
@@ -267,7 +284,7 @@ public class Processing implements ProcessingConstants{
      * @param x3	x-coordinate of the third vertex
      * @param y3	y-coordinate of the third vertex
      */
-    public static void triangle(float x1, float y1, float x2, float y2, float x3, float y3){
+    public static void triangle(double x1, double y1, double x2, double y2, double x3, double y3){
     	canvas.triangle(x1, y1, x2, y2, x3, y3);
     }
     

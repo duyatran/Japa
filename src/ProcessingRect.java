@@ -12,10 +12,10 @@ import java.awt.geom.Rectangle2D;
 
 public class ProcessingRect implements Shape
 {
-	private float x;
-    private float y;
-    private float w;
-    private float h;
+	private double x;
+    private double y;
+    private double w;
+    private double h;
     private ShapeAttributes att;
 
     /**
@@ -25,8 +25,8 @@ public class ProcessingRect implements Shape
      * @param w the width of the rectangle
      * @param h the height of the rectangle
      */
-    public ProcessingRect(float x, float y, float w, 
-                          float h, ShapeAttributes current){
+    public ProcessingRect(double x, double y, double w, 
+                          double h, ShapeAttributes current){
         this.x = x;
         this.y = y;
         this.w = w;
@@ -45,12 +45,12 @@ public class ProcessingRect implements Shape
     public void paintShape(Graphics2D g2){
         if (att.getFill()){
             g2.setColor(att.getFillColor());
-            g2.fill(new Rectangle2D.Float(x, y, w, h));
+            g2.fill(new Rectangle2D.Double(x, y, w, h));
         }
         if (att.getStroke()){
             g2.setStroke(att.getStrokeStyle());
             g2.setColor(att.getStrokeColor());
-            g2.draw(new Rectangle2D.Float(x, y, w, h));
+            g2.draw(new Rectangle2D.Double(x, y, w, h));
         }
     }
 }

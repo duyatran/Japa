@@ -2,8 +2,8 @@ import java.awt.*;
 import java.awt.geom.Path2D;
 
 public class ProcessingPolygon implements Shape{
-	private float[] x;
-    private float[] y;
+	private double[] x;
+    private double[] y;
     private ShapeAttributes att;
 
     /**
@@ -13,9 +13,9 @@ public class ProcessingPolygon implements Shape{
      * @param x2 the x-coordinate of the ending point
      * @param y2 the y-coordinate of the ending point
      */
-    public ProcessingPolygon(float[] xCoor, float[] yCoor, ShapeAttributes current){
-        x = new float[xCoor.length];
-        y = new float[yCoor.length];
+    public ProcessingPolygon(double[] xCoor, double[] yCoor, ShapeAttributes current){
+        x = new double[xCoor.length];
+        y = new double[yCoor.length];
     	for (int i = 0; i < xCoor.length; i++){
         	x[i] = xCoor[i];
         	y[i] = yCoor[i];
@@ -33,7 +33,7 @@ public class ProcessingPolygon implements Shape{
     }
 
     public void paintShape(Graphics2D g2){
-        Path2D.Float polygon = new Path2D.Float();
+        Path2D.Double polygon = new Path2D.Double();
     	if (att.getFill()){
             g2.setColor(att.getFillColor());
             polygon.moveTo(x[0], y[0]);
@@ -46,7 +46,7 @@ public class ProcessingPolygon implements Shape{
         if (att.getStroke()){
             g2.setStroke(att.getStrokeStyle());
             g2.setColor(att.getStrokeColor());
-            polygon = new Path2D.Float();
+            polygon = new Path2D.Double();
             polygon.moveTo(x[0], y[0]);
             for (int i = 0; i < x.length; i++){
             	polygon.lineTo(x[i], y[i]);

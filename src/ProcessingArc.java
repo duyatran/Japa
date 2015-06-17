@@ -10,14 +10,14 @@ import java.awt.geom.Arc2D;
  * @version 1.0 6/10/2015
  */
 
-public class ProcessingArc implements Shape, ProcessingConstants
-{
-    private float x;
-    private float y;
-    private float w;
-    private float h;
-    private float start;
-    private float stop;
+public class ProcessingArc implements Shape, ProcessingConstants{
+   
+	private double x;
+    private double y;
+    private double w;
+    private double h;
+    private double start;
+    private double stop;
     private int fillMode = PIE;
     private int strokeMode = OPEN;
     private ShapeAttributes att;
@@ -31,8 +31,8 @@ public class ProcessingArc implements Shape, ProcessingConstants
      * @param  stop - The angular extent of the arc in degrees.
      * @param  mode - The closure type for the arc: Arc2D.OPEN, Arc2D.CHORD, or Arc2D.PIE.
      */
-    public ProcessingArc(float x, float y, float w, float h, 
-    		float start, float stop, int mode, ShapeAttributes current){
+    public ProcessingArc(double x, double y, double w, double h, 
+    		double start, double stop, int mode, ShapeAttributes current){
         this.x = x;
         this.y = y;
         this.w = w;
@@ -58,12 +58,12 @@ public class ProcessingArc implements Shape, ProcessingConstants
     public void paintShape(Graphics2D g2){
     	if (att.getFill() == true){
             g2.setColor(att.getFillColor());
-            g2.fill(new Arc2D.Float(x, y, w, h, start, stop, fillMode));
+            g2.fill(new Arc2D.Double(x, y, w, h, start, stop, fillMode));
         }
         if (att.getStroke() == true){
             g2.setStroke(att.getStrokeStyle());
             g2.setColor(att.getStrokeColor());
-            g2.draw(new Arc2D.Float(x, y, w, h, start, stop, strokeMode));
+            g2.draw(new Arc2D.Double(x, y, w, h, start, stop, strokeMode));
         }
     }
 }

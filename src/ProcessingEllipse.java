@@ -12,10 +12,10 @@ import java.awt.geom.Ellipse2D;
 
 public class ProcessingEllipse implements Shape
 {
-    private float x;
-    private float y;
-    private float w;
-    private float h;
+    private double x;
+    private double y;
+    private double w;
+    private double h;
     private ShapeAttributes att;
 
     /**
@@ -25,8 +25,8 @@ public class ProcessingEllipse implements Shape
      * @param x2 the x-coordinate of the ending point
      * @param y2 the y-coordinate of the ending point
      */
-    public ProcessingEllipse(float x, float y, 
-                          float w, float h, ShapeAttributes current){
+    public ProcessingEllipse(double x, double y, 
+                          double w, double h, ShapeAttributes current){
         this.x = x;
         this.y = y;
         this.w = w;
@@ -46,12 +46,12 @@ public class ProcessingEllipse implements Shape
     public void paintShape(Graphics2D g2){
     	if (att.getFill() == true){
             g2.setColor(att.getFillColor());
-            g2.fill(new Ellipse2D.Float(x, y, w, h));
+            g2.fill(new Ellipse2D.Double(x, y, w, h));
         }
         if (att.getStroke() == true){
             g2.setStroke(att.getStrokeStyle());
             g2.setColor(att.getStrokeColor());
-            g2.draw(new Ellipse2D.Float(x, y, w, h));
+            g2.draw(new Ellipse2D.Double(x, y, w, h));
         }
     }
 }

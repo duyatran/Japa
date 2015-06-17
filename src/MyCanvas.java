@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*; // Event-handling
-import java.awt.geom.*; //to use Graphics2D
 import java.util.*;
 
 import javax.swing.*;
@@ -16,7 +15,7 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class MyCanvas extends JFrame implements ProcessingConstants{
-	private String colorMode = "RGB";
+	private int colorMode = RGB;
     private Color backgroundColor = Color.LIGHT_GRAY;
     private ShapeAttributes att = new ShapeAttributes();
     private ArrayList<Shape> shapeList = new ArrayList<Shape>();
@@ -52,12 +51,8 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
      * done. 
      *****************************************************/
     
-    public void background(float v1, float v2, float v3){
-        backgroundColor = getColor(v1, v2, v3);
-    }
-  
-    public void setColorMode(String mode){
-        if (mode.equals("RGB") || mode.equals("HSB"))
+    public void setColorMode(int mode){
+        if (mode == RGB || mode == HSB)
             colorMode = mode;
         else{
             throw new 
@@ -65,58 +60,22 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
         }
     }
     
-    private Color getColor(float v1, float v2, float v3){
-        switch (colorMode) {
-            case "RGB": return (new Color((int)v1, (int)v2, (int)v3));
-            case "HSB": 
-                Color c = Color.getHSBColor(v1, v2, v3);
-                return c;
-            default: return null;               
-        }
+    public int getColorMode(){
+    	return colorMode;
     }
     
-    public void fill(int rgb){
+    public void background(MyColor c){
+        backgroundColor = c;
+    }
+    
+    public void fill(MyColor c){
         att.setFill(true);
-        att.setFillColor(new Color(rgb));
-    }
-
-//    public void fill(int rgb, float alpha){
-//        att = new ShapeAttributes(att, new Color(rgb), 0);
-//    }
-    
-    public void fill(int r, int g, int b){
-        att.setFill(true);
-        att.setFillColor(new Color(r,g,b));
+        att.setFillColor(c);
     }
     
-    public void fill(int r, int g, int b, int a){
-        att.setFill(true);
-        att.setFillColor(new Color(r,g,b,a));
-    }
-    
-    public void stroke(int rgb){
-//    	colorCalc(rgb);
-    }
-    
-    public void stroke(int rgb, float alpha) {
-//        colorCalc(rgb, alpha);
-      }
-
-    public void stroke(float gray){
-//        colorCalc(gray);
-    }
-    
-    public void stroke(float gray, float alpha){
-//        colorCalc(gray, alpha);
-    }
-    
-    public void stroke(float v1, float v2, float v3){
-//        colorCalc(v1,v2,v3);
-    }
-    
-    public void stroke(float v1, float v2, float v3, float alpha){
-//        colorCalc(v1,v2,v3,alpha);
-    	getColor(v1, v2, v3);
+    public void stroke(MyColor c){
+    	att.setStroke(true);
+    	att.setStrokeColor(c);
     }
     
     /**
@@ -174,7 +133,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
      * @param  stop - The angular extent of the arc in degrees.
      * @param  mode - The closure type for the arc: Arc2D.OPEN, Arc2D.CHORD, or Arc2D.PIE.
      */
-    public void arc(float x, float y, float w, float h, float start, float stop, int mode){
+    public void arc(double x, double y, double w, double h, double start, double stop, int mode){
     	// Arguments modified to produce Processing-like arc with Java2D Arc2D constructor,
     	// which draws arc counter-clockwise and use 'extent' instead of 'stop' angle.
     	shapeList.add(new ProcessingArc(x, y, w, h, TWO_PI-stop, stop-start, mode, att));	
@@ -187,7 +146,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
      * @param w  by default, width of the ellipse
      * @param h  by default, height of the ellipse
      */
-    public void ellipse(float x, float y, float w, float h){
+    public void ellipse(double x, double y, double w, double h){
         shapeList.add(new ProcessingEllipse(x, y, w, h, att));
     }
     
@@ -203,7 +162,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
      * @param x2  x-coordinate of the second point
      * @param y2  y-coordinate of the second point
      */
-    public void line(float x1, float y1, float x2, float y2){
+    public void line(double x1, double y1, double x2, double y2){
         shapeList.add(new ProcessingLine(x1, y1, x2, y2, att));
     }
     
@@ -212,7 +171,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
      * @param x1  x-coordinate of the point
      * @param y1  y-coordinate of the point
      */
-    public void point(float x, float y){
+    public void point(double x, double y){
         shapeList.add(new ProcessingLine(x, y, x+EPSILON, y+EPSILON, att));
     }
     
@@ -227,9 +186,9 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
      * @param x4	x-coordinate of the fourth corner
      * @param y4	y-coordinate of the fourth corner
      */
-    public void quad(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4){
-    	float[] x = new float[] {x1, x2, x3, x4};
-    	float[] y = new float[] {y1, y2, y3, y4};
+    public void quad(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4){
+    	double[] x = new double[] {x1, x2, x3, x4};
+    	double[] y = new double[] {y1, y2, y3, y4};
     	shapeList.add(new ProcessingPolygon(x, y, att));
     }
     
@@ -240,7 +199,7 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
      * @param w  by default, width of the rectangle
      * @param h  by default, height of the rectangle
      */
-    public void rect(float x, float y, float w, float h){
+    public void rect(double x, double y, double w, double h){
         shapeList.add(new ProcessingRect(x, y, w, h, att));
     }
     
@@ -258,9 +217,9 @@ public class MyCanvas extends JFrame implements ProcessingConstants{
      * @param x3	x-coordinate of the third vertex
      * @param y3	y-coordinate of the third vertex
      */
-    public void triangle(float x1, float y1, float x2, float y2, float x3, float y3){
-    	float[] x = new float[] {x1, x2, x3};
-    	float[] y = new float[] {y1, y2, y3};
+    public void triangle(double x1, double y1, double x2, double y2, double x3, double y3){
+    	double[] x = new double[] {x1, x2, x3};
+    	double[] y = new double[] {y1, y2, y3};
     	shapeList.add(new ProcessingPolygon(x, y, att));
     }
     

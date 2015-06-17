@@ -8,7 +8,7 @@
  */
 
 public interface ProcessingConstants {
-	static final float EPSILON = 0.0001f;
+	static final double EPSILON = 0.0001;
 
 	// Color mode
 	static int RGB = 0;
@@ -26,10 +26,10 @@ public interface ProcessingConstants {
 	static final int BEVEL    = 2; 
 
 	// Angles for arc()
-	static final float QUARTER_PI = 45f;
-	static final float HALF_PI = 90f;
-	static final float PI = 180f;
-	static final float TWO_PI = 360f;
+	static final double QUARTER_PI = 45;
+	static final double HALF_PI = 90;
+	static final double PI = 180;
+	static final double TWO_PI = 360;
 
 	// Arc mode
 	static final int OPEN = 0;
