@@ -12,10 +12,10 @@ public class MyColor {
 	private boolean PROCESSING = true;
 	private int colorMode = Consts.RGB;
 	private Color completeColor;
-	private double max1;
-	private double max2;
-	private double max3;
-	private double maxA;
+	private float max1;
+	private float max2;
+	private float max3;
+	private float maxA;
 	
 	public MyColor(){
 		setDefaultValues();
@@ -23,68 +23,64 @@ public class MyColor {
 
 	private void setDefaultValues(){
 		if (PROCESSING) {
-			this.max1 = 255;
-			this.max2 = 255;
-			this.max3 = 255;
-			this.maxA = 255;
+			this.max1 = Consts.DEFAULT_RGB;
+			this.max2 = Consts.DEFAULT_RGB;
+			this.max3 = Consts.DEFAULT_RGB;
+			this.maxA = Consts.DEFAULT_RGB;
 		}
 		else {
 			if (colorMode == Consts.RGB) {
-				this.max1 = 255;
-				this.max2 = 255;
-				this.max3 = 255;
-				this.maxA = 100;
+				this.max1 = Consts.DEFAULT_RGB;
+				this.max2 = Consts.DEFAULT_RGB;
+				this.max3 = Consts.DEFAULT_RGB;
+				this.maxA = Consts.DEFAULT_ALPHA;
 			}
 			else if (colorMode == Consts.HSB) {
-				this.max1 = 360;
-				this.max2 = 100;
-				this.max3 = 100;
-				this.maxA = 100;
+				this.max1 = Consts.DEFAULT_HUE;
+				this.max2 = Consts.DEFAULT_SATURATION;
+				this.max3 = Consts.DEFAULT_BRIGHTNESS;
+				this.maxA = Consts.DEFAULT_ALPHA;
 			}
 		}
 	}
 
-    public Color calc(double gray){
+    public Color calc(float gray){
     	return calc(gray, maxA);
     }
     
-    public Color calc(double gray, double alpha){
+    public Color calc(float gray, float alpha){
     	return calc(gray, gray, gray, alpha);
     }
     
-    public Color calc(double v1, double v2, double v3){
+    public Color calc(float v1, float v2, float v3){
     	return calc(v1, v2, v3, maxA);
     }
     
-    public Color calc(double v1, double v2, double v3, double alpha){
+    public Color calc(float v1, float v2, float v3, float alpha){
     	if (v1 > max1) v1 = max1;
     	if (v2 > max2) v2 = max2;
     	if (v3 > max3) v3 = max3;
     	if (alpha > maxA) alpha = maxA;
 
-        if (v1 < 0) v1 = 0;
+    	if (v1 < 0) v1 = 0;
         if (v2 < 0) v2 = 0;
         if (v3 < 0) v3 = 0;
         if (alpha < 0) alpha = 0;
         
-    	double x = v1/max1;
-    	double y = v2/max2;
-    	double z = v3/max3;
-    	double a = alpha/maxA;
+    	float x = v1/max1;
+    	float y = v2/max2;
+    	float z = v3/max3;
+    	float a = alpha/maxA;
     	
     	if (colorMode == Consts.RGB) {
-			completeColor = new Color((float)x,(float)y,(float)z,(float)a);
-		}
+			completeColor = new Color(x, y, z, a);
+    	}
 		else if (colorMode == Consts.HSB){
-			float floatx = (float) x;
-			float floaty = (float) y;
-			float floatz = (float) z;
-	    	Color temp = Color.getHSBColor(floatx,floaty,floatz);
-			float r = temp.getRed()/255.0f;
-			float g = temp.getGreen()/255.0f;
-			float b = temp.getBlue()/255.0f;
-			
-			completeColor = new Color(r, g, b, (float)a);
+	    	Color temp = Color.getHSBColor(x, y, z);
+			x = temp.getRed()/Consts.DEFAULT_RGB;
+			y = temp.getGreen()/Consts.DEFAULT_RGB;
+			z = temp.getBlue()/Consts.DEFAULT_RGB;
+			completeColor = new Color(x, y, z, (float)a);
 		}
     	return completeColor;
     }
@@ -94,21 +90,21 @@ public class MyColor {
     	setDefaultValues();
     }
     
-    public void setColorMode(int mode, double max){
+    public void setColorMode(int mode, float max){
         colorMode = mode;
     	this.max1 = max;
         this.max2 = max;
         this.max3 = max;
     }
     
-    public void setColorMode(int mode, double max1, double max2, double max3){
+    public void setColorMode(int mode, float max1, float max2, float max3){
     	colorMode = mode;
     	this.max1 = max1;
         this.max2 = max2;
         this.max3 = max3;
     }
     
-    public void setColorMode(int mode, double max1, double max2, double max3, double maxA){
+    public void setColorMode(int mode, float max1, float max2, float max3, float maxA){
     	colorMode = mode;
     	this.max1 = max1;
         this.max2 = max2;

@@ -55,15 +55,15 @@ public class Processing {
     }
     
     public static void colorMode(int mode, double max){
-        colorObject.setColorMode(mode, max);
+        colorObject.setColorMode(mode, (float) max);
     }
     
     public static void colorMode(int mode, double max1, double max2, double max3){
-        colorObject.setColorMode(mode, max1, max2, max3);
+        colorObject.setColorMode(mode, (float) max1, (float) max2, (float) max3);
     }
     
     public static void colorMode(int mode, double max1, double max2, double max3, double maxA){
-        colorObject.setColorMode(mode, max1, max2, max3, maxA);
+        colorObject.setColorMode(mode, (float) max1, (float) max2, (float) max3, (float) maxA);
     }
     
     /**
@@ -73,11 +73,11 @@ public class Processing {
      * @param int  Background color (gray scale).
      */
     public static void background(double gray){
-        canvas.background(colorObject.calc(gray));
+        canvas.background(colorObject.calc((float) gray));
     }
     
     public static void background(double gray, double alpha){
-        canvas.background(colorObject.calc(gray, alpha));
+        canvas.background(colorObject.calc((float) gray, (float) alpha));
     }
     
     /**
@@ -87,11 +87,11 @@ public class Processing {
      * @param height Desired height of the display window.
      */
     public static void background(double v1, double v2, double v3){
-        canvas.background(colorObject.calc(v1, v2, v3));
+        canvas.background(colorObject.calc((float) v1, (float) v2, (float) v3));
     }
     
     public static void background(double v1, double v2, double v3, double alpha){
-        canvas.background(colorObject.calc(v1, v2, v3, alpha));
+        canvas.background(colorObject.calc((float) v1, (float) v2, (float) v3, (float) alpha));
     }
     
     /** LOW-PRIORITY
@@ -102,35 +102,35 @@ public class Processing {
     public static void background(String image){}
  
     public static void fill(double gray){
-        canvas.fill(colorObject.calc(gray));
+        canvas.fill(colorObject.calc((float) gray));
     }
     
     public static void fill(double gray, double alpha){
-        canvas.fill(colorObject.calc(gray, alpha));
+        canvas.fill(colorObject.calc((float) gray, (float) alpha));
     }
     
     public static void fill(double v1, double v2, double v3){
-        canvas.fill(colorObject.calc(v1, v2, v3));
+        canvas.fill(colorObject.calc((float) v1, (float) v2, (float) v3));
     }
     
     public static void fill(double v1, double v2, double v3, double alpha){
-        canvas.fill(colorObject.calc(v1, v2, v3, alpha));
+        canvas.fill(colorObject.calc((float) v1, (float) v2, (float) v3, (float) alpha));
     }
 
     public static void stroke(double gray){
-        canvas.stroke(colorObject.calc(gray));
+        canvas.stroke(colorObject.calc((float) gray));
     }
     
     public static void stroke(double gray, double alpha){
-        canvas.stroke(colorObject.calc(gray, alpha));
+        canvas.stroke(colorObject.calc((float) gray, (float) alpha));
     }
     
     public static void stroke(double v1, double v2, double v3){
-        canvas.stroke(colorObject.calc(v1, v2, v3));
+        canvas.stroke(colorObject.calc((float) v1, (float) v2, (float) v3));
     }
     
     public static void stroke(double v1, double v2, double v3, double alpha){
-        canvas.stroke(colorObject.calc(v1, v2, v3, alpha));
+        canvas.stroke(colorObject.calc((float) v1, (float) v2, (float) v3, (float) alpha));
     }
     
     /**

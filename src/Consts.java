@@ -10,9 +10,15 @@
 public final class Consts {
 	public static final double EPSILON = 0.0001;
 
-	// Color mode
+	// Color mode and default values
 	public static int RGB = 0;
 	public static int HSB = 1;
+	public static float DEFAULT_RGB = 255;
+	public static float DEFAULT_HUE = 360;
+	public static float DEFAULT_SATURATION = 100;
+	public static float DEFAULT_BRIGHTNESS = 100;
+	public static float DEFAULT_ALPHA = 100;
+	
 	
 	// Default width and height of canvas
 	public static int DEFAULT_WIDTH = 800;

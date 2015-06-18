@@ -70,6 +70,9 @@ every class that uses constants implement that interface.
 
   Possible solution: Best practice would be to use enum type, but I think a class of constants (used with static import to be able to call CONSTANT and not PConstants.CONSTANT) would work as well.
 
+  Updates:
+  - A public final class is created to hold constants (with a private constructor).
+
 2. Color:
   - In Processing, methods that take in a color parameter have six different signatures, [for example]:
     * background(int rgb)
@@ -92,17 +95,29 @@ every class that uses constants implement that interface.
     > // now, the color mode is changed to HSB, but the range is still
     (100, 100, 100)
 
+  Updates:
+  - A MyColor class is created to hold the colorMode and provide color calculation methods.
+  - To-do: Default ranges and hack mode
+
 3. size(): size() must be run first to create a canvas. Right now, multiple calls to size() will create many windows. This is not the case in Processing, where the last call to size() will determine the actual size of the canvas.
 
   * Should we allow more than one call to size()?
   * Should we allow resizing? Processing [does not].
+
+  Updates:
+  - No and no.
+  - branch sizemethod
 
 4. Shape attributes: A ShapeAttributes object currently holds too much
  information. Right now, a line's ShapeAttributes already have two unnecessary variables, fill() and fillColor(). How can we efficiently assign relevant attributes to a shape depending on its type?
 
 5. Float vs. Double: Processing uses Float, possibly because there is no need for double precision. Using float in Java, however, is inconvenient, because students would need to add the character 'f' after every decimal number.
 
+Updates: For convenience's sake, all public methods accept double parameters, and MyCanvas methods cast them to appropriate types.
+
 6. Shape mode: Processing provides many modes to draw rectangles and ellipses through rectMode() and ellipseMode().
+
+Updates: branch shapeMode
 
 Further to-do list and ideas
 -----------------
