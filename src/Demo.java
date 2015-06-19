@@ -644,12 +644,14 @@ public class Demo{
 
     
     public static void test(){
-        Processing.size();
-        Processing.background(255);
-        Processing.colorMode(Consts.HSB, 360, 100, 100);
-        Processing.fill(325,89,79);
-        Processing.line(0, 80, 80, 0);
-        Processing.rect(20, 40, 100, 50);
+        Processing.size(100,100);
+        Processing.line(0,50,50,0);
+        
+//       Processing.background(255);
+//        Processing.colorMode(Consts.HSB, 360, 100, 100);
+//        Processing.fill(325,89,79);
+//        Processing.line(0, 80, 80, 0);
+//        Processing.rect(20, 40, 100, 50);
 //        Processing.rect(20, 40, 100, 50);
 //        Processing.rect(150, 40, 80, 80);
 //        Processing.ellipse(70, 200, 100, 50);

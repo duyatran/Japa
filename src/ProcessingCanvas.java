@@ -3,8 +3,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.RenderingHints;
-
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -20,36 +20,45 @@ import javax.swing.JPanel;
  */
 
 @SuppressWarnings("serial")
-public class MyCanvas extends JFrame{
+public class ProcessingCanvas extends JFrame{
+    private static int canvasWidth = Consts.DEFAULT_WIDTH;
+    private static int canvasHeight = Consts.DEFAULT_HEIGHT;
     private Color backgroundColor = Color.LIGHT_GRAY;
     private ShapeAttributes att = new ShapeAttributes();
     private ArrayList<Shape> shapeList = new ArrayList<Shape>();
     private DrawCanvas drawCanvas;
     
-    public MyCanvas(){
-        init(Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
+    public ProcessingCanvas(){
+        this(canvasWidth, canvasHeight);
     }
-    
-    public MyCanvas(int w, int h){ 
-    	//cannot require user to run
-        init(w, h);
+
+    public ProcessingCanvas(int w, int h){
+    	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    	this.setResizable(false);
+    	this.setTitle("My Canvas");
+    	this.setVisible(true);
+    	
+    	drawCanvas = new DrawCanvas();
+    	drawCanvas.setPreferredSize(new Dimension(w,h));
+    	Container cp = getContentPane();
+    	cp.add(drawCanvas);
+    	
+    	if (w >= Consts.MIN_WIDTH && h >= Consts.MIN_HEIGHT){
+    		this.pack();
+    	}
+    	else {
+        	this.setLayout(null);
+    		Insets insets = this.getInsets();
+        	int minWindowWidth = Consts.MIN_WIDTH + insets.left + insets.right;
+        	int minWindowHeight = Consts.MIN_HEIGHT + insets.top + insets.bottom;
+        	this.setMinimumSize(new Dimension(minWindowWidth, minWindowHeight));
+        	int x = (Consts.MIN_WIDTH - w)/2;
+        	int y = (Consts.MIN_HEIGHT - h)/2;
+            drawCanvas.setBounds(x, y, w, h);
+    	}
+    	this.setLocationRelativeTo(null);
     }
-    
-    private void init(int w, int h){
-        drawCanvas = new DrawCanvas();
-        
-        drawCanvas.setPreferredSize(new Dimension(w, h));
- 
-        Container cp = getContentPane();
-        cp.add(drawCanvas);
-   
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setResizable(false);
-        this.pack();
-        this.setTitle("My Canvas");
-        this.setVisible(true);
-    }
-    
+
     /*****************************************************
      * Implementation of background(), stroke(), and fill()
      * not complete because the color handling method is not
@@ -255,8 +264,7 @@ public class MyCanvas extends JFrame{
                 s.paintShape(g2);
             }
         }
-        
-        
     }
+
 }
 

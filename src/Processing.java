@@ -14,8 +14,9 @@ public class Processing {
     public static int height;
 //    public static double mouseX;
 //    public static double mouseY;
-    private static MyColor colorObject = new MyColor();
-    private static MyCanvas canvas; // not sure about access level, 
+	private static boolean canvasCreated = false;
+    private static ColorAttributes colorObject = new ColorAttributes();
+    private static ProcessingCanvas canvas; // not sure about access level, 
                                     // but not public.
     
     /**
@@ -24,11 +25,7 @@ public class Processing {
      * It must be the first method called to start drawing.
      */
     public static void size(){
-        // QUESTION: restrictions include only called once? no resizing?
-        canvas = new MyCanvas();
-        // making width and height public variables.
-        width = canvas.getWidth();
-        height = canvas.getHeight();
+    	size(Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
     }
     
     /**
@@ -36,13 +33,13 @@ public class Processing {
      * @param width  Desired width of the display window.
      * @param height Desired height of the display window.
      */
-    public static void size(int width, int height){
-        canvas = new MyCanvas(width, height);
-        //TO-DO
-        //why not this.width = width;
-        //and this.height = height;
-        width = canvas.getWidth();
-        height = canvas.getHeight();
+    public static void size(int w, int h){
+    	if   (!canvasCreated) canvasCreated = true;
+    	else  canvas.dispose();
+    	
+		canvas = new ProcessingCanvas(w, h);
+        width = w;
+        height = h;
     }
     
     /*****************************************************
