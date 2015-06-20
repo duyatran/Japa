@@ -644,8 +644,21 @@ public class Demo{
 
     
     public static void test(){
-        Processing.size(100,100);
-        Processing.line(0,50,50,0);
+        Processing.size();
+//        Processing.noFill();
+//        Processing.stroke(255, 102, 0);
+//        Processing.line(85, 20, 10, 10);
+//        Processing.line(90, 90, 15, 80);
+//        Processing.stroke(0, 0, 0);
+//        Processing.bezier(85, 20, 10, 10, 90, 90, 15, 80);
+    
+        
+        Processing.noFill();
+        Processing.stroke(255, 102, 0);
+        Processing.line(30, 20, 80, 5);
+        Processing.line(80, 75, 30, 75);
+        Processing.stroke(0, 0, 0);
+        Processing.bezier(30, 20,  80, 5,  80, 75,  30, 75);
         
 //       Processing.background(255);
 //        Processing.colorMode(Consts.HSB, 360, 100, 100);
