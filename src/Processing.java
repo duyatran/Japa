@@ -7,6 +7,14 @@
  * @version 1.0 6/10/2015
  */
 
+/**
+ * @author Duy
+ *
+ */
+/**
+ * @author Duy
+ *
+ */
 public class Processing {
 	public static int screenWidth;
 	public static int screenHeight;
@@ -210,7 +218,7 @@ public class Processing {
      */
     public static void bezier(double x1, double y1, double x2, double y2, 
     		double x3, double y3, double x4, double y4){
-    	canvas.bezier(x1, y1, x2, y2, x3, y3, x4, y4);
+    	canvas.curve(x1, y1, x2, y2, x3, y3, x4, y4, Consts.BEZIER);
     }
    
     /**
@@ -226,8 +234,16 @@ public class Processing {
      */
     public static void curve(double x1, double y1, double x2, double y2, 
     		double x3, double y3, double x4, double y4){
-    	canvas.curve(x1, y1, x2, y2, x3, y3, x4, y4);
+    	canvas.curve(x1, y1, x2, y2, x3, y3, x4, y4, Consts.CATMULLROM);
     }
+    
+    /**
+     * Modifies the quality of forms created with curve().
+     * @param t  the tension value of the cardinal curve
+     */
+//    public static void curveTightness(double t){
+//    	canvas.curveTightness(t);
+//    }
     
     /**
      * Draws an ellipse to the screen.

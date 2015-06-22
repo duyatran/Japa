@@ -653,7 +653,6 @@ public class Demo{
 //        Processing.bezier(85, 20, 10, 10, 90, 90, 15, 80);
     
         
-//        Processing.noFill();
 //        Processing.stroke(255, 102, 0);
 //        Processing.line(30, 20, 80, 5);
 //        Processing.line(80, 75, 30, 75);
@@ -661,13 +660,28 @@ public class Demo{
 //        Processing.bezier(30, 20,  80, 5,  80, 75,  30, 75);
         
         Processing.noFill();
-        Processing.stroke(255, 102, 0);
-        Processing.curve(5, 26, 5, 26, 73, 24, 73, 61);
-        Processing.stroke(0); 
-        Processing.curve(5, 26, 73, 24, 73, 61, 15, 65); 
-        Processing.stroke(255, 102, 0);
-        Processing.curve(73, 24, 73, 61, 15, 65, 15, 65);
+//        Processing.stroke(255, 102, 0);
+//        Processing.curve(5, 26, 5, 26, 73, 24, 73, 61);
+//        Processing.stroke(0); 
+//        Processing.curve(5, 26, 73, 24, 73, 61, 15, 65); 
+//        Processing.stroke(255, 102, 0);
+//        Processing.curve(73, 24, 73, 61, 15, 65, 15, 65);
         
+//        Processing.bezier(30, 70, 25, 25, 100, 50, 50, 100);
+//        Processing.bezier(50, 100, 20, 130, 75, 140, 120, 120);
+
+        
+        Processing.curve(40, 40, 40, 40, 80, 60, 100, 100);
+        Processing.curve(40, 40, 80, 60, 100, 100, 60, 120);
+        Processing.curve(80, 60, 100, 100, 60, 120, 50, 150);
+        Processing.curve(100, 100, 60, 120, 50, 150, 50, 150);// the first control point
+//        curveVertex(40, 40); // is also the start point of curve
+//        curveVertex(80, 60);
+//        curveVertex(100, 100);
+//        curveVertex(60, 120);
+//        curveVertex(50, 150); // the last point of curve
+//        curveVertex(50, 150); // is also the last control point
+
 //       Processing.background(255);
 //        Processing.colorMode(Consts.HSB, 360, 100, 100);
 //        Processing.fill(325,89,79);

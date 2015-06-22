@@ -44,6 +44,10 @@ public final class Consts {
 	public static final int CHORD = 1;
 	public static final int PIE = 2;
 	
+	// Curve type
+	public static final int BEZIER = 0;
+	public static final int CATMULLROM = 1;
+	
 	//Private constructor
 	private Consts(){
 		throw new AssertionError();

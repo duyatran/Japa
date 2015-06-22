@@ -141,25 +141,7 @@ public class ProcessingCanvas extends JFrame{
     }
     
     /**
-     * Adds a Bezier curve to the shapeList.
-     * @param x1	x-coordinate of the first anchor point
-     * @param y1	y-coordinate of the first anchor point
-     * @param x2	x-coordinate of the first control point
-     * @param y2	y-coordinate of the first control point
-     * @param x3	x-coordinate of the second control point
-     * @param y3	y-coordinate of the second control point
-     * @param x4	x-coordinate of the second anchor point
-     * @param y4	y-coordinate of the second anchor point
-     */
-    public void bezier(double x1, double y1, double x2, double y2, 
-    		double x3, double y3, double x4, double y4){
-    	double[] x = new double[] {x1, x2, x3, x4};
-    	double[] y = new double[] {y1, y2, y3, y4};
-    	shapeList.add(new ProcessingBezier(x, y, att));
-    }
-    
-    /**
-     * Adds a Catmull-Rom curve to the shapeList.
+     * Adds a curve to the shapeList.
      * @param x1	x-coordinate of the first anchor point
      * @param y1	y-coordinate of the first anchor point
      * @param x2	x-coordinate of the first control point
@@ -170,12 +152,19 @@ public class ProcessingCanvas extends JFrame{
      * @param y4	y-coordinate of the second anchor point
      */
     public void curve(double x1, double y1, double x2, double y2, 
-    		double x3, double y3, double x4, double y4){
+    		double x3, double y3, double x4, double y4, int type){
     	double[] x = new double[] {x1, x2, x3, x4};
     	double[] y = new double[] {y1, y2, y3, y4};
-    	shapeList.add(new ProcessingCurve(x, y, att));
+    	shapeList.add(new ProcessingCurve(x, y, type, att));
     }
 
+    /**
+     * Modifies the quality of forms created with curve().
+     * @param t  the tension value of the cardinal curve
+     */
+    public void curveTightness(double t){
+    	
+    }
     
     /**
      * Adds an ellipse to the shapeList.
