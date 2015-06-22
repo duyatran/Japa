@@ -8,7 +8,7 @@ import java.awt.Color;
  * @author Duy Tran
  * @version 1.0 6/10/2015
  */
-public class ColorAttributes {
+public class ColorFactory {
 	private boolean PROCESSING = true;
 	private int colorMode = Consts.RGB;
 	private Color completeColor;
@@ -17,7 +17,7 @@ public class ColorAttributes {
 	private float max3;
 	private float maxA;
 	
-	public ColorAttributes(){
+	public ColorFactory(){
 		setDefaultValues();
 	}
 

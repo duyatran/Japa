@@ -23,7 +23,7 @@ public class Processing {
 //    public static double mouseX;
 //    public static double mouseY;
 	private static boolean canvasCreated = false;
-    private static ColorAttributes colorObject = new ColorAttributes();
+    private static ColorFactory colorFactory = new ColorFactory();
     private static ProcessingCanvas canvas; // not sure about access level, 
                                     // but not public.
     
@@ -56,19 +56,19 @@ public class Processing {
      * done. 
      *****************************************************/
     public static void colorMode(int mode){
-        colorObject.setColorMode(mode);
+        colorFactory.setColorMode(mode);
     }
     
     public static void colorMode(int mode, double max){
-        colorObject.setColorMode(mode, (float) max);
+        colorFactory.setColorMode(mode, (float) max);
     }
     
     public static void colorMode(int mode, double max1, double max2, double max3){
-        colorObject.setColorMode(mode, (float) max1, (float) max2, (float) max3);
+        colorFactory.setColorMode(mode, (float) max1, (float) max2, (float) max3);
     }
     
     public static void colorMode(int mode, double max1, double max2, double max3, double maxA){
-        colorObject.setColorMode(mode, (float) max1, (float) max2, (float) max3, (float) maxA);
+        colorFactory.setColorMode(mode, (float) max1, (float) max2, (float) max3, (float) maxA);
     }
     
     /**
@@ -78,11 +78,11 @@ public class Processing {
      * @param int  Background color (gray scale).
      */
     public static void background(double gray){
-        canvas.background(colorObject.calc((float) gray));
+        canvas.background(colorFactory.calc((float) gray));
     }
     
     public static void background(double gray, double alpha){
-        canvas.background(colorObject.calc((float) gray, (float) alpha));
+        canvas.background(colorFactory.calc((float) gray, (float) alpha));
     }
     
     /**
@@ -92,11 +92,11 @@ public class Processing {
      * @param height Desired height of the display window.
      */
     public static void background(double v1, double v2, double v3){
-        canvas.background(colorObject.calc((float) v1, (float) v2, (float) v3));
+        canvas.background(colorFactory.calc((float) v1, (float) v2, (float) v3));
     }
     
     public static void background(double v1, double v2, double v3, double alpha){
-        canvas.background(colorObject.calc((float) v1, (float) v2, (float) v3, (float) alpha));
+        canvas.background(colorFactory.calc((float) v1, (float) v2, (float) v3, (float) alpha));
     }
     
     /** LOW-PRIORITY
@@ -107,35 +107,35 @@ public class Processing {
     public static void background(String image){}
  
     public static void fill(double gray){
-        canvas.fill(colorObject.calc((float) gray));
+        canvas.fill(colorFactory.calc((float) gray));
     }
     
     public static void fill(double gray, double alpha){
-        canvas.fill(colorObject.calc((float) gray, (float) alpha));
+        canvas.fill(colorFactory.calc((float) gray, (float) alpha));
     }
     
     public static void fill(double v1, double v2, double v3){
-        canvas.fill(colorObject.calc((float) v1, (float) v2, (float) v3));
+        canvas.fill(colorFactory.calc((float) v1, (float) v2, (float) v3));
     }
     
     public static void fill(double v1, double v2, double v3, double alpha){
-        canvas.fill(colorObject.calc((float) v1, (float) v2, (float) v3, (float) alpha));
+        canvas.fill(colorFactory.calc((float) v1, (float) v2, (float) v3, (float) alpha));
     }
 
     public static void stroke(double gray){
-        canvas.stroke(colorObject.calc((float) gray));
+        canvas.stroke(colorFactory.calc((float) gray));
     }
     
     public static void stroke(double gray, double alpha){
-        canvas.stroke(colorObject.calc((float) gray, (float) alpha));
+        canvas.stroke(colorFactory.calc((float) gray, (float) alpha));
     }
     
     public static void stroke(double v1, double v2, double v3){
-        canvas.stroke(colorObject.calc((float) v1, (float) v2, (float) v3));
+        canvas.stroke(colorFactory.calc((float) v1, (float) v2, (float) v3));
     }
     
     public static void stroke(double v1, double v2, double v3, double alpha){
-        canvas.stroke(colorObject.calc((float) v1, (float) v2, (float) v3, (float) alpha));
+        canvas.stroke(colorFactory.calc((float) v1, (float) v2, (float) v3, (float) alpha));
     }
     
     /**

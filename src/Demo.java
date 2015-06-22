@@ -653,11 +653,11 @@ public class Demo{
 //        Processing.bezier(85, 20, 10, 10, 90, 90, 15, 80);
     
         
-//        Processing.stroke(255, 102, 0);
-//        Processing.line(30, 20, 80, 5);
-//        Processing.line(80, 75, 30, 75);
-//        Processing.stroke(0, 0, 0);
-//        Processing.bezier(30, 20,  80, 5,  80, 75,  30, 75);
+        Processing.stroke(255, 102, 0);
+        Processing.line(30, 20, 80, 5);
+        Processing.line(80, 75, 30, 75);
+        Processing.stroke(0, 0, 0);
+        Processing.bezier(30, 20,  80, 5,  80, 75,  30, 75);
         
         Processing.noFill();
 //        Processing.stroke(255, 102, 0);
