@@ -214,6 +214,22 @@ public class Processing {
     }
    
     /**
+     * Draws a Catmull-Rom curve on the screen.
+     * @param x1	x-coordinate of the first anchor point
+     * @param y1	y-coordinate of the first anchor point
+     * @param x2	x-coordinate of the first control point
+     * @param y2	y-coordinate of the first control point
+     * @param x3	x-coordinate of the second control point
+     * @param y3	y-coordinate of the second control point
+     * @param x4	x-coordinate of the second anchor point
+     * @param y4	y-coordinate of the second anchor point
+     */
+    public static void curve(double x1, double y1, double x2, double y2, 
+    		double x3, double y3, double x4, double y4){
+    	canvas.curve(x1, y1, x2, y2, x3, y3, x4, y4);
+    }
+    
+    /**
      * Draws an ellipse to the screen.
      * @param x  by default, x-coordinate of the ellipse
      * @param y  by default, y-coordinate of the ellipse
