@@ -14,6 +14,7 @@ public class ProcessingCurve implements Shape{
 	private double[] x;
     private double[] y;
     private int type;
+    private double tension = 0;
     private ShapeAttributes att;
 
     /**
@@ -46,12 +47,13 @@ public class ProcessingCurve implements Shape{
 		double newPoint4Y = y[3];
 		
     	if (type == Consts.CATMULLROM) {
+    		double s = (1 - tension)/2;
     		newPoint1X = x[1];
     		newPoint1Y = y[1];
-    		newPoint2X = x[1] + (x[2] - x[0])/6;
-    		newPoint2Y = y[1] + (y[2] - y[0])/6;
-    		newPoint3X = x[2] + (x[1] - x[3])/6;
-    		newPoint3Y = y[2] + (y[1] - y[3])/6;
+    		newPoint2X = x[1] + s*(x[2] - x[0])/3;
+    		newPoint2Y = y[1] + s*(y[2] - y[0])/3;
+    		newPoint3X = x[2] + s*(x[1] - x[3])/3;
+    		newPoint3Y = y[2] + s*(y[1] - y[3])/3;
     		newPoint4X = x[2];
     		newPoint4Y = y[2];
     	}

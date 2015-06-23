@@ -59,12 +59,6 @@ public class ProcessingCanvas extends JFrame{
     	this.setLocationRelativeTo(null);
     }
 
-    /*****************************************************
-     * Implementation of background(), stroke(), and fill()
-     * not complete because the color handling method is not
-     * done. 
-     *****************************************************/
-    
     public void background(Color c){
         backgroundColor = c;
     }

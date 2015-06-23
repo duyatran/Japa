@@ -653,19 +653,19 @@ public class Demo{
 //        Processing.bezier(85, 20, 10, 10, 90, 90, 15, 80);
     
         
-        Processing.stroke(255, 102, 0);
-        Processing.line(30, 20, 80, 5);
-        Processing.line(80, 75, 30, 75);
-        Processing.stroke(0, 0, 0);
-        Processing.bezier(30, 20,  80, 5,  80, 75,  30, 75);
+//        Processing.stroke(255, 102, 0);
+//        Processing.line(30, 20, 80, 5);
+//        Processing.line(80, 75, 30, 75);
+//        Processing.stroke(0, 0, 0);
+//        Processing.bezier(30, 20,  80, 5,  80, 75,  30, 75);
         
         Processing.noFill();
-//        Processing.stroke(255, 102, 0);
-//        Processing.curve(5, 26, 5, 26, 73, 24, 73, 61);
-//        Processing.stroke(0); 
-//        Processing.curve(5, 26, 73, 24, 73, 61, 15, 65); 
-//        Processing.stroke(255, 102, 0);
-//        Processing.curve(73, 24, 73, 61, 15, 65, 15, 65);
+        Processing.stroke(255, 102, 0);
+        Processing.curve(5, 26, 5, 26, 73, 24, 73, 61);
+        Processing.stroke(0); 
+        Processing.curve(5, 26, 73, 24, 73, 61, 15, 65); 
+        Processing.stroke(255, 102, 0);
+        Processing.curve(73, 24, 73, 61, 15, 65, 15, 65);
         
 //        Processing.bezier(30, 70, 25, 25, 100, 50, 50, 100);
 //        Processing.bezier(50, 100, 20, 130, 75, 140, 120, 120);
@@ -699,6 +699,6 @@ public class Demo{
     }
     
     public static void main(String[] args){
-        test();
+        student6();
     }
 }
