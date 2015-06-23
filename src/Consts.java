@@ -47,13 +47,28 @@ public final class Consts {
 	
 	// Curve type
 	public static final int BEZIER = 0;
-	public static final int CATMULLROM = 1;
+	public static final int CATMULL_ROM = 1;
 	
 	// Ellipse and rectangle mode
 	public static final int CENTER = 0;
 	public static final int RADIUS = 1;
 	public static final int CORNER = 2;
 	public static final int CORNERS = 3;
+	
+	// Types of vertices
+	public static final int VERTEX = 0;
+	public static final int CURVE_VERTEX = 1;
+	public static final int QUADRATIC_VERTEX = 2;
+	public static final int BEZIER_VERTEX = 3;
+	
+	// Shape kinds for use with beginShape/endShape 
+	public static final int POINTS = 0;
+	public static final int LINES = 1;
+	public static final int TRIANGLES = 2;
+	public static final int TRIANGLE_FAN = 3;
+	public static final int TRIANGLE_STRIP = 4;
+	public static final int QUADS = 5;
+	public static final int QUAD_STRIP = 6;
 	
 	//Private constructor
 	private Consts(){

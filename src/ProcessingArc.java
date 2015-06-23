@@ -34,8 +34,8 @@ public class ProcessingArc extends Shape {
      */
     public ProcessingArc(double x, double y, double w, double h, 
     		double start, double stop, int mode, ShapeAttributes current){
-        this.x = x;
-        this.y = y;
+        this.x = x - (w/2);
+        this.y = y - (h/2);
         this.w = w;
         this.h = h;
         this.start = start;

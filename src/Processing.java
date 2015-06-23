@@ -243,6 +243,57 @@ public class Processing {
     }
     
     /**
+     * 
+     */
+    public static void vertex(double x, double y){
+    	canvas.vertex(x, y);
+    }
+    
+    /**
+     * 
+     */
+    public static void curveVertex(double x, double y){
+    	canvas.curveVertex(x, y);
+    }
+    
+    /**
+     * 
+     */
+    public static void quadraticVertex(double x1, double y1,
+    		double x2, double y2){
+    	canvas.quadraticVertex(x1, y1, x2, y2);
+    }
+    
+    /**
+     * 
+     */
+    public static void bezierVertex(double x1, double y1,
+    		double x2, double y2, double x3, double y3){
+    	canvas.bezierVertex(x1, y1, x2, y2, x3, y3);
+    }
+    
+    /**
+     * 
+     */
+    public static void beginShape(){
+    	canvas.beginShape();
+    }
+    
+    /**
+     * 
+     */
+    public static void beginShape(int kind){
+    	//TO-DO
+    }
+    
+    /**
+     * 
+     */
+    public static void endShape(){
+    	canvas.endShape();
+    }
+    
+    /**
      * Draws an arc to the screen. 
      * The default mode is PIE fill and OPEN stroke.
      * @param x: x-coordinate of the arc's ellipse
@@ -259,8 +310,8 @@ public class Processing {
     
     /** 
      * The default mode is PIE fill and OPEN stroke.
-     * @param x: x-coordinate of the arc's ellipse
-     * @param y: y-coordinate of the arc's ellipse
+     * @param x: x-coordinate of the center of the arc's ellipse
+     * @param y: y-coordinate of the center of the arc's ellipse
      * @param w: width of the arc's ellipse
      * @param h: height of the arc's ellipse
      * @param  start - The starting angle of the arc in degrees.
@@ -299,7 +350,7 @@ public class Processing {
      */
     public static void curve(double x1, double y1, double x2, double y2, 
     		double x3, double y3, double x4, double y4){
-    	canvas.curve(x1, y1, x2, y2, x3, y3, x4, y4, Consts.CATMULLROM);
+    	canvas.curve(x1, y1, x2, y2, x3, y3, x4, y4, Consts.CATMULL_ROM);
     }
     
     /**

@@ -9,10 +9,12 @@
 
 import java.awt.Graphics2D;
 import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Point2D;
 
 public class ProcessingCurve extends Shape {
 	private double[] x;
     private double[] y;
+    private Point2D.Double[] points;
     private int type; // either Consts.BEZIER or Consts.CATMULLROM
     private double tension = 0;
     private ShapeAttributes att;
@@ -28,45 +30,15 @@ public class ProcessingCurve extends Shape {
     		int t, ShapeAttributes current){
         x = new double[xCoor.length];
         y = new double[yCoor.length];
+        points = new Point2D.Double[4];
     	for (int i = 0; i < xCoor.length; i++){
         	x[i] = xCoor[i];
         	y[i] = yCoor[i];
+        	points[i] = new Point2D.Double(x[i], y[i]);
         }
-    	this.type = t;
         this.att = current.copy();
+    	this.type = t;
         this.tension = att.getCurveTightness();
-    }
-    
-    /**
-     * @return the actual curve to be drawn
-     */
-    private CubicCurve2D.Double produceCurve(){
-    	// For Bezier curves
-    	double newPoint1X = x[0];
-		double newPoint1Y = y[0];
-		double newPoint2X = x[1];
-		double newPoint2Y = y[1];
-		double newPoint3X = x[2];
-		double newPoint3Y = y[2];
-		double newPoint4X = x[3];
-		double newPoint4Y = y[3];
-		
-		// Coordinates conversion from Catmull-Rom curve to
-		// Bezier control points
-		// @see http://pomax.github.io/bezierinfo/#catmullconv
-    	if (type == Consts.CATMULLROM) {
-    		double s = (1 - tension)/2;
-    		newPoint1X = x[1];
-    		newPoint1Y = y[1];
-    		newPoint2X = x[1] + s*(x[2] - x[0])/3;
-    		newPoint2Y = y[1] + s*(y[2] - y[0])/3;
-    		newPoint3X = x[2] + s*(x[1] - x[3])/3;
-    		newPoint3Y = y[2] + s*(y[1] - y[3])/3;
-    		newPoint4X = x[2];
-    		newPoint4Y = y[2];
-    	}
-    	return new CubicCurve2D.Double(newPoint1X, newPoint1Y, newPoint2X, newPoint2Y,
-    			newPoint3X, newPoint3Y, newPoint4X, newPoint4Y);
     }
     
     /* @return the arc's attributes object. 
@@ -86,7 +58,10 @@ public class ProcessingCurve extends Shape {
      * @see Shape#paintShape(java.awt.Graphics2D)
      */
     public void paintShape(Graphics2D g2){
-        CubicCurve2D.Double curve = produceCurve();
+    	Point2D.Double[] c = produceCurve(points, type, tension);
+    	CubicCurve2D.Double curve = new CubicCurve2D.Double(
+        		c[0].getX(), c[0].getY(), c[1].getX(), c[1].getY(),
+        		c[2].getX(), c[2].getY(), c[3].getX(), c[3].getY());
     	if (att.getFill()){
             g2.setColor(att.getFillColor());
             g2.fill(curve);

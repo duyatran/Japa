@@ -447,10 +447,11 @@ public class Demo{
     	Created by student4*/
 
 
+    	Processing.size(640,500);
 
     	//The background is blue - the color of the water
     	Processing.background(59,110,234);
-    	Processing.size(640,500);
+    	//Processing.size(640,500); move to before background
     	Processing.noStroke();
     	Processing.smooth();
 
@@ -472,15 +473,15 @@ public class Demo{
     	// I use beginShape, endShape and curveVertex because the moon has
     	//curves
     	Processing.fill(258,218,16);
-//    	Processing.beginShape();
-//    	Processing.curveVertex(400,0);
-//    	Processing.curveVertex(400,0);
-//    	Processing.curveVertex(418,18);
-//    	Processing.curveVertex(415,45);
-//    	Processing.curveVertex(402,63);
-//    	Processing.curveVertex(370,70);
-//    	Processing.curveVertex(350,13);
-//    	Processing.endShape();
+    	Processing.beginShape();
+    	Processing.curveVertex(400,0);
+    	Processing.curveVertex(400,0);
+    	Processing.curveVertex(418,18);
+    	Processing.curveVertex(415,45);
+    	Processing.curveVertex(402,63);
+    	Processing.curveVertex(370,70);
+    	Processing.curveVertex(350,13);
+    	Processing.endShape();
 
     	//The trapezoid is a wooden boat in which people use to watch
     	//the moon. I painted it with the color combined by deeper brown
@@ -630,21 +631,507 @@ public class Demo{
 
     	//the waiter in white
     	Processing.fill(255);
-//    	Processing.beginShape();
-//    	Processing.curveVertex(880,500);
-//    	Processing.curveVertex(880,500);
-//    	Processing.curveVertex(940,510);
-//    	Processing.curveVertex(965,540);
-//    	Processing.curveVertex(970,580);
-//    	Processing.curveVertex(970,580);
-//    	Processing.endShape();
+    	Processing.beginShape();
+    	Processing.curveVertex(880,500);
+    	Processing.curveVertex(880,500);
+    	Processing.curveVertex(940,510);
+    	Processing.curveVertex(965,540);
+    	Processing.curveVertex(970,580);
+    	Processing.curveVertex(970,580);
+    	Processing.endShape();
 
     	//Processing.save("student6.png");
     }
 
+    public static void student7(){
+    	/*
+    	Love Birds
+
+    	___ Lines of Code
+    	  BACKGROUND/IMPORTANT INFORMATION (1-
+    	  TREE (
+    	      Tree A (
+    	      Tree B (
+    	  BIRD (
+    	      Bird A (
+    	      Bird B (
+    	  SUN (
+    	    
+    	*/
+
+
+    	/*REQUIREMENTS
+    	-Line (YES)
+    	-Rect (YES)
+    	-Ellipse (YES)
+    	-Quad OR Triangle (YES)
+
+    	EXTRA CREDIT
+    	-beginShape (YES)
+    	-arc (YES)
+    	-curve (YES)
+    	*/
+
+
+    	//Initial Constrains
+    	Processing.size (600,500);
+    	Processing.smooth ();
+    	//Solid background (96,245,216);
+
+    	//Horizontal Gradient using HSB 
+    	Processing.colorMode (Consts.HSB,360,100,100);
+    	for (int i=0; i<500; i++) {
+    	  Processing.stroke (185,84,i/3);
+    	  //going from bottom to top
+    	  Processing.line (0,500-i,600,500-i);
+    	}
+
+    	//SUN
+    	Processing.colorMode (Consts.RGB,255);
+    	Processing.stroke (0);
+    	Processing.strokeWeight (1);
+    	//fill (255,95,3);
+    	Processing.fill (252,242,33);
+    	//SUN WITHOUT TRUNK OF TREE B ellipse (600,0,375,375);
+    	//SUN HIDDEN BEHIND TRUNK OF TREE B ellipse (475,0,300,300);
+    	//SMALL SUN NOT HIDDEN 
+    	Processing.ellipse (380,50,70,70);
+    	//Sunbeams
+
+    	//TREE 
+    	Processing.stroke (139,69,19); //SADDLE BROWN COLOR 
+    	Processing.strokeWeight (10);
+    	Processing.strokeCap (Consts.SQUARE);
+    	//Trunk of tree A
+    	Processing.fill (139,69,19);
+    	Processing.rect (0,0,72,500);
+    	/*
+    	Hole in Tree A
+    	Processing.fill (0);
+    	Processing.noStroke();
+    	Processing.ellipse (45,300,50,50);
+    	Processing.stroke (102,51,0);
+    	Processing.strokeWeight (2);
+    	Processing.curve (20,300,20,300,45,250,60,300);
+    	*/
+    	//body of branch A
+    	Processing.smooth ();
+    	Processing.stroke (139,69,19);
+    	Processing.strokeWeight (13);
+    	Processing.noFill();
+    	Processing.beginShape ();
+    	Processing.vertex (0,165);
+    	Processing.vertex (0,175);
+    	Processing.vertex (30,175);
+    	Processing.vertex (50,180);
+    	Processing.vertex (60, 180);
+    	Processing.vertex (70,178);
+    	Processing.vertex (90,185);
+    	Processing.vertex (120,185);
+    	Processing.vertex (170,185);
+    	Processing.vertex (225,190);
+    	Processing.endShape ();
+    	Processing.line (225,190,245,165); //little twig coming off of branch pointing up
+    	//sloping part of branch A
+    	Processing.beginShape ();
+    	Processing.curveVertex (225,190);
+    	Processing.curveVertex (225,190);
+    	Processing.curveVertex (260,210);
+    	Processing.curveVertex (270,220);
+    	Processing.curveVertex (278,235);
+    	Processing.curveVertex (278,235);
+    	Processing.endShape ();
+    	//BRANCH B
+    	Processing.stroke (102,51,0); //Dark Brown juxtuposing light brown, creating depth (?)
+    	Processing.fill (102,51,0);
+    	Processing.rect(475,0,125,500); //trunk of Tree B
+    	Processing.fill (0);
+    	Processing.noStroke();
+    	//ellipse (585,150,100,150);//hole in tree
+    	//body of Branch B
+    	Processing.stroke(102,51,0);
+    	Processing.noFill ();
+    	Processing.smooth ();
+    	Processing.beginShape ();
+    	Processing.strokeWeight (25);
+    	Processing.strokeCap (Consts.ROUND);
+    	Processing.curveVertex (600,345);
+    	Processing.curveVertex (600,345);
+    	Processing.curveVertex (580,350);
+    	Processing.curveVertex (560,355);
+    	Processing.curveVertex (540,358);
+    	Processing.curveVertex (490,360);
+    	Processing.curveVertex (465,358);
+    	Processing.curveVertex (420,345);
+    	Processing.curveVertex (380,335);
+    	Processing.curveVertex (360,325);
+    	Processing.curveVertex (340,315);
+    	Processing.curveVertex (320,305);
+    	Processing.curveVertex (300,300);
+    	Processing.curveVertex (280,297);
+    	Processing.curveVertex (260,298);
+    	Processing.curveVertex (235,300);
+    	Processing.curveVertex (235,300);
+    	Processing.endShape ();
+    	Processing.strokeWeight (18);
+    	Processing.beginShape ();
+    	Processing.curveVertex (235,300);
+    	Processing.curveVertex (235,300);
+    	Processing.curveVertex (165,335);
+    	Processing.curveVertex (165,335);
+    	Processing.endShape ();
+    	//little twig coming off of branch pointing up (Branch B)
+    	Processing.strokeWeight (12);
+    	Processing.line (235,300,212,280);
+
+    	//BIRD A
+    	//FEET
+    	Processing.stroke (0);
+    	Processing.fill (0);
+    	Processing.strokeWeight (2);
+    	//left foot
+    	Processing.triangle (100,145,105,170,110,155);
+    	Processing.strokeWeight (3);
+    	Processing.line (105,170,98,188);
+    	Processing.line (105,170,105,188);
+    	//right foot
+    	Processing.strokeWeight (6);
+    	Processing.triangle (140,162,155,155,145,172);
+    	Processing.strokeWeight (3);
+    	Processing.line (145,172,143,188);
+    	Processing.line (145,172,150,188);
+    	//TAIL
+    	Processing.strokeWeight (10);
+    	Processing.noFill();
+    	Processing.strokeCap(Consts.ROUND);
+    	//top-tail
+    	Processing.beginShape ();
+    	Processing.curveVertex (90,80);
+    	Processing.curveVertex (90,80);
+    	Processing.curveVertex (40,30);
+    	Processing.curveVertex (20,35);
+    	Processing.curveVertex (18,50);
+    	Processing.curveVertex (30,52);
+    	Processing.curveVertex (35,45);
+    	Processing.curveVertex (30,43);
+    	Processing.curveVertex (30,43);
+    	Processing.endShape();
+    	//middle-tail
+    	Processing.beginShape ();
+    	Processing.curveVertex (90,80);
+    	Processing.curveVertex (90,80);
+    	Processing.curveVertex (70,60);
+    	Processing.curveVertex (40,60);
+    	Processing.curveVertex (25,80);
+    	Processing.curveVertex (30,94);
+    	Processing.curveVertex (40,95);
+    	Processing.curveVertex (48,80);
+    	Processing.curveVertex (40,78);
+    	Processing.curveVertex (40,78);
+    	Processing.endShape ();
+    	//bottom-tail
+    	Processing.beginShape ();
+    	Processing.curveVertex (90,80);
+    	Processing.curveVertex (90,80);
+    	Processing.curveVertex (60,82);
+    	Processing.curveVertex (63,100);
+    	Processing.curveVertex (75,100);
+    	Processing.curveVertex (73,95);
+    	Processing.curveVertex (73,95);
+    	Processing.endShape ();
+    	//BODY
+    	Processing.fill (234,43,110);
+    	Processing.strokeWeight (3);
+    	Processing.smooth();
+    	Processing.beginShape();
+    	Processing.curveVertex (85,70);
+    	Processing.curveVertex (85,70);
+    	Processing.curveVertex (90,127);
+    	Processing.curveVertex (130,165);
+    	Processing.curveVertex (180,150);
+    	Processing.curveVertex (210,112);
+    	Processing.curveVertex (210,112);
+    	Processing.endShape();
+    	//WING
+    	Processing.stroke (0);
+    	Processing.strokeWeight (2);
+    	Processing.fill (255,133,3);
+    	Processing.smooth ();
+    	Processing.beginShape ();
+    	Processing.curveVertex (132,127);
+    	Processing.curveVertex (132,127);
+    	Processing.curveVertex (120,100);
+    	Processing.curveVertex (118,85);
+    	Processing.curveVertex (119, 80);
+    	Processing.curveVertex (120,78);
+    	Processing.curveVertex (125,72);
+    	Processing.curveVertex (130,73);
+    	Processing.curveVertex (140,80);
+    	Processing.curveVertex (143,82);
+    	Processing.curveVertex (150,78);
+    	Processing.curveVertex (160,72);
+    	Processing.curveVertex (170,74);
+    	Processing.curveVertex (178,90);
+    	Processing.curveVertex (170,103);
+    	Processing.curveVertex (160,112);
+    	Processing.curveVertex (150,120);
+    	Processing.curveVertex (132,127);
+    	Processing.curveVertex (132,127);
+    	Processing.endShape ();
+    	//BEAK
+    	Processing.strokeWeight (1);
+    	Processing.fill (255,128,54);
+    	Processing.triangle (210,112,220,130,200,128);
+    	Processing.triangle (210,112,200,128,223,118);
+    	//EYE
+    	Processing.stroke (0);
+    	Processing.fill (0);
+    	Processing.ellipse (190,120,8,8);
+
+
+    	//BIRD B
+    	//FEET
+    	//left foot
+    	Processing.triangle (330,250,350,260,325,295);
+    	Processing.strokeWeight (3);
+    	Processing.line (325,295,320,300);
+    	Processing.line (325,295,330,300);
+    	Processing.strokeWeight (6);
+    	//right foot
+    	Processing.triangle (420,260,400,260,360,310);
+    	Processing.strokeWeight (3);
+    	Processing.line (360,310,340,310);
+    	Processing.line (360,310,355,320);
+    	//TAIL
+    	Processing.strokeWeight (10);
+    	Processing.noFill();
+    	Processing.strokeCap(Consts.ROUND);
+    	//top tail
+    	Processing.beginShape ();
+    	Processing.curveVertex (435,225);
+    	Processing.curveVertex (435,225);
+    	Processing.curveVertex (530,190);
+    	Processing.curveVertex (540,220);
+    	Processing.curveVertex (530,225);
+    	Processing.curveVertex (528,210);
+    	Processing.curveVertex (528,210);
+    	Processing.endShape();
+    	//middle tail
+    	Processing.beginShape ();
+    	Processing.curveVertex (435,225);
+    	Processing.curveVertex (435,225);
+    	Processing.curveVertex (480,200);
+    	Processing.curveVertex (510,200);
+    	Processing.curveVertex (520,230);
+    	Processing.curveVertex (515,255);
+    	Processing.curveVertex (505,255);
+    	Processing.curveVertex (490,245);
+    	Processing.curveVertex (500, 230);
+    	Processing.curveVertex (508,235);
+    	Processing.curveVertex (508,235);
+    	Processing.endShape();
+    	//bottom tail
+    	Processing.beginShape ();
+    	Processing.curveVertex (440,225);
+    	Processing.curveVertex (440,225);
+    	Processing.curveVertex (460,220);
+    	Processing.curveVertex (475,232);
+    	Processing.curveVertex (465,220);
+    	Processing.curveVertex (430,230);
+    	Processing.curveVertex (425,230);
+    	Processing.curveVertex (420,240);
+    	Processing.curveVertex (415,235);
+    	Processing.curveVertex (415,235);
+    	Processing.endShape();
+    	//BEAK
+    	Processing.strokeWeight (1);
+    	Processing.fill (255,128,54);
+    	Processing.triangle (330,170,315,195,298,187);
+    	Processing.triangle (330,170,305,167,315,195);
+    	//BODY
+    	Processing.stroke(0);
+    	Processing.strokeWeight (3);
+    	Processing.fill (0,191,255);
+    	Processing.smooth();
+    	/*CODED BODY BY POINT (Option 1)
+    	Processing.beginShape();
+    	Processing.curveVertex (320,180);
+    	Processing.curveVertex (320,180);
+    	Processing.curveVertex (313,220);
+    	Processing.curveVertex (320,245);
+    	Processing.curveVertex (330,268);
+    	Processing.curveVertex (340,280);
+    	Processing.curveVertex (390,300);
+    	//curveVertex (400,300);
+    	Processing.curveVertex (420,285);
+    	Processing.curveVertex (430,280);
+    	Processing.curveVertex (440,275);
+    	Processing.curveVertex (455,260);
+    	Processing.curveVertex (455,260);
+    	Processing.endShape(CLOSE);
+    	*/
+    	Processing.arc (380,220,140,140,0,Consts.PI+Consts.QUARTER_PI,Consts.CHORD); //CODED BODY BY ARC (Option 2)
+    	//eye
+    	Processing.stroke (0);
+    	Processing.fill (0);
+    	Processing.ellipse (330,190,8,8);
+    	//WING
+    	Processing.fill (6,191,19);
+    	Processing.strokeWeight (2);
+    	Processing.beginShape();
+    	Processing.curveVertex (372,245);
+    	Processing.curveVertex (372,245);
+    	Processing.curveVertex (360,190);
+    	Processing.curveVertex (370,170);
+    	Processing.curveVertex (380,167);
+    	Processing.curveVertex (388,186);
+    	Processing.curveVertex (390,200);
+    	Processing.curveVertex (400,190);
+    	Processing.curveVertex (410,190);
+    	Processing.curveVertex (425,205);
+    	Processing.curveVertex (428,215);
+    	Processing.curveVertex (420,230);
+    	Processing.curveVertex (372,245);
+    	Processing.curveVertex (372,245);
+    	Processing.endShape ();
+
+
+
+
+    	//SHAPES DANGLING FROM LEFTMOST BRANCH (from left to right)
+    	//SHAPE 1
+    	Processing.fill (30,34,147);
+    	Processing.line (120,170,120,210);
+    	Processing.beginShape ();
+    	Processing.curveVertex (120, 220);
+    	Processing.curveVertex (120,220);
+    	Processing.curveVertex (112,215);
+    	Processing.curveVertex (115,208);
+    	Processing.curveVertex (120,210);
+    	Processing.curveVertex (123,208);
+    	Processing.curveVertex (125,215);
+    	Processing.curveVertex (120,220);
+    	Processing.curveVertex (120,220);
+    	Processing.endShape ();
+
+    	//SHAPE 2
+    	Processing.fill (255,0,30);
+    	Processing.beginShape ();
+    	Processing.curveVertex (155,260);
+    	Processing.curveVertex (155,260);
+    	Processing.curveVertex (135,245);
+    	Processing.curveVertex (140,231);
+    	Processing.curveVertex (155,225);
+    	Processing.curveVertex (160,240);
+    	Processing.curveVertex (167,225);
+    	Processing.curveVertex (178,237);
+    	Processing.curveVertex (155,260);
+    	Processing.curveVertex (155,260);
+    	Processing.endShape();
+    	Processing.line (169,190,168,228);
+    	//SHAPE 3
+    	Processing.fill (203,21,85);
+    	Processing.line (200,190,200,200);
+    	Processing.beginShape ();
+    	Processing.curveVertex (190,220);
+    	Processing.curveVertex (190,220);
+    	Processing.curveVertex (182,205);
+    	Processing.curveVertex (188,200);
+    	Processing.curveVertex (190,205);
+    	Processing.curveVertex (200,200);
+    	Processing.curveVertex (203,203);
+    	Processing.curveVertex (200,210);
+    	Processing.curveVertex (190,220);
+    	Processing.curveVertex (190,220);
+    	Processing.endShape();
+
+    	//SHAPES DANGLING FROM RIGHTMOST BRANCH (from left to right)
+    	//Shape 4
+    	Processing.fill (255,0,30);
+    	Processing.line (219,317,219,329);
+    	Processing.beginShape();
+    	Processing.curveVertex (210,350);
+    	Processing.curveVertex (210,350);
+    	Processing.curveVertex (203,330);
+    	Processing.curveVertex (208, 326);
+    	Processing.curveVertex (215,335);
+    	Processing.curveVertex (220,330);
+    	Processing.curveVertex (223,335);
+    	Processing.curveVertex (210,350);
+    	Processing.curveVertex (210,350);
+    	Processing.endShape();
+    	//Shape 5
+    	Processing.fill (203,21,85);
+    	Processing.line (298,315,298,350);
+    	Processing.beginShape ();
+    	Processing.curveVertex (290,400);
+    	Processing.curveVertex (290,400);
+    	Processing.curveVertex (260,360);
+    	Processing.curveVertex (258,350);
+    	Processing.curveVertex (270,338);
+    	Processing.curveVertex (290,350);
+    	Processing.curveVertex (310,338);
+    	Processing.curveVertex (322,350);
+    	Processing.curveVertex (324,360);
+    	Processing.curveVertex (290,400);
+    	Processing.curveVertex (290,400);
+    	Processing.endShape ();
+    	//Shape 6
+    	Processing.fill (30,34,147);
+    	Processing.line (418,354,416,420);
+    	Processing.beginShape ();
+    	Processing.curveVertex (390,440);
+    	Processing.curveVertex (390,440);
+    	Processing.curveVertex (350,400);
+    	Processing.curveVertex (370,398);
+    	Processing.curveVertex (390,410);
+    	Processing.curveVertex (410,398);
+    	Processing.curveVertex (422,410);
+    	Processing.curveVertex (424,420);
+    	Processing.curveVertex (390,440);
+    	Processing.curveVertex (390,440);
+    	Processing.endShape();
+    }
     
     public static void test(){
         Processing.size();
+     
+    	Processing.arc(380,220,140,140,0,Consts.PI+Consts.QUARTER_PI,Consts.CHORD); //CODED BODY BY ARC (Option 2)
+    	Processing.line(380, 0, 380, 600);
+//        Processing.background(0);
+//        Processing.noFill();
+//        Processing.stroke(255);
+//        for (int i = 0; i < 200; i += 20) {
+//          Processing.bezier(0-(i/2.0), 40+i, 410, 20, 440, 300, 240-(i/16.0), 300+(i/8.0));
+//        }
+//        Processing.beginShape();
+//        Processing.vertex(30, 20);
+//        Processing.vertex(85, 20);
+//        Processing.vertex(85, 75);
+//        Processing.vertex(30, 75);
+//        Processing.endShape();
+
+//        Processing.noFill();
+//        Processing.strokeWeight(4);
+//        Processing.beginShape();
+//        Processing.vertex(20, 20);
+//        Processing.quadraticVertex(80, 20, 50, 50);
+//        Processing.quadraticVertex(20, 80, 80, 80);
+//        Processing.vertex(80, 60);
+//        Processing.endShape();
+        
+//        Processing.noFill();
+//        Processing.beginShape();
+//        Processing.vertex(30, 20);
+//        Processing.bezierVertex(80, 0, 80, 75, 30, 75);
+//        Processing.endShape();
+        
+//        Processing.beginShape();
+//        Processing.vertex(30, 20);
+//        Processing.bezierVertex(80, 0, 80, 75, 30, 75);
+//        Processing.bezierVertex(50, 80, 60, 25, 30, 20);
+//        Processing.endShape();
+        
 //        Processing.noFill();
 //        Processing.stroke(255, 102, 0);
 //        Processing.line(85, 20, 10, 10);
@@ -658,47 +1145,50 @@ public class Demo{
 //        Processing.line(80, 75, 30, 75);
 //        Processing.stroke(0, 0, 0);
 //        Processing.bezier(30, 20,  80, 5,  80, 75,  30, 75);
-        
-        Processing.noFill();
-        Processing.stroke(255, 102, 0);
-        Processing.curve(5, 26, 5, 26, 73, 24, 73, 61);
-        Processing.stroke(0); 
-        Processing.curve(5, 26, 73, 24, 73, 61, 15, 65); 
-        Processing.stroke(255, 102, 0);
-        Processing.curve(73, 24, 73, 61, 15, 65, 15, 65);
+//        
+//        Processing.stroke(255, 102, 0);
+//        Processing.curve(5, 26, 5, 26, 73, 24, 73, 61);
+//        Processing.stroke(0); 
+//        Processing.curve(5, 26, 73, 24, 73, 61, 15, 65); 
+//        Processing.stroke(255, 102, 0);
+//        Processing.curve(73, 24, 73, 61, 15, 65, 15, 65);
         
 //        Processing.bezier(30, 70, 25, 25, 100, 50, 50, 100);
 //        Processing.bezier(50, 100, 20, 130, 75, 140, 120, 120);
 
         
-        Processing.curve(40, 40, 40, 40, 80, 60, 100, 100);
-        Processing.curve(40, 40, 80, 60, 100, 100, 60, 120);
-        Processing.curve(80, 60, 100, 100, 60, 120, 50, 150);
-        Processing.curve(100, 100, 60, 120, 50, 150, 50, 150);// the first control point
-//        curveVertex(40, 40); // is also the start point of curve
-//        curveVertex(80, 60);
-//        curveVertex(100, 100);
-//        curveVertex(60, 120);
-//        curveVertex(50, 150); // the last point of curve
-//        curveVertex(50, 150); // is also the last control point
+//        Processing.curve(40, 40, 40, 40, 80, 60, 100, 100);
+//        Processing.curve(40, 40, 80, 60, 100, 100, 60, 120);
+//        Processing.curve(80, 60, 100, 100, 60, 120, 50, 150);
+//        Processing.curve(100, 100, 60, 120, 50, 150, 50, 150);// the first control point
+//        
+//        Processing.noFill();
+//        Processing.stroke(0);
+//        Processing.beginShape();
+//        Processing.curveVertex(40, 40); // the first control point
+//        Processing.curveVertex(40, 40); // is also the start point of curve
+//        Processing.curveVertex(80, 60);
+//        Processing.curveVertex(100, 100);
+//        Processing.curveVertex(60, 120);
+//        Processing.curveVertex(50, 150); // the last point of curve
+//        Processing.curveVertex(50, 150); // is also the last control point
+//        Processing.endShape();
 
-//       Processing.background(255);
-//        Processing.colorMode(Consts.HSB, 360, 100, 100);
-//        Processing.fill(325,89,79);
-//        Processing.line(0, 80, 80, 0);
-//        Processing.rect(20, 40, 100, 50);
-//        Processing.rect(20, 40, 100, 50);
-//        Processing.rect(150, 40, 80, 80);
-//        Processing.ellipse(70, 200, 100, 50);
-//        Processing.ellipse(190, 200, 80, 80);
-//        Processing.arc(300, 180, 100, 100, 0, 90, Consts.PIE);
-//        Processing.triangle(50, 300, 110, 320, 90, 360);
-//        Processing.line(300, 40, 340, 100);
-//        Processing.point(300, 320);
+//        Processing.fill(255);
+//        Processing.beginShape();
+//        Processing.curveVertex(84,  91);
+//        Processing.curveVertex(84,  91);
+//        Processing.curveVertex(68,  19);
+//        Processing.curveVertex(21,  17);
+//        Processing.curveVertex(32, 100);
+//        Processing.curveVertex(32, 100);
+//        Processing.endShape();
+//        
+        
         
     }
     
     public static void main(String[] args){
-        student4();
+        student7();
     }
 }

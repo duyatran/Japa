@@ -1,4 +1,5 @@
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
 
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
@@ -9,7 +10,48 @@ import java.awt.Graphics2D;
  * @version 1.0 6/10/2015
  */
 
-public abstract class Shape{
+public abstract class Shape {
+	
+	/**
+     * @return the actual curve to be drawn
+     */
+    protected Point2D.Double[] produceCurve(Point2D.Double[] points,
+    		int type, double tension){
+    	Point2D.Double[] result = new Point2D.Double[points.length];
+    	// For Bezier curves
+    	double newPoint1X = points[0].getX();
+		double newPoint1Y = points[0].getY();
+		double newPoint2X = points[1].getX();
+		double newPoint2Y = points[1].getY();
+		double newPoint3X = points[2].getX();
+		double newPoint3Y = points[2].getY();
+		double newPoint4X = points[3].getX();
+		double newPoint4Y = points[3].getY();
+		
+		// Coordinates conversion from Catmull-Rom curve to
+		// Bezier control points
+		// @see http://pomax.github.io/bezierinfo/#catmullconv
+    	if (type == Consts.CATMULL_ROM) {
+    		double s = (1 - tension)/2;
+    		newPoint1X = points[1].getX();
+    		newPoint1Y = points[1].getY();
+    		
+    		newPoint2X = points[1].getX() + s*(points[2].getX() - points[0].getX())/3;
+    		newPoint2Y = points[1].getY() + s*(points[2].getY() - points[0].getY())/3;
+
+    		newPoint3X = points[2].getX() + s*(points[1].getX() - points[3].getX())/3;
+    		newPoint3Y = points[2].getY() + s*(points[1].getY() - points[3].getY())/3;
+
+    		newPoint4X = points[2].getX();
+    		newPoint4Y = points[2].getY();
+    	}
+		result[0] = new Point2D.Double(newPoint1X, newPoint1Y);
+		result[1] = new Point2D.Double(newPoint2X, newPoint2Y);
+		result[2] = new Point2D.Double(newPoint3X, newPoint3Y);
+		result[3] = new Point2D.Double(newPoint4X, newPoint4Y);
+
+    	return result;
+    }
 	
     /**
      * @param mode

@@ -24,6 +24,7 @@ public class ProcessingCanvas extends JFrame{
     private static int canvasWidth = Consts.DEFAULT_WIDTH;
     private static int canvasHeight = Consts.DEFAULT_HEIGHT;
     private Color backgroundColor = Color.LIGHT_GRAY;
+    private ProcessingShape currentShape;
     private ShapeAttributes att = new ShapeAttributes();
     private ArrayList<Shape> shapeList = new ArrayList<Shape>();
     private DrawCanvas drawCanvas;
@@ -117,6 +118,57 @@ public class ProcessingCanvas extends JFrame{
     public void noFill(){
         att.setFill(false);
     } 
+    
+    /**
+     * 
+     */
+    public void vertex(double x, double y){
+    	currentShape.add(x, y, Consts.VERTEX);
+    }
+    
+    /**
+     * 
+     */
+    public void curveVertex(double x, double y){
+    	currentShape.add(x, y, Consts.CURVE_VERTEX);
+    }
+    
+    /**
+     * 
+     */
+    public void quadraticVertex(double x1, double y1,
+    		double x2, double y2){
+    	currentShape.add(x1, y1, x2, y2);
+    }
+    
+    /**
+     * 
+     */
+    public void bezierVertex(double x1, double y1,
+    		double x2, double y2, double x3, double y3){
+    	currentShape.add(x1, y1, x2, y2, x3, y3);
+    }
+    
+    /**
+     * 
+     */
+    public void beginShape(){
+    	currentShape = new ProcessingShape(att);
+    }
+    
+    /**
+     * 
+     */
+    public void beginShape(int kind){
+    	//TO-DO
+    }
+    
+    /**
+     * 
+     */
+    public void endShape(){
+    	shapeList.add(currentShape);
+    }
     
     /**
      * Adds an arc to the shapeList.
