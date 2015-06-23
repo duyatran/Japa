@@ -10,7 +10,7 @@ import java.awt.geom.Line2D;
  * @version 1.0 6/10/2015
  */
 
-public class ProcessingLine implements Shape
+public class ProcessingLine extends Shape
 {
     private double x1;
     private double y1;

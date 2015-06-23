@@ -504,7 +504,7 @@ public class Demo{
     	//The circles are leafs of the trees with different green colors
     	//I inserted the stroke in the previous codes so here I put noStroke
     	Processing.noStroke();
-//    	Processing.ellipseMode(CENTER);
+    	Processing.ellipseMode(Consts.CENTER);
     	Processing.fill(13,129,18);
     	Processing.ellipse(620,120,180,180);
     	Processing.fill(119,222,92);
@@ -699,6 +699,6 @@ public class Demo{
     }
     
     public static void main(String[] args){
-        student6();
+        student4();
     }
 }

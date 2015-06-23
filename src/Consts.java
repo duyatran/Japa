@@ -44,9 +44,16 @@ public final class Consts {
 	public static final int CHORD = 1;
 	public static final int PIE = 2;
 	public static final int DEFAULT_ARC = 3;
+	
 	// Curve type
 	public static final int BEZIER = 0;
 	public static final int CATMULLROM = 1;
+	
+	// Ellipse and rectangle mode
+	public static final int CENTER = 0;
+	public static final int RADIUS = 1;
+	public static final int CORNER = 2;
+	public static final int CORNERS = 3;
 	
 	//Private constructor
 	private Consts(){

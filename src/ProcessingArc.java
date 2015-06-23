@@ -10,7 +10,7 @@
 import java.awt.Graphics2D;
 import java.awt.geom.Arc2D;
 
-public class ProcessingArc implements Shape {
+public class ProcessingArc extends Shape {
    
 	private double x;
     private double y;

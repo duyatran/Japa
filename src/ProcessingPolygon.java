@@ -10,7 +10,7 @@
 import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 
-public class ProcessingPolygon implements Shape {
+public class ProcessingPolygon extends Shape {
 	private double[] x;
     private double[] y;
     private ShapeAttributes att;

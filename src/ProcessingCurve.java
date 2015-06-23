@@ -10,7 +10,7 @@
 import java.awt.Graphics2D;
 import java.awt.geom.CubicCurve2D;
 
-public class ProcessingCurve implements Shape{
+public class ProcessingCurve extends Shape {
 	private double[] x;
     private double[] y;
     private int type; // either Consts.BEZIER or Consts.CATMULLROM
@@ -34,6 +34,7 @@ public class ProcessingCurve implements Shape{
         }
     	this.type = t;
         this.att = current.copy();
+        this.tension = att.getCurveTightness();
     }
     
     /**

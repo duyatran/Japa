@@ -322,6 +322,13 @@ public class Processing {
     }
     
     /**
+     * 
+     */
+    public static void ellipseMode(int mode){
+    	canvas.ellipseMode(mode);
+    }
+    
+    /**
      * Draws a line to the screen.
      * @param x1: x-coordinate of the first point
      * @param y1: y-coordinate of the first point
@@ -416,7 +423,9 @@ public class Processing {
      * rectMode(RADIUS) also uses the first two parameters of rect() as the shape's center point, 
      * but uses the third and fourth parameters to specify half of the shapes's width and height.
      */
-    public static void rectMode(){}
+    public static void rectMode(int mode){
+    	canvas.rectMode(mode);
+    }
 
     /**
      * Draws a triangle to the screen.

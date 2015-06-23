@@ -157,7 +157,7 @@ public class ProcessingCanvas extends JFrame{
      * @param t  the tension value of the cardinal curve
      */
     public void curveTightness(double t){
-    	
+    	att.setCurveTightness(t);
     }
     
     /**
@@ -172,9 +172,11 @@ public class ProcessingCanvas extends JFrame{
     }
     
     /**
-     * TO-DO
+     * 
      */
-    public static void ellipseMode(){}
+    public void ellipseMode(int mode){
+    	att.setEllipseMode(mode);
+    }
     
     /**
      * Adds a line to the shapeList.
@@ -232,9 +234,11 @@ public class ProcessingCanvas extends JFrame{
     }
     
     /**
-     * TO-DO
+     *
      */
-    public static void rectMode(){}
+    public void rectMode(int mode){
+    	att.setRectMode(mode);
+    }
     
     /**
      * Adds a triangle to the shapeList.

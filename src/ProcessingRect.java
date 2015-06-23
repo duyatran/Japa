@@ -10,12 +10,13 @@ import java.awt.geom.Rectangle2D;
  * @version 1.0 6/10/2015
  */
 
-public class ProcessingRect implements Shape
+public class ProcessingRect extends Shape
 {
     private double v1;
     private double v2;
     private double v3;
     private double v4;
+    private int rectMode = Consts.CORNER;
     private ShapeAttributes att;
 
     /**
@@ -32,6 +33,11 @@ public class ProcessingRect implements Shape
         this.v3 = v3;
         this.v4 = v4;
         this.att = current.copy();
+        double[] newCoord = setCoordinates(rectMode, v1, v2, v3, v4);
+        this.v1 = newCoord[0];
+        this.v2 = newCoord[1];
+        this.v3 = newCoord[2];
+        this.v4 = newCoord[3];
     }
     
     /* @return the arc's attributes object.

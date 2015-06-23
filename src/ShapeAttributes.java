@@ -21,6 +21,11 @@ public class ShapeAttributes{
     private boolean stroke = true; // to draw stroke or not
     private boolean smooth = true; // to be anti-aliased or not
     
+    // defaults for shape-specific attributes
+    private int rectMode = Consts.CORNER;
+    private int ellipseMode = Consts.CENTER;
+    private double curveTightness = 0;
+    
     public ShapeAttributes(){
         setStrokeStyle();
     }
@@ -121,7 +126,49 @@ public class ShapeAttributes{
         strokeStyle = new BasicStroke(strokeWeight, strokeCap, strokeJoin);
     }
     
-    @Override
+    /**
+	 * @return the rectMode
+	 */
+	public int getRectMode() {
+		return rectMode;
+	}
+
+	/**
+	 * @param rectMode the rectMode to set
+	 */
+	public void setRectMode(int mode) {
+		this.rectMode = mode;
+	}
+
+	/**
+	 * @return the ellipseMode
+	 */
+	public int getEllipseMode() {
+		return ellipseMode;
+	}
+
+	/**
+	 * @param ellipseMode the ellipseMode to set
+	 */
+	public void setEllipseMode(int mode) {
+		this.ellipseMode = mode;
+	}
+
+	/**
+	 * @return the curveTension
+	 */
+	public double getCurveTightness() {
+		return curveTightness;
+	}
+
+	/**
+	 * @param curveTension the curveTension to set
+	 */
+	public void setCurveTightness(double t) {
+		this.curveTightness = t;
+	}
+
+	@Override
     public String toString(){
         return ("stroke weight: " + strokeStyle.getLineWidth() +
                 "stroke join: " + strokeStyle.getLineJoin() +
