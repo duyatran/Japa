@@ -1,10 +1,10 @@
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
- * ProcessingBezier.java
- * Purpose: Creates a class for curves.
+ * ProcessingCurve.java
+ * Purpose: Creates a class to draw curves.
  *
  * @author Duy Tran
- * @version 1.0 6/20/2015
+ * @version 1.0 6/22/2015
  */
 
 import java.awt.Graphics2D;
@@ -13,16 +13,16 @@ import java.awt.geom.CubicCurve2D;
 public class ProcessingCurve implements Shape{
 	private double[] x;
     private double[] y;
-    private int type;
+    private int type; // either Consts.BEZIER or Consts.CATMULLROM
     private double tension = 0;
     private ShapeAttributes att;
 
+    
     /**
-     * Constructs a line with a given starting and ending location.
-     * @param x1 the x-coordinate of the starting point
-     * @param y1 the y-coordinate of the starting point
-     * @param x2 the x-coordinate of the ending point
-     * @param y2 the y-coordinate of the ending point
+     * @param xCoor: x-coordinates array
+     * @param yCoor: y-coordinates array
+     * @param t: the tension value (0.0 to 1.0)
+     * @param current: the current ShapeAttributes object
      */
     public ProcessingCurve(double[] xCoor, double[] yCoor,
     		int t, ShapeAttributes current){
@@ -36,7 +36,11 @@ public class ProcessingCurve implements Shape{
         this.att = current.copy();
     }
     
+    /**
+     * @return the actual curve to be drawn
+     */
     private CubicCurve2D.Double produceCurve(){
+    	// For Bezier curves
     	double newPoint1X = x[0];
 		double newPoint1Y = y[0];
 		double newPoint2X = x[1];
@@ -46,6 +50,9 @@ public class ProcessingCurve implements Shape{
 		double newPoint4X = x[3];
 		double newPoint4Y = y[3];
 		
+		// Coordinates conversion from Catmull-Rom curve to
+		// Bezier control points
+		// @see http://pomax.github.io/bezierinfo/#catmullconv
     	if (type == Consts.CATMULLROM) {
     		double s = (1 - tension)/2;
     		newPoint1X = x[1];
@@ -61,15 +68,22 @@ public class ProcessingCurve implements Shape{
     			newPoint3X, newPoint3Y, newPoint4X, newPoint4Y);
     }
     
+    /* @return the arc's attributes object. 
+     * @see Shape#getAttributes()
+     */
     public ShapeAttributes getAttributes(){
     	return this.att;
     }
     
+    @Override
     public String toString(){
     	//TO-DO
         return " attributes: " + att.toString();
     }
 
+    /* Do the actual drawing of the curve.
+     * @see Shape#paintShape(java.awt.Graphics2D)
+     */
     public void paintShape(Graphics2D g2){
         CubicCurve2D.Double curve = produceCurve();
     	if (att.getFill()){

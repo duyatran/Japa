@@ -1,7 +1,7 @@
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
- * ProcessingConstants.java
- * Purpose: Create an interface (TBD) that holds all constants for convenience
+ * Consts.java
+ * Purpose: Create public class that holds all constants for convenience
  *
  * @author Duy Tran
  * @version 1.0 6/10/2015
@@ -43,7 +43,7 @@ public final class Consts {
 	public static final int OPEN = 0;
 	public static final int CHORD = 1;
 	public static final int PIE = 2;
-	
+	public static final int DEFAULT_ARC = 3;
 	// Curve type
 	public static final int BEZIER = 0;
 	public static final int CATMULLROM = 1;

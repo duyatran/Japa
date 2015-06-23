@@ -17,14 +17,17 @@ public class ShapeAttributes{
     private int strokeJoin = BasicStroke.JOIN_MITER;
     private Color strokeColor = Color.BLACK;
     private Color fillColor = Color.WHITE;
-    private boolean fill = true;
-    private boolean stroke = true;
-    private boolean smooth = true;
+    private boolean fill = true; // to fill shapes or not
+    private boolean stroke = true; // to draw stroke or not
+    private boolean smooth = true; // to be anti-aliased or not
     
     public ShapeAttributes(){
         setStrokeStyle();
     }
     
+    /**
+     * @return a copy of this ShapeAttributes object
+     */
     public ShapeAttributes copy(){
         ShapeAttributes newAtt = new ShapeAttributes();
         newAtt.setSmooth(this.getSmooth());
@@ -38,6 +41,10 @@ public class ShapeAttributes{
         newAtt.setStrokeStyle();
         return newAtt;
     }
+    
+    /***************************************
+     * Getters and setters of all attributes
+     ***************************************/
     
     public boolean getSmooth(){
     	return smooth;

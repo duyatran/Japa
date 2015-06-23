@@ -11,6 +11,6 @@ import java.awt.Graphics2D;
 
 public interface Shape{
 	ShapeAttributes getAttributes();
-    String toString();
+	    
     void paintShape(Graphics2D g2);
 }

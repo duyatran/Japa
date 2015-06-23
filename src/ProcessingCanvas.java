@@ -224,6 +224,13 @@ public class ProcessingCanvas extends JFrame{
         shapeList.add(new ProcessingRect(x, y, w, h, att));
     }
     
+    public void rect(double v1, double v2, double v3, double v4, double r){
+    } 
+    
+    public void rect(double v1, double v2, double v3, double v4,
+    		double tl, double tr, double bl, double br){
+    }
+    
     /**
      * TO-DO
      */

@@ -1,17 +1,24 @@
+/**
+ * Summer 2015 - Processing-inspired Java Graphics Library
+ * ProcessingPolygon.java
+ * Purpose: Creates a class to draw a polygon.
+ *
+ * @author Duy Tran
+ * @version 1.0 6/10/2015
+ */
+
 import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 
-public class ProcessingPolygon implements Shape{
+public class ProcessingPolygon implements Shape {
 	private double[] x;
     private double[] y;
     private ShapeAttributes att;
 
     /**
-     * Constructs a line with a given starting and ending location.
-     * @param x1 the x-coordinate of the starting point
-     * @param y1 the y-coordinate of the starting point
-     * @param x2 the x-coordinate of the ending point
-     * @param y2 the y-coordinate of the ending point
+     * @param xCoor: x-coordinates array
+     * @param yCoor: y-coordinates array
+     * @param current: the current ShapeAttributes object
      */
     public ProcessingPolygon(double[] xCoor, double[] yCoor, ShapeAttributes current){
         x = new double[xCoor.length];
@@ -23,15 +30,22 @@ public class ProcessingPolygon implements Shape{
         this.att = current.copy();
     }
 
+    /* @return the arc's attributes object.
+     * @see Shape#getAttributes()
+     */
     public ShapeAttributes getAttributes(){
     	return this.att;
     }
     
+    @Override
     public String toString(){
     	//TO-DO
         return " attributes: " + att.toString();
     }
 
+    /* Do the actual drawing of the polygon.
+     * @see Shape#paintShape(java.awt.Graphics2D)
+     */
     public void paintShape(Graphics2D g2){
         Path2D.Double polygon = new Path2D.Double();
     	if (att.getFill()){
