@@ -181,8 +181,12 @@ public class ProcessingCanvas extends JFrame{
     /**
      * 
      */
-    public void endShape(){
+    public void endShape(int mode){
+    	if (mode == Consts.CLOSE) {
+    		currentShape.closePath();
+    	}
     	shapeList.add(currentShape);
+    	
     }
     
     /**

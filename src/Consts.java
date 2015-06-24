@@ -70,6 +70,10 @@ public final class Consts {
 	public static final int QUADS = 5;
 	public static final int QUAD_STRIP = 6;
 	
+	// Path mode for endShape
+	public static final int PATH_OPEN = 0;
+	public static final int CLOSE = 1;
+
 	//Private constructor
 	private Consts(){
 		throw new AssertionError();

@@ -702,7 +702,7 @@ public class Demo{
     	Processing.vertex (120,185);
     	Processing.vertex (170,185);
     	Processing.vertex (225,190);
-    	Processing.endShape ();
+    	Processing.endShape (Consts.CLOSE);
     	Processing.line (225,190,245,165); //little twig coming off of branch pointing up
     	//sloping part of branch A
     	Processing.beginShape ();
@@ -716,7 +716,7 @@ public class Demo{
     	//BRANCH B
     	Processing.stroke (102,51,0); //Dark Brown juxtuposing light brown, creating depth (?)
     	Processing.fill (102,51,0);
-    	Processing.rect(475,0,125,500); //trunk of Tree B
+    	Processing.rect(600,0,-125,500); //trunk of Tree B
     	Processing.fill (0);
     	Processing.noStroke();
     	//ellipse (585,150,100,150);//hole in tree
@@ -823,7 +823,7 @@ public class Demo{
     	Processing.curveVertex (180,150);
     	Processing.curveVertex (210,112);
     	Processing.curveVertex (210,112);
-    	Processing.endShape();
+    	Processing.endShape(Consts.CLOSE);
     	//WING
     	Processing.stroke (0);
     	Processing.strokeWeight (2);
@@ -1068,10 +1068,10 @@ public class Demo{
     }
     
     public static void test(){
-        Processing.size(500,500);
-//    	Processing.arc(380,220,140,140,0,Consts.PI+Consts.QUARTER_PI,Consts.CHORD); //CODED BODY BY ARC (Option 2)
-        Processing.bezier(85, 20, 10, 10, 90, 90, 15, 80);
-        //        Processing.background(0);
+        Processing.size();
+        Processing.strokeWeight(1);
+        Processing.strokeWeight(50);
+    	Processing.line(380, 0, 380, 600);
 //        Processing.noFill();
 //        Processing.stroke(255);
 //        for (int i = 0; i < 200; i += 20) {

@@ -81,6 +81,11 @@ public class ProcessingShape extends Shape
 		path.curveTo(x1, y1, x2, y2, x3, y3);
 	}
     
+
+	public void closePath() {
+		path.closePath();
+	}
+	
     /* @return the arc's attributes object.
      * @see Shape#getAttributes()
      */
@@ -108,4 +113,5 @@ public class ProcessingShape extends Shape
             g2.draw(path);
         }
     }
+
 }
