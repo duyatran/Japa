@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
@@ -38,33 +39,40 @@ public class ProcessingCanvas extends JFrame{
         this(canvasWidth, canvasHeight);
     }
 
-    public ProcessingCanvas(int w, int h){
-    	  	
+    public ProcessingCanvas(final int w, final int h){
+    	SwingUtilities.invokeLater(new Runnable() {
+    		public void run() {
+    			createAndShowGUI(w, h);
+    		}
+    	});
+    }
+    
+    private void createAndShowGUI(int w, int h){
     	drawCanvas = new DrawCanvas();
-    	drawCanvas.setPreferredSize(new Dimension(w,h));
-    	canvasWidth = w;
-    	canvasHeight = h;
-    	Container cp = getContentPane();
-    	cp.add(drawCanvas);
-    	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    	this.setResizable(false);
-    	this.setTitle("My Canvas");
-    	this.setVisible(true);
-    	
-    	if (w >= Consts.MIN_WIDTH && h >= Consts.MIN_HEIGHT){
-    		this.pack();
-    	}
-    	else {
-        	this.setLayout(null);
-    		Insets insets = this.getInsets();
-        	int minWindowWidth = Consts.MIN_WIDTH + insets.left + insets.right;
-        	int minWindowHeight = Consts.MIN_HEIGHT + insets.top + insets.bottom;
-        	this.setMinimumSize(new Dimension(minWindowWidth, minWindowHeight));
-        	int x = (Consts.MIN_WIDTH - w)/2;
-        	int y = (Consts.MIN_HEIGHT - h)/2;
-            drawCanvas.setBounds(x, y, w, h);
-    	}
-    	this.setLocationRelativeTo(null);
+		drawCanvas.setPreferredSize(new Dimension(w,h));
+		canvasWidth = w;
+		canvasHeight = h;
+		Container cp = getContentPane();
+		cp.add(drawCanvas);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setTitle("My Canvas");
+		this.setVisible(true);
+
+		if (w >= Consts.MIN_WIDTH && h >= Consts.MIN_HEIGHT){
+			this.pack();
+		}
+		else {
+			this.setLayout(null);
+			Insets insets = this.getInsets();
+			int minWindowWidth = Consts.MIN_WIDTH + insets.left + insets.right;
+			int minWindowHeight = Consts.MIN_HEIGHT + insets.top + insets.bottom;
+			this.setMinimumSize(new Dimension(minWindowWidth, minWindowHeight));
+			int x = (Consts.MIN_WIDTH - w)/2;
+			int y = (Consts.MIN_HEIGHT - h)/2;
+			drawCanvas.setBounds(x, y, w, h);
+		}
+		this.setLocationRelativeTo(null);
     }
 
     public void background(Color c){
@@ -315,7 +323,6 @@ public class ProcessingCanvas extends JFrame{
     }
     
     public void save(String fileName){
-    	
     	String fileType = "";
     	if (fileName.indexOf(".") == -1){
     		fileType = "png";
@@ -330,7 +337,7 @@ public class ProcessingCanvas extends JFrame{
     	paintImage = new BufferedImage(canvasWidth, 
     			canvasHeight, outputFormat);
     	Graphics2D g = paintImage.createGraphics();
-    	drawCanvas.print(g); // or paint
+    	drawCanvas.paint(g); // or print
     	g.dispose();
     	
     	try {
@@ -377,43 +384,6 @@ public class ProcessingCanvas extends JFrame{
                 s.paintShape(g2);
             }
         }
-        
-        /**
-         * Save image as image file
-         * @param filename
-         * @throws InterruptedException 
-         */
-//        public void save(String fileName) throws IOException {
-//
-//        	String fileType = "";
-//        	if (fileName.indexOf(".") == -1){
-//        		fileType = "png";
-//        		fileName = fileName.concat(".png");
-//        	}
-//        	else {
-//        		fileType = fileName.substring(fileName.indexOf(".") + 1);
-//        	}
-//        	int outputFormat = (fileType.toLowerCase().equals("png")) ?
-//        	        BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;
-//
-//        	paintImage = new BufferedImage(canvasWidth, 
-//        			canvasHeight, outputFormat);
-//        	Graphics2D g = paintImage.createGraphics();
-//        	g.setBackground(backgroundColor);
-//        	g.fillRect(0, 0, canvasWidth, canvasHeight);
-//        	drawCanvas.paint(g); // or print
-//        	g.dispose();
-//        	
-//        	try {
-//        		ImageIO.write(paintImage, fileType, new File(fileName));
-//        	}
-//        	catch (IOException ex) {
-//        		System.out.println(ex.toString());				
-//        	}
-//        	catch (IllegalArgumentException ex) {
-//        		System.out.println(ex.toString());				
-//        	}
-//        }
     }
 }
 

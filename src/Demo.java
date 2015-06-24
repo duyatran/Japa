@@ -1068,11 +1068,9 @@ public class Demo{
     }
     
     public static void test(){
-        Processing.size();
+        Processing.size(500,500);
 //    	Processing.arc(380,220,140,140,0,Consts.PI+Consts.QUARTER_PI,Consts.CHORD); //CODED BODY BY ARC (Option 2)
-        Processing.noFill();
         Processing.bezier(85, 20, 10, 10, 90, 90, 15, 80);
-
         //        Processing.background(0);
 //        Processing.noFill();
 //        Processing.stroke(255);
@@ -1162,6 +1160,6 @@ public class Demo{
     }
     
     public static void main(String[] args) throws IOException{
-        student1();
+        test();
     }
 }
