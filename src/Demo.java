@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
  * Demo.java
@@ -8,7 +10,7 @@
  */
 
 public class Demo{
-    public static void student1(){
+    public static void student1() throws IOException{
     	Processing.size(720, 580);
 
     	Processing.colorMode(Consts.HSB);
@@ -69,11 +71,7 @@ public class Demo{
     	Processing.line(540, 200, 540, 220);
     	Processing.line(480, 140, 460, 140);
 
-    	//Processing.save("student1.png");
-
-
-
-
+    	Processing.save("student1.jpg");
     }
     
     public static void student2(){
@@ -643,35 +641,7 @@ public class Demo{
     	//Processing.save("student6.png");
     }
 
-    public static void student7(){
-    	/*
-    	Love Birds
-
-    	___ Lines of Code
-    	  BACKGROUND/IMPORTANT INFORMATION (1-
-    	  TREE (
-    	      Tree A (
-    	      Tree B (
-    	  BIRD (
-    	      Bird A (
-    	      Bird B (
-    	  SUN (
-    	    
-    	*/
-
-
-    	/*REQUIREMENTS
-    	-Line (YES)
-    	-Rect (YES)
-    	-Ellipse (YES)
-    	-Quad OR Triangle (YES)
-
-    	EXTRA CREDIT
-    	-beginShape (YES)
-    	-arc (YES)
-    	-curve (YES)
-    	*/
-
+    public static void student7() throws IOException{
 
     	//Initial Constrains
     	Processing.size (600,500);
@@ -1091,14 +1061,17 @@ public class Demo{
     	Processing.curveVertex (390,440);
     	Processing.curveVertex (390,440);
     	Processing.endShape();
+    	
+    	Processing.save("test save function.png");
     }
     
     public static void test(){
         Processing.size();
-     
-    	Processing.arc(380,220,140,140,0,Consts.PI+Consts.QUARTER_PI,Consts.CHORD); //CODED BODY BY ARC (Option 2)
-    	Processing.line(380, 0, 380, 600);
-//        Processing.background(0);
+//    	Processing.arc(380,220,140,140,0,Consts.PI+Consts.QUARTER_PI,Consts.CHORD); //CODED BODY BY ARC (Option 2)
+        Processing.noFill();
+        Processing.bezier(85, 20, 10, 10, 90, 90, 15, 80);
+
+        //        Processing.background(0);
 //        Processing.noFill();
 //        Processing.stroke(255);
 //        for (int i = 0; i < 200; i += 20) {
@@ -1183,12 +1156,10 @@ public class Demo{
 //        Processing.curveVertex(32, 100);
 //        Processing.curveVertex(32, 100);
 //        Processing.endShape();
-//        
-        
-        
+    
     }
     
-    public static void main(String[] args){
-        student7();
+    public static void main(String[] args) throws IOException{
+        student1();
     }
 }

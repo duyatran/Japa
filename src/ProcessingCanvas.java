@@ -5,8 +5,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -28,7 +32,8 @@ public class ProcessingCanvas extends JFrame{
     private ShapeAttributes att = new ShapeAttributes();
     private ArrayList<Shape> shapeList = new ArrayList<Shape>();
     private DrawCanvas drawCanvas;
-    
+    private BufferedImage paintImage;
+
     public ProcessingCanvas(){
         this(canvasWidth, canvasHeight);
     }
@@ -308,11 +313,39 @@ public class ProcessingCanvas extends JFrame{
     }
     
     /**
-     * TO-DO: Save image as image file
+     * Save image as image file
      * @param filename
      */
-    public void save(String filename){        
+    public void save(String fileName) throws IOException {
+    	
+    	String fileType = "";
+    	if (fileName.indexOf(".") == -1){
+    		fileType = "png";
+    		fileName = fileName.concat(".png");
+    	}
+    	else {
+    		fileType = fileName.substring(fileName.indexOf(".") + 1);
+    	}
+    	int outputFormat = (fileType.toLowerCase().equals("png")) ?
+    	        BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;;
+
+    	paintImage = new BufferedImage(drawCanvas.getWidth(), 
+    			drawCanvas.getHeight(), outputFormat);
+    	Graphics g = paintImage.getGraphics();
+    	drawCanvas.paint(g);
+    	
+    	try {
+    		System.out.println(fileType);
+    		ImageIO.write(paintImage, fileType, new File(fileName));
+    	}
+    	catch (IOException ex) {
+    		System.out.println(ex.toString());				
+    	}
+    	catch (IllegalArgumentException ex) {
+    		System.out.println(ex.toString());				
+    	}
     }
+    
     
     /**
      * Turn on anti-aliasing, which is on by default.
@@ -329,7 +362,7 @@ public class ProcessingCanvas extends JFrame{
     }
     
     private class DrawCanvas extends JPanel {
-        
+
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -348,6 +381,5 @@ public class ProcessingCanvas extends JFrame{
             }
         }
     }
-
 }
 

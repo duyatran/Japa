@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
  * Processing.java
@@ -491,11 +493,14 @@ public class Processing {
     	canvas.triangle(x1, y1, x2, y2, x3, y3);
     }
     
-    /**
-     * TO-DO: Save image as image file
+    /** Save canvas as an image file
+     * supports png, jpeg, bmp, gif; jpg not recommended
+     * default is png if no explicit extension is given
      * @param filename
+     * @throws IOException 
      */
-    public static void save(String filename){        
+    public static void save(String fileName) throws IOException{ 
+    	canvas.save(fileName);
     }
     
     /**
