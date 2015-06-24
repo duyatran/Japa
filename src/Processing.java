@@ -290,7 +290,14 @@ public class Processing {
      * 
      */
     public static void endShape(){
-    	canvas.endShape();
+    	canvas.endShape(Consts.PATH_OPEN);
+    }
+    
+    /**
+     * 
+     */
+    public static void endShape(int mode){
+    	canvas.endShape(Consts.CLOSE);
     }
     
     /**

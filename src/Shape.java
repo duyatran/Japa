@@ -52,7 +52,7 @@ public abstract class Shape {
 
     	return result;
     }
-	
+    
     /**
      * @param mode
      * @param v1
@@ -81,6 +81,16 @@ public abstract class Shape {
     			break;
     		default: System.out.println("Invalid shape mode");
     	}
+    	
+    	if (v3 < 0) {  // undo negative width
+  	      v1 += v3;
+  	      v3 = -v3;
+  	    }
+
+  	    if (v4 < 0) {  // undo negative height
+  	      v2 += v4;
+  	      v4 = -v4;
+  	    }
     	return new double[] {v1, v2, v3, v4};
 	}
     
