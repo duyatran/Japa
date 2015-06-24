@@ -71,10 +71,10 @@ public class Demo{
     	Processing.line(540, 200, 540, 220);
     	Processing.line(480, 140, 460, 140);
 
-    	Processing.save("student1.jpg");
+    	Processing.save("student1");
     }
     
-    public static void student2(){
+    public static void student2() throws IOException{
     	Processing.size(1100, 850);
     	Processing.background(71, 206, 54);
     	Processing.smooth();
@@ -140,9 +140,11 @@ public class Demo{
 
     	Processing.fill(252, 176, 231);//Gretel
     	Processing.triangle(400, 825, 510, 630, 600, 825);
+    	Processing.save("student2");
+
     }
     
-    public static void student3(){
+    public static void student3() throws IOException{
     	/*Author: student3 
     	Title: Hamlet & Yorik
     	This picture is meant to represent Act 5 Scene 1 of the play Hamlet, in which Hamlet talks to a skull who was formally the person 'Yorik'. Their similarity is seen by haveing 
@@ -270,10 +272,10 @@ public class Demo{
     	Processing.line(850,287.5,962.5,275);
     	Processing.line(502.5,420.5,450,500);
 
-    	//Processing.save("student3.png");
+    	Processing.save("student3");
     }
     
-    public static void student4(){
+    public static void student4() throws IOException{
     	Processing.size(1000,800);
     	Processing.background(0,153,255);
     	Processing.smooth();
@@ -432,10 +434,10 @@ public class Demo{
     	Processing.fill(0);
     	Processing.ellipse(514,350,7,7);
 
-    	//Processing.save("student4.png");
+    	Processing.save("student4.png");
     }
 
-    public static void student5(){
+    public static void student5() throws IOException{
     	/* Assignment 1 - Date: February 14
     	Picture of my father's hometown - My father hometown has many
     	mountains and river. People often get on their wooden boats floating
@@ -508,10 +510,10 @@ public class Demo{
     	Processing.ellipse(620,120,180,180);
     	Processing.fill(119,222,92);
     	Processing.ellipse(580,200,150,150);
-    	//Processing.save("student5.png");
+    	Processing.save("student5.png");
     }
 
-    public static void student6(){
+    public static void student6() throws IOException{
     	/*Assignment 1 
     	02/07/14
     	Based on Edward Hopper's Nighthawks (1942)*/
@@ -638,7 +640,7 @@ public class Demo{
     	Processing.curveVertex(970,580);
     	Processing.endShape();
 
-    	//Processing.save("student6.png");
+    	Processing.save("student6.png");
     }
 
     public static void student7() throws IOException{
@@ -1062,7 +1064,7 @@ public class Demo{
     	Processing.curveVertex (390,440);
     	Processing.endShape();
     	
-    	Processing.save("test save function.png");
+    	Processing.save("student7.png");
     }
     
     public static void test(){
@@ -1160,6 +1162,6 @@ public class Demo{
     }
     
     public static void main(String[] args) throws IOException{
-        student1();
+        student3();
     }
 }

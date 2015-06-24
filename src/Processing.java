@@ -497,10 +497,10 @@ public class Processing {
      * supports png, jpeg, bmp, gif; jpg not recommended
      * default is png if no explicit extension is given
      * @param filename
-     * @throws IOException 
+     * @throws IOException
      */
     public static void save(String fileName) throws IOException{ 
-    	canvas.save(fileName);
+    	canvas.save();
     }
     
     /**

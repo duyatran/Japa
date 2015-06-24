@@ -33,21 +33,23 @@ public class ProcessingCanvas extends JFrame{
     private ArrayList<Shape> shapeList = new ArrayList<Shape>();
     private DrawCanvas drawCanvas;
     private BufferedImage paintImage;
-
+    
     public ProcessingCanvas(){
         this(canvasWidth, canvasHeight);
     }
 
     public ProcessingCanvas(int w, int h){
+    	  	
+    	drawCanvas = new DrawCanvas();
+    	drawCanvas.setPreferredSize(new Dimension(w,h));
+    	canvasWidth = w;
+    	canvasHeight = h;
+    	Container cp = getContentPane();
+    	cp.add(drawCanvas);
     	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     	this.setResizable(false);
     	this.setTitle("My Canvas");
     	this.setVisible(true);
-    	
-    	drawCanvas = new DrawCanvas();
-    	drawCanvas.setPreferredSize(new Dimension(w,h));
-    	Container cp = getContentPane();
-    	cp.add(drawCanvas);
     	
     	if (w >= Consts.MIN_WIDTH && h >= Consts.MIN_HEIGHT){
     		this.pack();
@@ -312,40 +314,15 @@ public class ProcessingCanvas extends JFrame{
     	shapeList.add(new ProcessingPolygon(x, y, att));
     }
     
-    /**
-     * Save image as image file
-     * @param filename
-     */
-    public void save(String fileName) throws IOException {
-    	
-    	String fileType = "";
-    	if (fileName.indexOf(".") == -1){
-    		fileType = "png";
-    		fileName = fileName.concat(".png");
-    	}
-    	else {
-    		fileType = fileName.substring(fileName.indexOf(".") + 1);
-    	}
-    	int outputFormat = (fileType.toLowerCase().equals("png")) ?
-    	        BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;;
-
-    	paintImage = new BufferedImage(drawCanvas.getWidth(), 
-    			drawCanvas.getHeight(), outputFormat);
-    	Graphics g = paintImage.getGraphics();
-    	drawCanvas.paint(g);
-    	
-    	try {
-    		System.out.println(fileType);
-    		ImageIO.write(paintImage, fileType, new File(fileName));
-    	}
-    	catch (IOException ex) {
-    		System.out.println(ex.toString());				
-    	}
-    	catch (IllegalArgumentException ex) {
-    		System.out.println(ex.toString());				
-    	}
+    public void save(){
+        	try {
+				drawCanvas.save("please");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			
+        }
     }
-    
     
     /**
      * Turn on anti-aliasing, which is on by default.
@@ -379,6 +356,43 @@ public class ProcessingCanvas extends JFrame{
                                         RenderingHints.VALUE_ANTIALIAS_OFF);
                 s.paintShape(g2);
             }
+        }
+        
+        /**
+         * Save image as image file
+         * @param filename
+         * @throws InterruptedException 
+         */
+        public void save(String fileName) throws IOException {
+
+        	String fileType = "";
+        	if (fileName.indexOf(".") == -1){
+        		fileType = "png";
+        		fileName = fileName.concat(".png");
+        	}
+        	else {
+        		fileType = fileName.substring(fileName.indexOf(".") + 1);
+        	}
+        	int outputFormat = (fileType.toLowerCase().equals("png")) ?
+        	        BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;
+
+        	paintImage = new BufferedImage(canvasWidth, 
+        			canvasHeight, outputFormat);
+        	Graphics2D g = paintImage.createGraphics();
+        	g.setBackground(backgroundColor);
+        	g.fillRect(0, 0, canvasWidth, canvasHeight);
+        	drawCanvas.paint(g); // or print
+        	g.dispose();
+        	
+        	try {
+        		ImageIO.write(paintImage, fileType, new File(fileName));
+        	}
+        	catch (IOException ex) {
+        		System.out.println(ex.toString());				
+        	}
+        	catch (IllegalArgumentException ex) {
+        		System.out.println(ex.toString());				
+        	}
         }
     }
 }
