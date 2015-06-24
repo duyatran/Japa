@@ -71,7 +71,7 @@ public class Demo{
     	Processing.line(540, 200, 540, 220);
     	Processing.line(480, 140, 460, 140);
 
-    	Processing.save("student1");
+    	Processing.save("student1.gif");
     }
     
     public static void student2() throws IOException{
@@ -1162,6 +1162,6 @@ public class Demo{
     }
     
     public static void main(String[] args) throws IOException{
-        student3();
+        student1();
     }
 }

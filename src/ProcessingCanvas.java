@@ -314,14 +314,34 @@ public class ProcessingCanvas extends JFrame{
     	shapeList.add(new ProcessingPolygon(x, y, att));
     }
     
-    public void save(){
-        	try {
-				drawCanvas.save("please");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			
-        }
+    public void save(String fileName){
+    	
+    	String fileType = "";
+    	if (fileName.indexOf(".") == -1){
+    		fileType = "png";
+    		fileName = fileName.concat(".png");
+    	}
+    	else {
+    		fileType = fileName.substring(fileName.indexOf(".") + 1);
+    	}
+    	int outputFormat = (fileType.toLowerCase().equals("png")) ?
+    	        BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;
+
+    	paintImage = new BufferedImage(canvasWidth, 
+    			canvasHeight, outputFormat);
+    	Graphics2D g = paintImage.createGraphics();
+    	drawCanvas.print(g); // or paint
+    	g.dispose();
+    	
+    	try {
+    		ImageIO.write(paintImage, fileType, new File(fileName));
+    	}
+    	catch (IOException ex) {
+    		System.out.println(ex.toString());				
+    	}
+    	catch (IllegalArgumentException ex) {
+    		System.out.println(ex.toString());				
+    	}
     }
     
     /**
@@ -363,37 +383,37 @@ public class ProcessingCanvas extends JFrame{
          * @param filename
          * @throws InterruptedException 
          */
-        public void save(String fileName) throws IOException {
-
-        	String fileType = "";
-        	if (fileName.indexOf(".") == -1){
-        		fileType = "png";
-        		fileName = fileName.concat(".png");
-        	}
-        	else {
-        		fileType = fileName.substring(fileName.indexOf(".") + 1);
-        	}
-        	int outputFormat = (fileType.toLowerCase().equals("png")) ?
-        	        BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;
-
-        	paintImage = new BufferedImage(canvasWidth, 
-        			canvasHeight, outputFormat);
-        	Graphics2D g = paintImage.createGraphics();
-        	g.setBackground(backgroundColor);
-        	g.fillRect(0, 0, canvasWidth, canvasHeight);
-        	drawCanvas.paint(g); // or print
-        	g.dispose();
-        	
-        	try {
-        		ImageIO.write(paintImage, fileType, new File(fileName));
-        	}
-        	catch (IOException ex) {
-        		System.out.println(ex.toString());				
-        	}
-        	catch (IllegalArgumentException ex) {
-        		System.out.println(ex.toString());				
-        	}
-        }
+//        public void save(String fileName) throws IOException {
+//
+//        	String fileType = "";
+//        	if (fileName.indexOf(".") == -1){
+//        		fileType = "png";
+//        		fileName = fileName.concat(".png");
+//        	}
+//        	else {
+//        		fileType = fileName.substring(fileName.indexOf(".") + 1);
+//        	}
+//        	int outputFormat = (fileType.toLowerCase().equals("png")) ?
+//        	        BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;
+//
+//        	paintImage = new BufferedImage(canvasWidth, 
+//        			canvasHeight, outputFormat);
+//        	Graphics2D g = paintImage.createGraphics();
+//        	g.setBackground(backgroundColor);
+//        	g.fillRect(0, 0, canvasWidth, canvasHeight);
+//        	drawCanvas.paint(g); // or print
+//        	g.dispose();
+//        	
+//        	try {
+//        		ImageIO.write(paintImage, fileType, new File(fileName));
+//        	}
+//        	catch (IOException ex) {
+//        		System.out.println(ex.toString());				
+//        	}
+//        	catch (IllegalArgumentException ex) {
+//        		System.out.println(ex.toString());				
+//        	}
+//        }
     }
 }
 

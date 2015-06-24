@@ -500,7 +500,13 @@ public class Processing {
      * @throws IOException
      */
     public static void save(String fileName) throws IOException{ 
-    	canvas.save();
+    	try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	canvas.save(fileName);
     }
     
     /**
