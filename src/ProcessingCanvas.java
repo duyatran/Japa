@@ -61,14 +61,6 @@ public class ProcessingCanvas extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("My Canvas");
-	    this.addComponentListener(new ComponentAdapter() {
-	    	@Override
-	    	    public void componentShown(ComponentEvent e){
-	    	    	if (save){
-	    	    		save("test.png");
-	    	    	}
-	    	    }
-	    });
 
 		if (w >= Consts.MIN_WIDTH && h >= Consts.MIN_HEIGHT){
 			this.pack();
@@ -85,6 +77,14 @@ public class ProcessingCanvas extends JFrame{
 		}
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+		this.addComponentListener(new ComponentAdapter() {
+	    	@Override
+	    	    public void componentShown(ComponentEvent e){
+	    	    	if (save){
+	    	    		save("test.png");
+	    	    	}
+	    	    }
+	    });
 
     }
 
