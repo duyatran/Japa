@@ -1069,9 +1069,8 @@ public class Demo{
     
     public static void test(){
         Processing.size();
-        Processing.strokeWeight(1);
-        Processing.strokeWeight(50);
-    	Processing.line(380, 0, 380, 600);
+        Processing.background(255);
+        Processing.background(255,0,0);
 //        Processing.noFill();
 //        Processing.stroke(255);
 //        for (int i = 0; i < 200; i += 20) {

@@ -9,6 +9,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -34,6 +37,7 @@ public class ProcessingCanvas extends JFrame{
     private ArrayList<Shape> shapeList = new ArrayList<Shape>();
     private DrawCanvas drawCanvas;
     private BufferedImage paintImage;
+    boolean save = true;
     
     public ProcessingCanvas(){
         this(canvasWidth, canvasHeight);
@@ -57,7 +61,14 @@ public class ProcessingCanvas extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("My Canvas");
-		this.setVisible(true);
+	    this.addComponentListener(new ComponentAdapter() {
+	    	@Override
+	    	    public void componentShown(ComponentEvent e){
+	    	    	if (save){
+	    	    		save("test.png");
+	    	    	}
+	    	    }
+	    });
 
 		if (w >= Consts.MIN_WIDTH && h >= Consts.MIN_HEIGHT){
 			this.pack();
@@ -73,6 +84,8 @@ public class ProcessingCanvas extends JFrame{
 			drawCanvas.setBounds(x, y, w, h);
 		}
 		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+
     }
 
     public void background(Color c){
