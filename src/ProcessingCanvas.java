@@ -57,7 +57,6 @@ public class ProcessingCanvas extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("My Canvas");
-		this.setVisible(true);
 
 		if (w >= Consts.MIN_WIDTH && h >= Consts.MIN_HEIGHT){
 			this.pack();
@@ -73,6 +72,7 @@ public class ProcessingCanvas extends JFrame{
 			drawCanvas.setBounds(x, y, w, h);
 		}
 		this.setLocationRelativeTo(null);
+		this.setVisible(true);
     }
 
     public void background(Color c){
@@ -138,14 +138,14 @@ public class ProcessingCanvas extends JFrame{
      * 
      */
     public void vertex(double x, double y){
-    	currentShape.add(x, y, Consts.VERTEX);
+    	//currentShape.addVertex(x, y);
     }
     
     /**
      * 
      */
     public void curveVertex(double x, double y){
-    	currentShape.add(x, y, Consts.CURVE_VERTEX);
+    	currentShape.addCurveVertex(x, y);
     }
     
     /**
@@ -167,15 +167,14 @@ public class ProcessingCanvas extends JFrame{
     /**
      * 
      */
-    public void beginShape(){
-    	currentShape = new ProcessingShape(att);
-    }
-    
-    /**
-     * 
-     */
     public void beginShape(int kind){
     	//TO-DO
+    	if (kind == -1) {
+    	currentShape = new ProcessingShape(att, Consts.POLYGON);
+    	}
+    	else {
+    		currentShape = new ProcessingShape(att, kind);
+    	}
     }
     
     /**
@@ -186,7 +185,6 @@ public class ProcessingCanvas extends JFrame{
     		currentShape.closePath();
     	}
     	shapeList.add(currentShape);
-    	
     }
     
     /**
@@ -270,7 +268,7 @@ public class ProcessingCanvas extends JFrame{
     }
     
     /**
-     * Adds a four-sided polygon to the screen
+     * Adds a polygon (triangle and quad) to the screen
      * @param x1	x-coordinate of the first corner
      * @param y1	y-coordinate of the first corner
      * @param x2	x-coordinate of the second corner
@@ -280,9 +278,7 @@ public class ProcessingCanvas extends JFrame{
      * @param x4	x-coordinate of the fourth corner
      * @param y4	y-coordinate of the fourth corner
      */
-    public void quad(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4){
-    	double[] x = new double[] {x1, x2, x3, x4};
-    	double[] y = new double[] {y1, y2, y3, y4};
+    public void polygon(double[] x, double [] y){
     	shapeList.add(new ProcessingPolygon(x, y, att));
     }
     
@@ -297,11 +293,34 @@ public class ProcessingCanvas extends JFrame{
         shapeList.add(new ProcessingRect(x, y, w, h, att));
     }
     
-    public void rect(double v1, double v2, double v3, double v4, double r){
-    } 
-    
     public void rect(double v1, double v2, double v3, double v4,
-    		double tl, double tr, double bl, double br){
+    		double tl, double tr, double br, double bl){
+    	beginShape(-1);
+    	
+    	double[] temp = currentShape.setCoordinates(att.getRectMode(),
+    			v1, v2, v3, v4);
+    	double x = temp[0];
+    	double y = temp[1];
+    	double w = temp[2];
+    	double h = temp[3];
+
+    	// top left corner
+    	vertex(x+tl, y);
+    	quadraticVertex(x, y, x, y+tl);
+    	
+    	// bottom left corner
+    	vertex(x, y+h-bl);
+    	quadraticVertex(x, y+h, x+bl, y+h);
+    	
+    	// bottom right corner
+    	vertex(x+w-br, y+h);
+    	quadraticVertex(x+w, y+h, x+w, y+h-br);
+    	
+    	// top right corner
+    	vertex(x+w, y+tr);
+    	quadraticVertex(x+w, y, x+w-tl, y);
+    	
+    	endShape(Consts.CLOSE);
     }
     
     /**
@@ -309,21 +328,6 @@ public class ProcessingCanvas extends JFrame{
      */
     public void rectMode(int mode){
     	att.setRectMode(mode);
-    }
-    
-    /**
-     * Adds a triangle to the shapeList.
-     * @param x1	x-coordinate of the first vertex
-     * @param y1	y-coordinate of the first vertex
-     * @param x2	x-coordinate of the second vertex
-     * @param y2	y-coordinate of the second vertex
-     * @param x3	x-coordinate of the third vertex
-     * @param y3	y-coordinate of the third vertex
-     */
-    public void triangle(double x1, double y1, double x2, double y2, double x3, double y3){
-    	double[] x = new double[] {x1, x2, x3};
-    	double[] y = new double[] {y1, y2, y3};
-    	shapeList.add(new ProcessingPolygon(x, y, att));
     }
     
     public void save(String fileName){

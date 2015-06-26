@@ -71,7 +71,7 @@ public class Demo{
     	Processing.line(540, 200, 540, 220);
     	Processing.line(480, 140, 460, 140);
 
-    	Processing.save("student1.gif");
+    	//Processing.save("student1.gif");
     }
     
     public static void student2() throws IOException{
@@ -1069,9 +1069,9 @@ public class Demo{
     
     public static void test(){
         Processing.size();
-        Processing.strokeWeight(1);
-        Processing.strokeWeight(50);
-    	Processing.line(380, 0, 380, 600);
+//        Processing.rect(30, 20, 55, 55);
+//        Processing.rect(30, 20, 55, 55, 3, 6, 12, 18);
+        
 //        Processing.noFill();
 //        Processing.stroke(255);
 //        for (int i = 0; i < 200; i += 20) {
@@ -1135,17 +1135,17 @@ public class Demo{
 //        Processing.curve(80, 60, 100, 100, 60, 120, 50, 150);
 //        Processing.curve(100, 100, 60, 120, 50, 150, 50, 150);// the first control point
 //        
-//        Processing.noFill();
-//        Processing.stroke(0);
-//        Processing.beginShape();
-//        Processing.curveVertex(40, 40); // the first control point
-//        Processing.curveVertex(40, 40); // is also the start point of curve
-//        Processing.curveVertex(80, 60);
-//        Processing.curveVertex(100, 100);
-//        Processing.curveVertex(60, 120);
-//        Processing.curveVertex(50, 150); // the last point of curve
-//        Processing.curveVertex(50, 150); // is also the last control point
-//        Processing.endShape();
+        Processing.noFill();
+        Processing.stroke(0);
+        Processing.beginShape();
+        Processing.curveVertex(40, 40); // the first control point
+        Processing.curveVertex(40, 40); // is also the start point of curve
+        Processing.curveVertex(80, 60);
+        Processing.curveVertex(100, 100);
+        Processing.curveVertex(60, 120);
+        Processing.curveVertex(50, 150); // the last point of curve
+        Processing.curveVertex(50, 150); // is also the last control point
+        Processing.endShape();
 
 //        Processing.fill(255);
 //        Processing.beginShape();
@@ -1160,6 +1160,6 @@ public class Demo{
     }
     
     public static void main(String[] args) throws IOException{
-        test();
+        student7();
     }
 }

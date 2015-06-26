@@ -55,11 +55,6 @@ public final class Consts {
 	public static final int CORNER = 2;
 	public static final int CORNERS = 3;
 	
-	// Types of vertices
-	public static final int VERTEX = 0;
-	public static final int CURVE_VERTEX = 1;
-	public static final int QUADRATIC_VERTEX = 2;
-	public static final int BEZIER_VERTEX = 3;
 	
 	// Shape kinds for use with beginShape/endShape 
 	public static final int POINTS = 0;
@@ -69,6 +64,7 @@ public final class Consts {
 	public static final int TRIANGLE_STRIP = 4;
 	public static final int QUADS = 5;
 	public static final int QUAD_STRIP = 6;
+	public static final int POLYGON = 7;
 	
 	// Path mode for endShape
 	public static final int PATH_OPEN = 0;
