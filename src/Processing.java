@@ -278,7 +278,7 @@ public class Processing {
      * 
      */
     public static void beginShape(){
-    	canvas.beginShape(-1);
+    	canvas.beginShape(Consts.POLYGON);
     }
     
     /**

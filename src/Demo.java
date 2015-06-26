@@ -1064,14 +1064,14 @@ public class Demo{
     	Processing.curveVertex (390,440);
     	Processing.endShape();
     	
-    	Processing.save("student7.png");
+    	//Processing.save("student7.png");
     }
     
     public static void test(){
         Processing.size();
 //        Processing.rect(30, 20, 55, 55);
 //        Processing.rect(30, 20, 55, 55, 3, 6, 12, 18);
-        
+                
 //        Processing.noFill();
 //        Processing.stroke(255);
 //        for (int i = 0; i < 200; i += 20) {
@@ -1082,7 +1082,7 @@ public class Demo{
 //        Processing.vertex(85, 20);
 //        Processing.vertex(85, 75);
 //        Processing.vertex(30, 75);
-//        Processing.endShape();
+//        Processing.endShape(Consts.CLOSE);
 
 //        Processing.noFill();
 //        Processing.strokeWeight(4);
@@ -1135,17 +1135,17 @@ public class Demo{
 //        Processing.curve(80, 60, 100, 100, 60, 120, 50, 150);
 //        Processing.curve(100, 100, 60, 120, 50, 150, 50, 150);// the first control point
 //        
-        Processing.noFill();
-        Processing.stroke(0);
-        Processing.beginShape();
-        Processing.curveVertex(40, 40); // the first control point
-        Processing.curveVertex(40, 40); // is also the start point of curve
-        Processing.curveVertex(80, 60);
-        Processing.curveVertex(100, 100);
-        Processing.curveVertex(60, 120);
-        Processing.curveVertex(50, 150); // the last point of curve
-        Processing.curveVertex(50, 150); // is also the last control point
-        Processing.endShape();
+//        Processing.noFill();
+//        Processing.stroke(0);
+//        Processing.beginShape();
+//        Processing.curveVertex(40, 40); // the first control point
+//        Processing.curveVertex(40, 40); // is also the start point of curve
+//        Processing.curveVertex(80, 60);
+//        Processing.curveVertex(100, 100);
+//        Processing.curveVertex(60, 120);
+//        Processing.curveVertex(50, 150); // the last point of curve
+//        Processing.curveVertex(50, 150); // is also the last control point
+//        Processing.endShape();
 
 //        Processing.fill(255);
 //        Processing.beginShape();
@@ -1160,6 +1160,6 @@ public class Demo{
     }
     
     public static void main(String[] args) throws IOException{
-        student7();
+        student5();
     }
 }

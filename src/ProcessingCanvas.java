@@ -138,7 +138,7 @@ public class ProcessingCanvas extends JFrame{
      * 
      */
     public void vertex(double x, double y){
-    	//currentShape.addVertex(x, y);
+    	currentShape.addVertex(x, y);
     }
     
     /**
@@ -168,23 +168,15 @@ public class ProcessingCanvas extends JFrame{
      * 
      */
     public void beginShape(int kind){
-    	//TO-DO
-    	if (kind == -1) {
-    	currentShape = new ProcessingShape(att, Consts.POLYGON);
-    	}
-    	else {
-    		currentShape = new ProcessingShape(att, kind);
-    	}
+    	currentShape = new ProcessingShape(att, kind);
     }
     
     /**
      * 
      */
     public void endShape(int mode){
-    	if (mode == Consts.CLOSE) {
-    		currentShape.closePath();
-    	}
-    	shapeList.add(currentShape);
+    	currentShape.closePath(mode);
+    	shapeList.addAll(currentShape.getShapeList());
     }
     
     /**
@@ -264,6 +256,7 @@ public class ProcessingCanvas extends JFrame{
      * @param y1  y-coordinate of the point
      */
     public void point(double x, double y){
+    	//stroke cap of points must be ROUND TO-DO
         shapeList.add(new ProcessingLine(x, y, x+Consts.EPSILON, y+Consts.EPSILON, att));
     }
     
@@ -295,7 +288,7 @@ public class ProcessingCanvas extends JFrame{
     
     public void rect(double v1, double v2, double v3, double v4,
     		double tl, double tr, double br, double bl){
-    	beginShape(-1);
+    	beginShape(Consts.POLYGON);
     	
     	double[] temp = currentShape.setCoordinates(att.getRectMode(),
     			v1, v2, v3, v4);
