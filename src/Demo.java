@@ -1159,6 +1159,6 @@ public class Demo{
     }
     
     public static void main(String[] args) throws IOException{
-        student2();
+        student5();
     }
 }

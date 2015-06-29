@@ -513,7 +513,7 @@ public class Processing {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-//    	canvas.save(fileName);
+    	canvas.save(fileName);
     }
     
     /**
