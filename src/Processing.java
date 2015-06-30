@@ -278,7 +278,7 @@ public class Processing {
      * 
      */
     public static void beginShape(){
-    	canvas.beginShape();
+    	canvas.beginShape(Consts.POLYGON);
     }
     
     /**
@@ -286,6 +286,7 @@ public class Processing {
      */
     public static void beginShape(int kind){
     	//TO-DO
+    	canvas.beginShape(kind);
     }
     
     /**
@@ -421,8 +422,9 @@ public class Processing {
      */
     public static void quad(double x1, double y1, double x2, double y2, 
     		double x3, double y3, double x4, double y4){
-    	canvas.quad(x1, y1, x2, y2, x3, y3, x4, y4);
-
+    	double[] x = new double[] {x1, x2, x3, x4};
+    	double[] y = new double[] {y1, y2, y3, y4};
+    	canvas.polygon(x, y);
     }
     
     /**
@@ -446,7 +448,7 @@ public class Processing {
      * @param r: radius of all four corners
      */
     public static void rect(double v1, double v2, double v3, double v4, double r){
-        canvas.rect(v1, v2, v3, v4, r);
+    	canvas.rect(v1, v2, v3, v4, r, r, r, r);
     }
     
     /**
@@ -497,7 +499,9 @@ public class Processing {
      * @param y3: y-coordinate of the third vertex
      */
     public static void triangle(double x1, double y1, double x2, double y2, double x3, double y3){
-    	canvas.triangle(x1, y1, x2, y2, x3, y3);
+    	double[] x = new double[] {x1, x2, x3};
+    	double[] y = new double[] {y1, y2, y3};
+    	canvas.polygon(x, y);
     }
     
     /** Save canvas as an image file

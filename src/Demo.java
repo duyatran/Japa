@@ -71,7 +71,7 @@ public class Demo{
     	Processing.line(540, 200, 540, 220);
     	Processing.line(480, 140, 460, 140);
 
-    	Processing.save("student1.gif");
+    	//Processing.save("student1.gif");
     }
     
     public static void student2() throws IOException{
@@ -1064,13 +1064,15 @@ public class Demo{
     	Processing.curveVertex (390,440);
     	Processing.endShape();
     	
-    	Processing.save("student7.png");
+    	//Processing.save("student7.png");
     }
     
     public static void test(){
         Processing.size();
-        Processing.background(255);
-        Processing.background(255,0,0);
+
+//        Processing.rect(30, 20, 55, 55);
+//        Processing.rect(30, 20, 55, 55, 3, 6, 12, 18);
+
 //        Processing.noFill();
 //        Processing.stroke(255);
 //        for (int i = 0; i < 200; i += 20) {
@@ -1081,7 +1083,7 @@ public class Demo{
 //        Processing.vertex(85, 20);
 //        Processing.vertex(85, 75);
 //        Processing.vertex(30, 75);
-//        Processing.endShape();
+//        Processing.endShape(Consts.CLOSE);
 
 //        Processing.noFill();
 //        Processing.strokeWeight(4);
@@ -1159,6 +1161,6 @@ public class Demo{
     }
     
     public static void main(String[] args) throws IOException{
-        student5();
+        student3();
     }
 }
