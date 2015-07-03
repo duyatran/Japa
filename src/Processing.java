@@ -1,4 +1,10 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import javax.swing.Timer;
 
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
@@ -20,6 +26,14 @@ public class Processing {
     private static ColorFactory colorFactory = new ColorFactory();
     private static ProcessingCanvas canvas;
     
+    // TESTING ANIMATION
+    private static Class callingClass;
+    private static String className;
+    private static Method drawMethod;
+    private static boolean animation;
+    private static Timer timer;
+	private static int frameRate;
+    
     /** This method sets up the canvas and defines the dimension of
      * the display windows (in pixels) with default parameters (800 x 600).
      * It must be the first method called to start drawing.
@@ -39,6 +53,9 @@ public class Processing {
 		canvas = new ProcessingCanvas(w, h);
         width = w;
         height = h;
+        
+        // testing Reflection
+        
     }
     
     
@@ -533,6 +550,51 @@ public class Processing {
     */
     public static void noSmooth(){
         canvas.noSmooth();
+    }
+    
+    // TESTING AREA
+    public static void frameRate(int rate){
+    	frameRate = rate;
+    }
+    public static void setClass(String name){
+    	className = name;
+    	try {
+            Class c = Class.forName(className);
+            callingClass = c;
+        } 
+    	catch (ClassNotFoundException cnfe) {
+            System.out.println("Cannot find the identified class.");
+        }
+    	try{
+    		Method draw = callingClass.getMethod("draw", null);
+    		drawMethod = draw;
+        	animation = true;
+        	startTimer();
+    	}
+    	catch (NoSuchMethodException nsme) {
+    		animation = false;
+    	}
+    }
+    
+    private static void startTimer() {
+    	int delay = 1000/frameRate; //milliseconds
+    	ActionListener taskPerformer = new ActionListener() {
+    		public void actionPerformed(ActionEvent evt) {
+    	 		// Must include the two catch blocks to stop exceptions
+    			try{
+    				canvas.clearShapeList();
+    				drawMethod.invoke(null, null);
+    			}
+    			catch (InvocationTargetException ite){
+    				ite.printStackTrace();
+    			}
+    			catch (IllegalAccessException iae){
+    				iae.printStackTrace();
+    			}    	      
+    		}
+    	};
+    	timer = new Timer(delay, taskPerformer);
+    	timer.start();
     }
 }
 

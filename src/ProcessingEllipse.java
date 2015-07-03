@@ -29,6 +29,7 @@ public class ProcessingEllipse extends Shape
     public ProcessingEllipse(double v1, double v2, 
                           double v3, double v4, ShapeAttributes current){
     	this.att = current.copy();
+    	this.ellipseMode = current.getEllipseMode();
         double[] newCoord = setCoordinates(ellipseMode, v1, v2, v3, v4);
         this.x = newCoord[0];
         this.y = newCoord[1];

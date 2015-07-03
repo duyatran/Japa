@@ -76,8 +76,8 @@ public abstract class Shape {
     		case Consts.RADIUS: // (v1,v2) is the center, v3 is w/2 and v4 is h/2
     			v1 = v1 - v3;
     			v2 = v2 - v4;
-    			v3 *= 2;
-    			v4 *= 2;
+    			v3 = v3 * 2;
+    			v4 = v4 * 2;
     			break;
     		default: System.out.println("Invalid shape mode");
     	}

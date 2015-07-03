@@ -38,6 +38,10 @@ public class ProcessingCanvas extends JFrame{
 	private BufferedImage paintImage;
 	private boolean save;
 	private String fileName;
+	
+	// testing purposes
+	private String className = "Demo";
+	
 	public ProcessingCanvas(){
 		this(canvasWidth, canvasHeight);
 	}
@@ -122,6 +126,7 @@ public class ProcessingCanvas extends JFrame{
 
 	public void background(Color c){
 		backgroundColor = c;
+		repaint();
 	}
 
 	public void fill(Color c){
@@ -275,6 +280,7 @@ public class ProcessingCanvas extends JFrame{
 	 */
 	public void ellipse(double x, double y, double w, double h){
 		shapeList.add(new ProcessingEllipse(x, y, w, h, att));
+		repaint();
 	}
 
 	/**
@@ -402,11 +408,16 @@ public class ProcessingCanvas extends JFrame{
 		this.fileName = fileName;
 	}
 
+	public void clearShapeList(){
+		shapeList.clear();
+	}
+	
 	private class DrawCanvas extends JPanel {
-
 		@Override
-		public void paintComponent(Graphics g) {
+		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
+//			g.setColor(backgroundColor);
+//			g.fillRect(0, 0, canvasWidth, canvasHeight);
 			Graphics2D g2 = (Graphics2D) g;
 			setBackground(backgroundColor);
 			ShapeAttributes current = new ShapeAttributes();

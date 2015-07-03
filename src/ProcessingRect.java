@@ -29,6 +29,7 @@ public class ProcessingRect extends Shape
     public ProcessingRect(double v1, double v2, 
             double v3, double v4, ShapeAttributes current){
         this.att = current.copy();
+        this.rectMode = current.getRectMode();
         double[] newCoord = setCoordinates(rectMode, v1, v2, v3, v4);
         this.x = newCoord[0];
         this.y = newCoord[1];

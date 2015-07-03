@@ -1,15 +1,8 @@
 import java.io.IOException;
 
-/**
- * Summer 2015 - Processing-inspired Java Graphics Library
- * Demo.java
- * Purpose: A demo file for testing and demonstration purposes.
- *
- * @author Duy Tran
- * @version 1.0 6/10/2015
- */
 
-public class Demo{
+public class Demo {
+		
     public static void student1() throws IOException{
     	Processing.size(720, 580);
 
@@ -1066,101 +1059,36 @@ public class Demo{
     	
     	//Processing.save("student7.png");
     }
+    static double y = 50.0;
+    static double speed = 1.0;
+    static double radius = 15.0;
+    static int direction = 1;
     
     public static void test(){
-        Processing.size();
+    	//Processing.size(100,100);
+//        Processing.setClass("Demo");
 
-//        Processing.rect(30, 20, 55, 55);
-//        Processing.rect(30, 20, 55, 55, 3, 6, 12, 18);
-
-//        Processing.noFill();
-//        Processing.stroke(255);
-//        for (int i = 0; i < 200; i += 20) {
-//          Processing.bezier(0-(i/2.0), 40+i, 410, 20, 440, 300, 240-(i/16.0), 300+(i/8.0));
-//        }
-//        Processing.beginShape();
-//        Processing.vertex(30, 20);
-//        Processing.vertex(85, 20);
-//        Processing.vertex(85, 75);
-//        Processing.vertex(30, 75);
-//        Processing.endShape(Consts.CLOSE);
-
-//        Processing.noFill();
-//        Processing.strokeWeight(4);
-//        Processing.beginShape();
-//        Processing.vertex(20, 20);
-//        Processing.quadraticVertex(80, 20, 50, 50);
-//        Processing.quadraticVertex(20, 80, 80, 80);
-//        Processing.vertex(80, 60);
-//        Processing.endShape();
-        
-//        Processing.noFill();
-//        Processing.beginShape();
-//        Processing.vertex(30, 20);
-//        Processing.bezierVertex(80, 0, 80, 75, 30, 75);
-//        Processing.endShape();
-        
-//        Processing.beginShape();
-//        Processing.vertex(30, 20);
-//        Processing.bezierVertex(80, 0, 80, 75, 30, 75);
-//        Processing.bezierVertex(50, 80, 60, 25, 30, 20);
-//        Processing.endShape();
-        
-//        Processing.noFill();
-//        Processing.stroke(255, 102, 0);
-//        Processing.line(85, 20, 10, 10);
-//        Processing.line(90, 90, 15, 80);
-//        Processing.stroke(0, 0, 0);
-//        Processing.bezier(85, 20, 10, 10, 90, 90, 15, 80);
-    
-        
-//        Processing.stroke(255, 102, 0);
-//        Processing.line(30, 20, 80, 5);
-//        Processing.line(80, 75, 30, 75);
-//        Processing.stroke(0, 0, 0);
-//        Processing.bezier(30, 20,  80, 5,  80, 75,  30, 75);
-//        
-//        Processing.stroke(255, 102, 0);
-//        Processing.curve(5, 26, 5, 26, 73, 24, 73, 61);
-//        Processing.stroke(0); 
-//        Processing.curve(5, 26, 73, 24, 73, 61, 15, 65); 
-//        Processing.stroke(255, 102, 0);
-//        Processing.curve(73, 24, 73, 61, 15, 65, 15, 65);
-        
-//        Processing.bezier(30, 70, 25, 25, 100, 50, 50, 100);
-//        Processing.bezier(50, 100, 20, 130, 75, 140, 120, 120);
-
-        
-//        Processing.curve(40, 40, 40, 40, 80, 60, 100, 100);
-//        Processing.curve(40, 40, 80, 60, 100, 100, 60, 120);
-//        Processing.curve(80, 60, 100, 100, 60, 120, 50, 150);
-//        Processing.curve(100, 100, 60, 120, 50, 150, 50, 150);// the first control point
-//        
-//        Processing.noFill();
-//        Processing.stroke(0);
-//        Processing.beginShape();
-//        Processing.curveVertex(40, 40); // the first control point
-//        Processing.curveVertex(40, 40); // is also the start point of curve
-//        Processing.curveVertex(80, 60);
-//        Processing.curveVertex(100, 100);
-//        Processing.curveVertex(60, 120);
-//        Processing.curveVertex(50, 150); // the last point of curve
-//        Processing.curveVertex(50, 150); // is also the last control point
-//        Processing.endShape();
-
-//        Processing.fill(255);
-//        Processing.beginShape();
-//        Processing.curveVertex(84,  91);
-//        Processing.curveVertex(84,  91);
-//        Processing.curveVertex(68,  19);
-//        Processing.curveVertex(21,  17);
-//        Processing.curveVertex(32, 100);
-//        Processing.curveVertex(32, 100);
-//        Processing.endShape();
-    
+    	Processing.colorMode(Consts.HSB, 360, 100, 100);
+    	Processing.size(800, 500);
+        	  for (int i=0; i<800; i=i+18) {
+        		  Processing.strokeWeight(20);
+        		  Processing.stroke(220, 90, 59-i*.15);
+        		  Processing.line(i, 0, i, 500);
+        	  }
     }
+
+//    public static void draw(){
+//    	Processing.fill(0, 255-12);
+//    	Processing.rect(0, 0, 100, 100);
+//    	Processing.fill(255);
+//    	Processing.ellipse(33, y, radius, radius);
+//    	y += speed * direction;
+//    	  if ((y > Processing.height - radius) || (y < radius)) {
+//    	    direction = -direction;
+//    	  }
+//    }
     
     public static void main(String[] args) throws IOException{
-        student3();
+        test();
     }
 }
