@@ -1,5 +1,5 @@
 import java.io.IOException;
-
+import java.util.Random;
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
  * Processing.java
@@ -19,7 +19,7 @@ public class Processing {
 	private static boolean canvasCreated = false;	//to deal with multiple calls to size()
     private static ColorFactory colorFactory = new ColorFactory();
     private static ProcessingCanvas canvas;
-    
+    private static Random rand = new Random();
     /** This method sets up the canvas and defines the dimension of
      * the display windows (in pixels) with default parameters (800 x 600).
      * It must be the first method called to start drawing.
@@ -510,7 +510,7 @@ public class Processing {
      * @param filename
      * @throws IOException
      */
-    public static void save(String fileName) throws IOException{ 
+    public static void save(String fileName) { 
 //    	try {
 //			Thread.sleep(1000);
 //		} catch (InterruptedException e) {
@@ -533,6 +533,21 @@ public class Processing {
     */
     public static void noSmooth(){
         canvas.noSmooth();
+    }
+    
+    // MATH FUNCTIONS - A2
+    
+    public static double random(int high){
+    	return rand.nextDouble() * high;
+
+    }
+
+    public static double random(int low, int high){
+    	return (rand.nextDouble() * (high - low)) + low;
+    }
+    
+    public static void randomSeed(int seed){
+    	rand.setSeed((long) seed);
     }
 }
 
