@@ -29,14 +29,14 @@ public class Processing {
 
     // TESTING ANIMATION
     private static Class callingClass;
-    private static String className;
     private static Method drawMethod;
     private static boolean animation;
     private static Timer timer;
-	private static int frameRate;
+	private static int frameRate = 60;
+	private static String method = "draw";
 
     /** This method sets up the canvas and defines the dimension of
-     * the display windows (in pixels) with default parameters (800 x 600).
+     * the display windows (in pixels) with default pa										rameters (800 x 600).
      * It must be the first method called to start drawing.
      */
     public static void size(){
@@ -554,37 +554,50 @@ public class Processing {
     }
     
     // TESTING AREA
+    
     public static void frameRate(int rate){
     	frameRate = rate;
     }
-    public static void setClass(String name){
-    	className = name;
+    
+    public static void animate(String className, String methodName){
+    	method = methodName;
+    	animate(className);
+    }
+    public static void animate(String name){
     	try {
-            Class c = Class.forName(className);
+            Class c = Class.forName(name);
             callingClass = c;
         } 
     	catch (ClassNotFoundException cnfe) {
-            System.out.println("Cannot find the identified class.");
+            System.out.println("Cannot find the class " + name);
         }
-    	try{
-    		Method draw = callingClass.getMethod("draw", null);
+    	try {
+    		Method draw = callingClass.getMethod(method, null);
     		drawMethod = draw;
-        	animation = true;
+    		animation = true;
         	startTimer();
     	}
     	catch (NoSuchMethodException nsme) {
     		animation = false;
+    		System.out.println("No animation"); // for debug only
     	}
     }
     
     private static void startTimer() {
     	int delay = 1000/frameRate; //milliseconds
     	ActionListener taskPerformer = new ActionListener() {
+    		boolean firstFrame = true;
     		public void actionPerformed(ActionEvent evt) {
     	 		// Must include the two catch blocks to stop exceptions
     			try{
-    				canvas.clearShapeList();
-    				drawMethod.invoke(null, null);
+    				if (firstFrame){
+    					canvas.resetShapeList(true);
+    					firstFrame = false;
+    				}
+    				else {
+    					canvas.resetShapeList(false);
+    				}
+    				drawMethod.invoke(null, null);	
     			}
     			catch (InvocationTargetException ite){
     				ite.printStackTrace();
@@ -599,16 +612,19 @@ public class Processing {
     }
     // MATH FUNCTIONS - A2
     
-    public static double random(int high){
-    	return rand.nextDouble() * high;
+    public static float random(int high){
+    	return rand.nextFloat() * high;
 
     }
-
-    public static double random(int low, int high){
-    	return (rand.nextDouble() * (high - low)) + low;
+    // Same implementation as Processing's to replicate
+    // testable results
+    public static float random(int low, int high){
+    	if (low >= high) return low;
+        int diff = high - low;
+    	return random(diff) + low;
     }
     
-    public static void randomSeed(int seed){
+    public static void randomSeed(long seed){
     	rand.setSeed((long) seed);
     }
 }

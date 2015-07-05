@@ -34,13 +34,14 @@ public class ProcessingCanvas extends JFrame{
 	private ProcessingShape currentShape;
 	private ShapeAttributes att = new ShapeAttributes();
 	private ArrayList<Shape> shapeList = new ArrayList<Shape>();
+	private ArrayList<Shape> setupList = new ArrayList<Shape>();
 	private DrawCanvas drawCanvas;
 	private BufferedImage paintImage;
 	private boolean save;
 	private String fileName;
 	
 	// testing purposes
-	private String className = "Demo";
+	
 	
 	public ProcessingCanvas(){
 		this(canvasWidth, canvasHeight);
@@ -280,7 +281,6 @@ public class ProcessingCanvas extends JFrame{
 	 */
 	public void ellipse(double x, double y, double w, double h){
 		shapeList.add(new ProcessingEllipse(x, y, w, h, att));
-		repaint();
 	}
 
 	/**
@@ -307,8 +307,9 @@ public class ProcessingCanvas extends JFrame{
 	 * @param y1  y-coordinate of the point
 	 */
 	public void point(double x, double y){
-		//stroke cap of points must be ROUND TO-DO
+		att.setStrokeCap(Consts.ROUND);
 		shapeList.add(new ProcessingLine(x, y, x+Consts.EPSILON, y+Consts.EPSILON, att));
+		att.setStrokeCap(Consts.SQUARE);
 	}
 
 	/**
@@ -407,17 +408,20 @@ public class ProcessingCanvas extends JFrame{
 		this.save = true;
 		this.fileName = fileName;
 	}
-
-	public void clearShapeList(){
-		shapeList.clear();
+	
+	// DEVELOPMENT MODE: ANIMATION
+	
+	public void resetShapeList(boolean firstFrame){
+		if (firstFrame)
+			setupList.addAll(shapeList);
+		else
+			shapeList.retainAll(setupList);
 	}
 	
 	private class DrawCanvas extends JPanel {
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
-//			g.setColor(backgroundColor);
-//			g.fillRect(0, 0, canvasWidth, canvasHeight);
 			Graphics2D g2 = (Graphics2D) g;
 			setBackground(backgroundColor);
 			ShapeAttributes current = new ShapeAttributes();

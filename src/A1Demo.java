@@ -2,14 +2,14 @@ import java.io.IOException;
 
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
- * Demo.java
+ * A1Demo.java
  * Purpose: A demo file for testing and demonstration purposes.
  *
  * @author Duy Tran
  * @version 1.0 6/10/2015
  */
 
-public class Demo {
+public class A1Demo {
 	public static void student1() throws IOException{
 		Processing.size(720, 580);
 
@@ -1452,13 +1452,13 @@ public class Demo {
 		Processing.size(960, 642); //size of "sundayriver" image
 
 		//image of ski mountain "sundayriver"
-		img = loadImage("sundayriver.jpg");
-		Processing.image(img, 0, 0, 960, 642);
-
-		//image of Rockport Harbor, Maine
-		Processing.tint(199, 213, 0, 110);
-		img = loadImage("harborsunset.jpg");
-		Processing.image(img, 0, 0, 960, 642);
+//		img = loadImage("sundayriver.jpg");
+//		Processing.image(img, 0, 0, 960, 642);
+//
+//		//image of Rockport Harbor, Maine
+//		Processing.tint(199, 213, 0, 110);
+//		img = loadImage("harborsunset.jpg");
+//		Processing.image(img, 0, 0, 960, 642);
 
 		//black line building #1
 		Processing.fill(0);
@@ -1872,30 +1872,35 @@ public class Demo {
     static int direction = 1;
     
     public static void test() {
-    	//Processing.size(100,100);
-//        Processing.setClass("Demo");
-
-    	Processing.colorMode(Consts.HSB, 360, 100, 100);
-    	Processing.size(800, 500);
-        	  for (int i=0; i<800; i=i+18) {
-        		  Processing.strokeWeight(20);
-        		  Processing.stroke(220, 90, 59-i*.15);
-        		  Processing.line(i, 0, i, 500);
-        	  }
+//    	Processing.colorMode(Consts.HSB, 360, 100, 100);
+    	Processing.size(100, 100);
+//    	for (int i=0; i<800; i=i+18) {
+//    		Processing.strokeWeight(20);
+//    		Processing.stroke(220, 90, 59-i*.15);
+//    		Processing.line(i, 0, i, 500);
+//    	}
+    	Processing.smooth();
+    	Processing.noStroke();
+    	Processing.ellipseMode(Consts.RADIUS);
+    	Processing.animate("A1Demo");
     }
 
-//    public static void draw(){
-//    	Processing.fill(0, 255-12);
-//    	Processing.rect(0, 0, 100, 100);
-//    	Processing.fill(255);
-//    	Processing.ellipse(33, y, radius, radius);
-//    	y += speed * direction;
-//    	  if ((y > Processing.height - radius) || (y < radius)) {
-//    	    direction = -direction;
-//    	  }
-//    }
-    
+    public static void draw(){
+    	Processing.fill(0, 255-10);
+    	Processing.rect(0, 0, Processing.width, Processing.height);
+    	Processing.fill(255);
+    	Processing.ellipse(33, y, radius, radius);
+    	y += speed * direction;
+    	  if ((y > Processing.height - radius) || (y < radius)) {
+    	    direction = -direction;
+    	  }
+    }
+
     public static void main(String[] args) throws IOException{
-        test();
+//    	Processing.randomSeed(13);
+//    	student14();
+    	test();
     }
+
+
 }
