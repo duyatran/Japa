@@ -1873,7 +1873,7 @@ public class A1Demo {
     static int value = 0;
 
     public static void test() {
-    	Processing.size(100, 700);
+    	Processing.size(150, 150);
     	Processing.strokeWeight(8);
 //    	Processing.stroke(255);
 //    	Processing.noFill();

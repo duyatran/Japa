@@ -13,7 +13,7 @@ import java.awt.Color;
 public class ShapeAttributes{
     private BasicStroke strokeStyle;
     private float strokeWeight = 1;
-    private int strokeCap = BasicStroke.CAP_BUTT;
+    private int strokeCap = BasicStroke.CAP_ROUND;
     private int strokeJoin = BasicStroke.JOIN_MITER;
     private Color strokeColor = Color.BLACK;
     private Color fillColor = Color.WHITE;

@@ -3,7 +3,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,9 +31,8 @@ public class Processing {
 	private static Random rand = new Random();
 
 	// TESTING ANIMATION
-	private static Class callingClass;
+	private static Class<?> callingClass;
 	private static Method drawMethod;
-	private static boolean animation;
 	private static Timer timer;
 	private static int frameRate = 60;
 	private static String method = "draw";
@@ -64,14 +62,11 @@ public class Processing {
 	 */
 	public static void size(int w, int h){
 		if   (!canvasCreated) canvasCreated = true;
-		else  canvas.dispose(); // dispose of the old canvas
+		else  canvas.dispose(); // dispose of the old canvas, probably should not do this in animation
 
 		canvas = new ProcessingCanvas(w, h);
 		width = w;
 		height = h;
-
-		// testing Reflection
-
 	}
 
 
@@ -544,12 +539,6 @@ public class Processing {
 	 * @throws IOException
 	 */
 	public static void save(String fileName) { 
-		//    	try {
-		//			Thread.sleep(1000);
-		//		} catch (InterruptedException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
 		canvas.save(fileName);
 	}
 
@@ -580,7 +569,7 @@ public class Processing {
 	}
 	public static void animate(String name){
 		try {
-			Class c = Class.forName(name);
+			Class<?> c = Class.forName(name);
 			callingClass = c;
 		} 
 		catch (ClassNotFoundException cnfe) {
@@ -589,11 +578,9 @@ public class Processing {
 		try {
 			Method draw = callingClass.getMethod(method, null);
 			drawMethod = draw;
-			animation = true;
 			startTimer();
 		}
 		catch (NoSuchMethodException nsme) {
-			animation = false;
 			System.out.println("No animation"); // for debug only
 		}
 	}
@@ -622,35 +609,43 @@ public class Processing {
 								e.getID() == MouseEvent.MOUSE_MOVED) {
 							pmouseX = mouseX;
 							pmouseY = mouseY;
-							MouseEvent mouse = (MouseEvent) e;
-							mouseX = mouse.getX();
-							mouseY = mouse.getY();
+							MouseEvent mouseEvent = (MouseEvent) e;
+							mouseX = mouseEvent.getX();
+							mouseY = mouseEvent.getY();
 						}
 						if (e.getID() == KeyEvent.KEY_PRESSED){
-							KeyEvent keyPressed = (KeyEvent) e;
-							key = keyPressed.getKeyChar();
+							KeyEvent keyEvent = (KeyEvent) e;
+							key = keyEvent.getKeyChar();
 						}
 						switch (e.getID()){
 						case (MouseEvent.MOUSE_CLICKED): 
-							handleEvent(MouseEvent.MOUSE_CLICKED); break;
+							handleEvent(MouseEvent.MOUSE_CLICKED); 
+						break;
 						case (MouseEvent.MOUSE_PRESSED):
 							mousePressed = true;
-							handleEvent(MouseEvent.MOUSE_PRESSED); break;
+						handleEvent(MouseEvent.MOUSE_PRESSED); 
+						break;
 						case (MouseEvent.MOUSE_RELEASED): 
 							mousePressed = false;
-							handleEvent(MouseEvent.MOUSE_RELEASED); break;
+						handleEvent(MouseEvent.MOUSE_RELEASED); 
+						break;
 						case (MouseEvent.MOUSE_DRAGGED): 
-							handleEvent(MouseEvent.MOUSE_DRAGGED); break;
+							handleEvent(MouseEvent.MOUSE_DRAGGED); 
+						break;
 						case (MouseEvent.MOUSE_MOVED): 
-							handleEvent(MouseEvent.MOUSE_MOVED); break;
+							handleEvent(MouseEvent.MOUSE_MOVED); 
+						break;
 						case (MouseEvent.MOUSE_WHEEL): 
-							handleEvent(MouseEvent.MOUSE_WHEEL); break;
+							handleEvent(MouseEvent.MOUSE_WHEEL); 
+						break;
 						case (KeyEvent.KEY_PRESSED):
 							keyPressed = true;
-							handleEvent(KeyEvent.KEY_PRESSED); break;
+						handleEvent(KeyEvent.KEY_PRESSED); 
+						break;
 						case (KeyEvent.KEY_RELEASED): 
 							keyPressed = false;
-							handleEvent(KeyEvent.KEY_RELEASED); break;
+						handleEvent(KeyEvent.KEY_RELEASED); 
+						break;
 						}
 					}
 				}
@@ -665,7 +660,7 @@ public class Processing {
 		timer = new Timer(delay, taskPerformer);
 		timer.start();
 	}
-	
+
 	public static void handleEvent(int eventID){
 		String eventName = "";
 		switch (eventID){
@@ -686,22 +681,23 @@ public class Processing {
 		}
 		catch (NoSuchMethodException nsme) {
 		}
+
 		if (eventMethod != null){
-		try {
-			eventMethod.invoke(null, null);
-			canvas.repaint();
-			eventMethod = null; // reset
-		}
-		catch (InvocationTargetException ite){
-			ite.printStackTrace();
-		}
-		catch (IllegalAccessException iae){
-			iae.printStackTrace();
-		}    
+			try {
+				eventMethod.invoke(null, null);
+				canvas.repaint();
+				eventMethod = null; // reset
+			}
+			catch (InvocationTargetException ite){
+				ite.printStackTrace();
+			}
+			catch (IllegalAccessException iae){
+				iae.printStackTrace();
+			}    
 		}
 	}
 
-	// MATH FUNCTIONS - A2
+	// Random functions - A2
 
 	public static float random(int high){
 		return rand.nextFloat() * high;
@@ -716,7 +712,7 @@ public class Processing {
 	}
 
 	public static void randomSeed(long seed){
-		rand.setSeed((long) seed);
+		rand.setSeed(seed);
 	}
 }
 

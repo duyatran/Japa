@@ -23,8 +23,7 @@ public final class Consts {
 	// Default width and height of canvas
 	public static int DEFAULT_WIDTH = 800;
 	public static int DEFAULT_HEIGHT = 600;
-	public static int MIN_WIDTH = 200;
-	public static int MIN_HEIGHT = 200;
+	public static int MIN_CANVAS_SIZE = 200;
 	
 	// Stroke Cap and Join modes
 	public static final int SQUARE   = 0;  // called 'CAP_BUTT' in Java API
