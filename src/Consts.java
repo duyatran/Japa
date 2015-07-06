@@ -68,6 +68,11 @@ public final class Consts {
 	// Path mode for endShape
 	public static final int PATH_OPEN = 0;
 	public static final int CLOSE = 1;
+	
+	// Mouse buttons
+	public static final int LEFT = 1;
+	public static final int MIDDLE = 2;
+	public static final int RIGHT = 3;
 
 	//Private constructor
 	private Consts(){

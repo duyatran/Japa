@@ -1871,38 +1871,43 @@ public class A1Demo {
     static double radius = 15.0;
     static int direction = 1;
     static int value = 0;
-
+    static int x = 20;
     public static void test() {
-    	Processing.size(150, 150);
-    	Processing.strokeWeight(8);
+    	Processing.size(100, 100);
+    	  Processing.fill(0, 102);
+
+//    	Processing.strokeWeight(8);
+    	
 //    	Processing.stroke(255);
 //    	Processing.noFill();
-//    	Processing.smooth();
-//    	Processing.noStroke();
-//    	Processing.ellipseMode(Consts.RADIUS);
-//    	Processing.frameRate(60);
+    	
+    	Processing.smooth();
+    	Processing.noStroke();
+    	Processing.ellipseMode(Consts.RADIUS);
+    	
     	Processing.animate("A1Demo");
     }
 
     public static void draw(){
 //    	Processing.fill(0, 255-10);
 //    	Processing.rect(0, 0, Processing.width, Processing.height);
-//    	Processing.fill(255);
-//    	Processing.ellipse(33, y, radius, radius);
-//    	y += speed * direction;
-//    	  if ((y > Processing.height - radius) || (y < radius)) {
-//    	    direction = -direction;
-//    	  }
+    	Processing.background(0);
+    	Processing.fill(255);
+    	Processing.ellipse(33, y, radius, radius);
+    	y += speed * direction;
+    	  if ((y > Processing.height - radius) || (y < radius)) {
+    	    direction = -direction;
+    	  }
     	
 //    	Processing.background(0);
 //    	  for (int i = 0; i < 200; i += 20) {
 //    		  Processing.bezier(Processing.mouseX-(i/2.0), 40+i, 410, 20, 440, 300, 240-(i/16.0), 300+(i/8.0));
 //    	  }  
-    	Processing.background(204);
-    	Processing.line(Processing.mouseX, Processing.mouseY, Processing.pmouseX, Processing.pmouseY);
+    	
+//    	Processing.background(204);
+//    	Processing.line(Processing.mouseX, Processing.mouseY, Processing.pmouseX, Processing.pmouseY);
     }
-
-
+   
     public static void main(String[] args) throws IOException{
     	//    	Processing.randomSeed(13);
 //    	student14();

@@ -46,7 +46,9 @@ public class Processing {
 	public static double pmouseY;
 	public static boolean mousePressed;
 	public static boolean keyPressed;
+	public static int mouseButton;
 	private static Method eventMethod;
+	
 
 	/** This method sets up the canvas and defines the dimension of
 	 * the display windows (in pixels) with default pa										rameters (800 x 600).
@@ -600,6 +602,7 @@ public class Processing {
 					else {
 						canvas.resetShapeList(false);
 					}
+					
 					drawMethod.invoke(null, null);
 					Queue<InputEvent> events = canvas.getEventQ();
 					while (!events.isEmpty()){
@@ -619,33 +622,35 @@ public class Processing {
 						}
 						switch (e.getID()){
 						case (MouseEvent.MOUSE_CLICKED): 
-							handleEvent(MouseEvent.MOUSE_CLICKED); 
-						break;
+							handleEvent(MouseEvent.MOUSE_CLICKED);
+							break;
 						case (MouseEvent.MOUSE_PRESSED):
 							mousePressed = true;
-						handleEvent(MouseEvent.MOUSE_PRESSED); 
-						break;
+							MouseEvent mouseEvent = (MouseEvent) e;
+							mouseButton = mouseEvent.getButton();
+							handleEvent(MouseEvent.MOUSE_PRESSED); 
+							break;
 						case (MouseEvent.MOUSE_RELEASED): 
 							mousePressed = false;
-						handleEvent(MouseEvent.MOUSE_RELEASED); 
-						break;
+							handleEvent(MouseEvent.MOUSE_RELEASED); 
+							break;
 						case (MouseEvent.MOUSE_DRAGGED): 
 							handleEvent(MouseEvent.MOUSE_DRAGGED); 
-						break;
+							break;
 						case (MouseEvent.MOUSE_MOVED): 
 							handleEvent(MouseEvent.MOUSE_MOVED); 
-						break;
+							break;
 						case (MouseEvent.MOUSE_WHEEL): 
 							handleEvent(MouseEvent.MOUSE_WHEEL); 
-						break;
-						case (KeyEvent.KEY_PRESSED):
+							break;
+						case (KeyEvent.KEY_PRESSED): 
 							keyPressed = true;
-						handleEvent(KeyEvent.KEY_PRESSED); 
-						break;
+							handleEvent(KeyEvent.KEY_PRESSED); 
+							break;
 						case (KeyEvent.KEY_RELEASED): 
 							keyPressed = false;
-						handleEvent(KeyEvent.KEY_RELEASED); 
-						break;
+							handleEvent(KeyEvent.KEY_RELEASED); 
+							break;
 						}
 					}
 				}
