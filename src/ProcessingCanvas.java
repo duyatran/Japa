@@ -1,17 +1,30 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -27,7 +40,7 @@ import javax.swing.SwingWorker;
  */
 
 @SuppressWarnings("serial")
-public class ProcessingCanvas extends JFrame{
+public class ProcessingCanvas extends JFrame implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
 	private static int canvasWidth = Consts.DEFAULT_WIDTH;
 	private static int canvasHeight = Consts.DEFAULT_HEIGHT;
 	private Color backgroundColor = Color.LIGHT_GRAY;
@@ -41,7 +54,7 @@ public class ProcessingCanvas extends JFrame{
 	private String fileName;
 	
 	// testing purposes
-	
+	private static Queue<InputEvent> eventQ = new LinkedList<InputEvent>(); 
 	
 	public ProcessingCanvas(){
 		this(canvasWidth, canvasHeight);
@@ -57,7 +70,12 @@ public class ProcessingCanvas extends JFrame{
 
 	private void createAndShowGUI(int w, int h){
 		drawCanvas = new DrawCanvas();
+		drawCanvas.setFocusable(true);
+		drawCanvas.requestFocusInWindow();
 		drawCanvas.setPreferredSize(new Dimension(w,h));
+		drawCanvas.addMouseListener(this);
+		drawCanvas.addMouseMotionListener(this);
+		drawCanvas.addKeyListener(this);
 		canvasWidth = w;
 		canvasHeight = h;
 		Container cp = getContentPane();
@@ -65,20 +83,19 @@ public class ProcessingCanvas extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("My Canvas");
-
+		
 		if (w >= Consts.MIN_WIDTH && h >= Consts.MIN_HEIGHT){
 			this.pack();
 		}
 		else {
+			// TO FIX
 			this.setLayout(null);
-			Insets insets = this.getInsets();
-			int minWindowWidth = Consts.MIN_WIDTH + insets.left + insets.right;
-			int minWindowHeight = Consts.MIN_HEIGHT + insets.top + insets.bottom;
-			this.setMinimumSize(new Dimension(minWindowWidth, minWindowHeight));
+			this.setMinimumSize(new Dimension(Consts.MIN_WIDTH, Consts.MIN_HEIGHT));
 			int x = (Consts.MIN_WIDTH - w)/2;
 			int y = (Consts.MIN_HEIGHT - h)/2;
 			drawCanvas.setBounds(x, y, w, h);
 		}
+
 		this.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent e){
@@ -133,6 +150,7 @@ public class ProcessingCanvas extends JFrame{
 	public void fill(Color c){
 		att.setFill(true);
 		att.setFillColor(c);
+		repaint();
 	}
 
 	public void stroke(Color c){
@@ -281,6 +299,7 @@ public class ProcessingCanvas extends JFrame{
 	 */
 	public void ellipse(double x, double y, double w, double h){
 		shapeList.add(new ProcessingEllipse(x, y, w, h, att));
+		repaint();
 	}
 
 	/**
@@ -437,4 +456,62 @@ public class ProcessingCanvas extends JFrame{
 			}
 		}
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		eventQ.add(e);
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		eventQ.add(e);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		eventQ.add(e);
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		eventQ.add(e);
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		eventQ.add(e);
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		eventQ.add(e);
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		eventQ.add(e);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		eventQ.add(e);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+	
+	public Queue<InputEvent> getEventQ() {
+		return eventQ;
+	}
+
+
 }

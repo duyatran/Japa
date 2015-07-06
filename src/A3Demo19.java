@@ -215,20 +215,20 @@ public class A3Demo19 {
 
 
 	}
-	//	void mousePressed() { //see, the drawHouses
-	//		on=!on;
-	//		println("light on" + on);
-	//	}
-	//	void keyPressed() { //see, drawCloud
-	//		if ((key=='P') || (key=='p')) 
-	//			counter = 0;
-	//		else if (key=='i') {
-	//			counter = counter + 5;
-	//		} 
-	//		else {
-	//			counter = STARTINC;
-	//		}
-	//	}
+		public static void mousePressed() { //see, the drawHouses
+			on=!on;
+			//println("light on" + on);
+		}
+		public static void keyPressed() { //see, drawCloud
+			if ((Processing.key=='P') || (Processing.key=='p')) 
+				counter = 0;
+			else if (Processing.key=='i') {
+				counter = counter + 5;
+			} 
+			else {
+				counter = STARTINC;
+			}
+		}
 
 	public static void main(String[] args) throws IOException{
 		student19();

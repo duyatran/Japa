@@ -215,18 +215,18 @@ public class A3Demo20 {
 		  //line(localX+localX*.03,localY+localY*.05,localX+localX*.09,localY+localY*.03);
 		}
 
-//		void keyPressed() {
-//		  if ((key=='P') || (key=='p'))
-//		    incX= 0;
-//		  else if ((key=='S') || (key=='s')) {
-//		    incX= STARTMOVING;
-//		  }
-//		}
-//
-//		void mousePressed(){
-//		  discoCircles = !discoCircles;
-//
-//		}
+	public static void keyPressed() {
+		  if ((Processing.key=='P') || (Processing.key=='p'))
+		    incX= 0;
+		  else if ((Processing.key=='S') || (Processing.key=='s')) {
+		    incX= STARTMOVING;
+		  }
+		}
+
+	public static void mousePressed(){
+		  discoCircles = !discoCircles;
+
+		}
 
 public static void main(String[] args) throws IOException{
 	student20();

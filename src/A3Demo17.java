@@ -102,26 +102,26 @@ public class A3Demo17 {
 		Processing.ellipse(headX-headSize/6, headY-headSize/6, headSize/8, headSize/8);
 	}
 
-//	//Key pressed "p" to stop the animation
-//	void keyPressed () {
-//
-//		if (key=='p') {
-//			Processing.incX=0;
-//		}
-//		else {
-//			Processing.incX=1;
-//		}
-//	}
-//	//Once the day scene and moon scene have gone through we can go back around to the day scene with a mouse press
-//	void mousePressed() {
-//		if (isNightOver) {
-//			Processing.isDay = true;
-//			Processing.sunCount = 10;
-//			Processing.FoxCount = 0;
-//			Processing.moonCount=0;
-//			Processing.isNightOver = false;
-//
-//		}
+	//Key pressed "p" to stop the animation
+	public static void keyPressed () {
+
+		if (Processing.key=='p') {
+			incX=0;
+		}
+		else {
+			incX=1;
+		}
+	}
+	//Once the day scene and moon scene have gone through we can go back around to the day scene with a mouse press
+	public static void mousePressed() {
+		if (isNightOver) {
+			isDay = true;
+			sunCount = 10;
+			FoxCount = 0;
+			moonCount=0;
+			isNightOver = false;
+		}
+		}
 
 		public static void main(String[] args) throws IOException{
 			student17();

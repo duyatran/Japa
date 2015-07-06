@@ -41,33 +41,33 @@ public class A3Demo21 {
 		    dir=dir*-1;
 		  }
 		  //Changes the color of the balloons
-//		  if (mousePressed) {
-//		    Processing.fill(0);
-//		    Processing.theBalloons(25, 375, 20, 30);
-//		    Processing.theBalloons(55, 480, 20, 30);
-//		    Processing.theBalloons(165, 450, 20, 30);
-//		    Processing.theBalloons(235, 505, 20, 30);
-//		    Processing.theBalloons(280, 400, 20, 30);
-//		    Processing.theBalloons(725, 375, 20, 30);
-//		    Processing.theBalloons(740, 515, 20, 30);
-//		    Processing.theBalloons(780, 420, 20, 30);
-//		    Processing.theBalloons(890, 525, 20, 30);
-//		    Processing.theBalloons(930, 420, 20, 30);
-//		  }
+		  if (Processing.mousePressed) {
+		    Processing.fill(0);
+		    theBalloons(25, 375, 20, 30);
+		    theBalloons(55, 480, 20, 30);
+		    theBalloons(165, 450, 20, 30);
+		    theBalloons(235, 505, 20, 30);
+		    theBalloons(280, 400, 20, 30);
+		    theBalloons(725, 375, 20, 30);
+		    theBalloons(740, 515, 20, 30);
+		    theBalloons(780, 420, 20, 30);
+		    theBalloons(890, 525, 20, 30);
+		    theBalloons(930, 420, 20, 30);
+		  }
 		//Processing.save("student21_results3.png");
 	}
 	
 	//Pauses and restarts the moving of the clouds
-//	void keyPressed() {
-//	  if ((key=='P') || (key=='p'))
-//	    incX=0;
-//	  else if ((key=='S') || (key=='s')) {
-//	    incX=15;
-//	  }
-//	  else {
-//	    incX=20;
-//	  }
-//	}
+	public static void keyPressed() {
+	  if ((Processing.key=='P') || (Processing.key=='p'))
+	    incX=0;
+	  else if ((Processing.key=='S') || (Processing.key=='s')) {
+	    incX=15;
+	  }
+	  else {
+	    incX=20;
+	  }
+	}
 	//Compile the components of the background
 	public static void theBackdrop() {
 	  theGround();

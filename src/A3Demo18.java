@@ -49,23 +49,23 @@ public class A3Demo18 {
 
 		  drawScallopedBorder();
 
-//		  if (mousePressed) {
-//		    float fishSize=random(10, 70);
-//		    drawFish(mouseX, mouseY, fishSize);
-//		  }
-//
-//		  if (key == 'P' || key == 'p') {
-//		    fgChange=0;
-//		  }
-//		  else
-//		    fgChange=-3;
+		  if (Processing.mousePressed) {
+		    double fishSize=Processing.random(10, 70);
+		    drawFish(Processing.mouseX, Processing.mouseY, fishSize);
+		  }
+
+		  if (Processing.key == 'P' || Processing.key == 'p') {
+		    fgChange=0;
+		  }
+		  else
+		    fgChange=-3;
 	}
 	public static void drawSide(int fgH, int fgS, int fgB, int cornerX, int cornerY) {
 		  Processing.fill(fgH, fgS, fgB);
 		  Processing.noStroke();
 		  Processing.rect(cornerX, cornerY, 30, Processing.height);
 
-		  Processing.save("student18_result3.png");
+		  //Processing.save("student18_result3.png");
 		  }
 
 	public static void drawFish(double centerX, double centerY, double fishSize) {

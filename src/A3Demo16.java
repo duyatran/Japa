@@ -103,14 +103,17 @@ public class A3Demo16 {
 	}
 
 
-//	public void keyPressed() {
-//
-//		if(Processing.key == 'p') {
-//			incX = 0;
-//
-//		}
-//
-//	}
+	public static void keyPressed() {
+
+		if(Processing.key == 'p') {
+			incX = 0;
+
+		}
+		else {
+		     incX = 1; 
+		  }
+
+	}
 
 	//the bird on the right of the screen
 	public static void drawBird(int cX, int cY, int objWidth, int objHeight) {
