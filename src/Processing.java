@@ -36,7 +36,6 @@ public class Processing {
 	private static Timer timer;
 	private static int frameRate = 60;
 	private static String method = "draw";
-
 	// TESTING EVENT LISTENER
 	public static char key;
 	public static int keyCode;
@@ -595,14 +594,6 @@ public class Processing {
 			public void actionPerformed(ActionEvent evt) {
 				// Must include the two catch blocks to stop exceptions
 				try{
-					if (firstFrame){
-						canvas.resetShapeList(true);
-						firstFrame = false;
-					}
-					else {
-						canvas.resetShapeList(false);
-					}
-					
 					drawMethod.invoke(null, null);
 					Queue<InputEvent> events = canvas.getEventQ();
 					while (!events.isEmpty()){
