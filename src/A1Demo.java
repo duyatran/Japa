@@ -1111,9 +1111,8 @@ public class A1Demo {
     }
    
     public static void main(String[] args) throws IOException{
-    	//    	Processing.randomSeed(13);
-//    	student14();
-    	student1();
+    	Processing.size(1700, 1200);
+    	Processing.rect(1650, 1150, 50, 50);
     }
 
 

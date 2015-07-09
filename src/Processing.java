@@ -1,3 +1,4 @@
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -21,10 +22,13 @@ import java.util.Random;
  */
 
 public class Processing {
-	public static int screenWidth = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
-	public static int screenHeight = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
-	public static int width; 	// public variable of canvas width
-	public static int height;	// public variable of canvas height
+	// public variables
+	public static int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+	public static int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+	public static int width; 		
+	public static int height;
+	
+	// private 
 	private static boolean canvasCreated = false;	//to deal with multiple calls to size()
 	private static ColorFactory colorFactory = new ColorFactory();
 	private static ProcessingCanvas canvas;
@@ -38,7 +42,7 @@ public class Processing {
 	private static String method = "draw";
 	// TESTING EVENT LISTENER
 	public static char key;
-	public static int keyCode;
+	public static int keyCode;//???
 	public static double mouseX;
 	public static double mouseY;
 	public static double pmouseX;
@@ -47,6 +51,7 @@ public class Processing {
 	public static boolean keyPressed;
 	public static int mouseButton;
 	private static Method eventMethod;
+	private static boolean saveFrame;
 	
 
 	/** This method sets up the canvas and defines the dimension of
@@ -558,8 +563,12 @@ public class Processing {
 		canvas.noSmooth();
 	}
 
-	// TESTING AREA
-
+	// TESTING AREA: REFLECTION GALORE
+	
+	public static void saveFrame() {
+		saveFrame = true;
+	}
+	
 	public static void frameRate(int rate){
 		frameRate = rate;
 	}
@@ -577,7 +586,7 @@ public class Processing {
 			System.out.println("Cannot find the class " + name);
 		}
 		try {
-			Method draw = callingClass.getMethod(method, null);
+			Method draw = callingClass.getMethod(method, (Class<?>[]) null);
 			drawMethod = draw;
 			startTimer();
 		}
@@ -588,13 +597,14 @@ public class Processing {
 
 	private static void startTimer() {
 		int delay = 1000/frameRate; //milliseconds
-		ActionListener taskPerformer = new ActionListener() {
-			boolean firstFrame = true;
 
+		ActionListener taskPerformer = new ActionListener() {
+			//boolean firstFrame = true;
+			int frame = 1;
 			public void actionPerformed(ActionEvent evt) {
 				// Must include the two catch blocks to stop exceptions
 				try{
-					drawMethod.invoke(null, null);
+					drawMethod.invoke(null, (Object[]) null);
 					Queue<InputEvent> events = canvas.getEventQ();
 					while (!events.isEmpty()){
 						InputEvent e = events.remove();
@@ -672,7 +682,7 @@ public class Processing {
 		}
 
 		try {
-			Method event = callingClass.getMethod(eventName, null);
+			Method event = callingClass.getMethod(eventName, (Class<?>[]) null);
 			eventMethod = event;
 		}
 		catch (NoSuchMethodException nsme) {
@@ -680,7 +690,7 @@ public class Processing {
 
 		if (eventMethod != null){
 			try {
-				eventMethod.invoke(null, null);
+				eventMethod.invoke(null, (Object[]) null);
 				canvas.repaint();
 				eventMethod = null; // reset
 			}

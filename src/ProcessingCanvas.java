@@ -41,12 +41,12 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 					MouseMotionListener, MouseWheelListener, KeyListener {
 	private static int canvasWidth = Consts.DEFAULT_WIDTH;
 	private static int canvasHeight = Consts.DEFAULT_HEIGHT;
+	private boolean save;
 	private Color backgroundColor = Color.LIGHT_GRAY;
 	private ProcessingShape currentShape;
 	private ShapeAttributes att = new ShapeAttributes();
 	private DrawCanvas drawCanvas;
 	private BufferedImage buffer;
-	private boolean save;
 	private String fileName;
 	private String fileType;
 
@@ -136,7 +136,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
 					RenderingHints.VALUE_ANTIALIAS_OFF);
 		s.paintShape(bufferGraphics);
-		repaint();
+		repaint(); // inefficient BUT essential call
 	}
 
 	private void clearImage() {
@@ -168,10 +168,10 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 					ImageIO.write(outputImage, fileType, new File(fileName));
 				}
 				catch (IOException ex) {
-					System.out.println(ex.toString());				
+					ex.printStackTrace();			
 				}
 				catch (IllegalArgumentException ex) {
-					System.out.println(ex.toString());				
+					ex.printStackTrace();				
 				}
 				return null;
 			}
@@ -453,7 +453,6 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 
 	public void save(String fileName){
 		this.save = true;
-		fileType = "";
 		if (fileName.indexOf(".") == -1){
 			fileType = "png";
 			fileName = fileName.concat(".png");
@@ -462,11 +461,6 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			fileType = fileName.substring(fileName.indexOf(".") + 1).toLowerCase();
 		}
 		this.fileName = fileName;
-	}
-
-	public void saveFrame(String fileName){
-		save(fileName);
-		// do something
 	}
 
 	/******************************************************

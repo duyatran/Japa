@@ -56,6 +56,7 @@ public class A3Demo19 {
 		moonColorStart = (moonColorStart + .4) % 100;
 		drawHouses();
 		//noLoop();
+		Processing.saveFrame();
 	}
 	public static void drawHill() { //This image is stationary and does not change
 		Processing.noStroke();
