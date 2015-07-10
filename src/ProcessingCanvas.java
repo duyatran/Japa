@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -41,9 +42,10 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 					MouseMotionListener, MouseWheelListener, KeyListener {
 	private static int canvasWidth = Consts.DEFAULT_WIDTH;
 	private static int canvasHeight = Consts.DEFAULT_HEIGHT;
-	private boolean save;
+	private boolean animation;
 	private Color backgroundColor = Color.LIGHT_GRAY;
 	private ProcessingShape currentShape;
+	private ArrayList<Shape> shapeList = new ArrayList<Shape>();
 	private ShapeAttributes att = new ShapeAttributes();
 	private DrawCanvas drawCanvas;
 	private BufferedImage buffer;
@@ -54,7 +56,6 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	private static Queue<InputEvent> eventQ = new LinkedList<InputEvent>(); 
 	private Graphics2D bufferGraphics;
 	private long time;
-	private boolean animation;
 	private BufferedImage outputImage;
 	
 	public ProcessingCanvas(){
@@ -69,7 +70,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		buffer = new BufferedImage(canvasWidth, 
 				canvasHeight, BufferedImage.TYPE_INT_ARGB);
 		bufferGraphics = buffer.createGraphics();
-		clearImage();
+		clearGraphics(bufferGraphics);
 		
 		// Create the JFrame and JPanel on the EDT
 		SwingUtilities.invokeLater(new Runnable() {
@@ -80,8 +81,6 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	}
 
 	private void createAndShowGUI(int w, int h){
-		time = System.currentTimeMillis();
-		// testing draw to image
 		
 		drawCanvas = new DrawCanvas();
 		drawCanvas.setPreferredSize(new Dimension(w,h));
@@ -104,7 +103,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			this.pack();
 		}
 		else { // If canvas is smaller than 200x200
-			// GridBagLayout with default GridBagConstraints centers the canvas
+			// GridBagLayout with default GridBagConstraints will center the canvas
 			// no need to do setLayout(null) or worry about insets
 			this.setLayout(new GridBagLayout());
 			this.add(drawCanvas, new GridBagConstraints());
@@ -120,10 +119,23 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			g.drawImage(buffer, 0, 0, this);
-			System.out.println(System.currentTimeMillis()-time);
-			if (save && !animation){
-				saveImage();
+			if (animation) {
+				g.drawImage(buffer, 0, 0, this);
+			}
+			else {
+				Graphics2D g2 = (Graphics2D) g;
+				clearGraphics(g2);
+				ShapeAttributes current = new ShapeAttributes();
+				for (Shape s : shapeList){
+					current = s.getAttributes();
+					if (current.getSmooth())
+						g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+								RenderingHints.VALUE_ANTIALIAS_ON);
+					else
+						g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+								RenderingHints.VALUE_ANTIALIAS_OFF);
+					s.paintShape(g2);
+				}
 			}
 		}
 	}
@@ -137,29 +149,33 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	}
 	
 	private void paintImage(Shape s) {
-		if (s.getAttributes().getSmooth())
-			bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
-					RenderingHints.VALUE_ANTIALIAS_ON);
-		else
-			bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
-					RenderingHints.VALUE_ANTIALIAS_OFF);
-		s.paintShape(bufferGraphics);
-		repaint();
+		if (animation) { // if animation, use buffer to draw
+			if (s.getAttributes().getSmooth())
+				bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+						RenderingHints.VALUE_ANTIALIAS_ON);
+			else
+				bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+						RenderingHints.VALUE_ANTIALIAS_OFF);
+			s.paintShape(bufferGraphics);
+			}
+		else { // if static, just let Swing take care of drawing
+			shapeList.add(s);
+		}
 	}
 	
 	public void endDraw(boolean saveFrame, int frameCount) {
 		repaint();
 		if (saveFrame) {
-			fileName = "test" + frameCount + ".png";
+			fileName = "screen-" + frameCount + ".png";
 			saveImage();
 		}
 	}
 
-	private void clearImage() {
+	private void clearGraphics(Graphics g) {
 		// setColor and fillRect are used because setBackground
 		// DO NOT set background color. Read API for more info.
-		bufferGraphics.setColor(backgroundColor);
-		bufferGraphics.fillRect(0, 0, canvasWidth, canvasHeight);
+		g.setColor(backgroundColor);
+		g.fillRect(0, 0, canvasWidth, canvasHeight);
 	}
 
 	private void saveImage() {
@@ -171,9 +187,14 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 				outputImage = new BufferedImage(canvasWidth, 
 						canvasHeight, outputFormat);
 				Graphics2D gtemp = outputImage.createGraphics();
-				gtemp.drawImage(buffer, 0, 0, null);
+				if (animation) {
+					gtemp.drawImage(buffer, 0, 0, null);
+				}
+				else {
+					drawCanvas.paint(gtemp);
+				}
 				gtemp.dispose();
-
+				
 				try {
 					ImageIO.write(outputImage, fileType, new File(fileName));
 				}
@@ -194,15 +215,19 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 ******************************************************/
 
 	public void save(String fileName){
-		this.save = true;
 		if (fileName.indexOf(".") == -1){
-			fileType = "png";
 			fileName = fileName.concat(".png");
 		}
 		else {
 			fileType = fileName.substring(fileName.indexOf(".") + 1).toLowerCase();
 		}
 		this.fileName = fileName;
+		// Putting saveImage() on the EDT to let the drawing finishes first
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				saveImage();
+			}
+		});
 	}
 	
 	/******************************************************
@@ -211,7 +236,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 
 	public void background(Color c){
 		backgroundColor = c;
-		clearImage();
+		clearGraphics(bufferGraphics);
 	}
 
 	/**

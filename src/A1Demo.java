@@ -1065,41 +1065,40 @@ public class A1Demo {
     	Processing.curveVertex (390,440);
     	Processing.endShape();
     	
-    	Processing.save("student7.png");
+    	Processing.save("student7.jpeg");
     }
 	
-	static double y = 50.0;
+//	static double y = 50.0;
     static double speed = 1.0;
     static double radius = 15.0;
-    static int direction = 1;
+//    static int direction = 1;
     static int value = 0;
-    static int x = 20;
+//    static int x = 20;
     public static void test() {
-    	Processing.size(100, 100);
-    	  Processing.fill(0, 102);
+    	Processing.size();
+//    	Processing.fill(0, 102);
 
 //    	Processing.strokeWeight(8);
     	
-//    	Processing.stroke(255);
-//    	Processing.noFill();
+    	Processing.stroke(255);
+    	Processing.noFill();
     	
-    	Processing.smooth();
-    	Processing.noStroke();
-    	Processing.ellipseMode(Consts.RADIUS);
-    	
+//    	Processing.smooth();
+//    	Processing.noStroke();
+//    	Processing.ellipseMode(Consts.RADIUS);
+//    	
     	Processing.animate("A1Demo");
     }
 
-    public static void draw(){
-    	Processing.fill(0, 10);
-    	Processing.rect(0, 0, Processing.width, Processing.height);
-//    	Processing.background(0);
-    	Processing.fill(255);
-    	Processing.ellipse(33, y, radius, radius);
-    	y += speed * direction;
-    	  if ((y > Processing.height - radius) || (y < radius)) {
-    	    direction = -direction;
-    	  }
+    //public static void draw(){
+//    	Processing.fill(0, 10);
+//    	Processing.rect(0, 0, Processing.width, Processing.height);
+//    	Processing.fill(255);
+//    	Processing.ellipse(33, y, radius, radius);
+//    	y += speed * direction;
+//    	  if ((y > Processing.height - radius) || (y < radius)) {
+//    	    direction = -direction;
+//    	  }
     	
 //    	Processing.background(0);
 //    	  for (int i = 0; i < 200; i += 20) {
@@ -1108,10 +1107,50 @@ public class A1Demo {
     	
 //    	Processing.background(204);
 //    	Processing.line(Processing.mouseX, Processing.mouseY, Processing.pmouseX, Processing.pmouseY);
+//    }
+    static double beginX = 20.0; // Initial x-coordinate
+	static double beginY = 10.0; // Initial y-coordinate
+	static double endX = 70.0; // Final x-coordinate
+	static double endY = 80.0; // Final y-coordinate
+	static double distX; // X-axis distance to move
+	static double distY; // Y-axis distance to move
+	static double exponent = 3.0; // Determines the curve
+	static double x = 0.0; // Current x-coordinate
+	static double y = 0.0; // Current y-coordinate
+	static double step = 0.01; // Size of each step along the path
+	static double pct = 0.0; // Percentage traveled (0.0 to 1.0)
+    static int direction = 1;
+
+	public static void realcool() {
+       	Processing.size(100, 100);
+    	Processing.noStroke();
+    	Processing.smooth();
+    	distX = endX - beginX;
+    	distY = endY - beginY;
+    	Processing.animate("A1Demo");
     }
-   
+    
+	public static void draw() {
+		Processing.fill(0, 2);
+		Processing.rect(0, 0, Processing.width, Processing.height);
+		pct += step * direction;
+		if ((pct > 1.0) || (pct < 0.0)) {
+			direction = direction * -1;
+		}
+		if (direction == 1) {
+			x = beginX + (pct * distX);
+			double e = Math.pow(pct, exponent);
+			y = beginY + (e * distY);
+		} else {
+			x = beginX + (pct * distX);
+			double e = Math.pow(1.0-pct, exponent*2);
+			y = beginY + (e * -distY) + distY;
+		}
+		Processing.fill(255);
+		Processing.ellipse(x, y, 20, 20);
+	}
     public static void main(String[] args) throws IOException{
-    	student2();
+    	realcool();
     }
 
 

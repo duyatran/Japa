@@ -811,7 +811,7 @@ public class A2Demo {
 
     public static void main(String[] args) throws IOException{
     	Processing.randomSeed(13);
-    	student14();
+    	student8();
     }
 
 
