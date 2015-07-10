@@ -1076,20 +1076,23 @@ public class A1Demo {
 //    static int x = 20;
     public static void test() {
     	Processing.size();
+    	Processing.background("sundayriver.jpg");
+    	//Processing.animate("A1Demo", "demo");
 //    	Processing.fill(0, 102);
 
 //    	Processing.strokeWeight(8);
     	
-    	Processing.stroke(255);
-    	Processing.noFill();
+//    	Processing.stroke(255);
+//    	Processing.noFill();
     	
 //    	Processing.smooth();
 //    	Processing.noStroke();
 //    	Processing.ellipseMode(Consts.RADIUS);
 //    	
-    	Processing.animate("A1Demo");
+//    	Processing.animate("A1Demo");
     }
-
+    public static void demo() {
+    }
     //public static void draw(){
 //    	Processing.fill(0, 10);
 //    	Processing.rect(0, 0, Processing.width, Processing.height);
@@ -1150,7 +1153,7 @@ public class A1Demo {
 		Processing.ellipse(x, y, 20, 20);
 	}
     public static void main(String[] args) throws IOException{
-    	realcool();
+    	test();
     }
 
 

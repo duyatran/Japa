@@ -156,8 +156,47 @@ public class Processing {
 	 * to an image.
 	 * @throws IOException
 	 */
-	public static void background(String image){}
+	public static void background(String image){
+		canvas.background(image);
+	}
+	
+	/**
+	 * Sets the gray-scale color used for the background of 
+	 * the display canvas. The default background is light gray.
+	 * @param gray: the gray-scale color
+	 */
+	public static void tint(double gray){
+		canvas.tint(colorFactory.produce((float) gray));
+	}
 
+	/**
+	 * @param gray: the gray-scale color
+	 * @param alpha: opacity of the background
+	 */
+	public static void tint(double gray, double alpha){
+		canvas.tint(colorFactory.produce((float) gray, (float) alpha));
+	}
+
+	/**
+	 * Sets the color used for the background of the display 
+	 * canvas. The default background is light gray.
+	 * @param v1: red or hue component
+	 * @param v2: green or saturation component
+	 * @param v3: blue or brightness component
+	 */
+	public static void tint(double v1, double v2, double v3){
+		canvas.tint(colorFactory.produce((float) v1, (float) v2, (float) v3));
+	}
+
+	/**
+	 * @param v1: red or hue component
+	 * @param v2: green or saturation component
+	 * @param v3: blue or brightness component
+	 * @param alpha: opacity of the background
+	 */
+	public static void tint(double v1, double v2, double v3, double alpha){
+		canvas.tint(colorFactory.produce((float) v1, (float) v2, (float) v3, (float) alpha));
+	}
 	/**
 	 * Sets the gray-scale color used to fill shapes. 
 	 * The default fill color is white.
