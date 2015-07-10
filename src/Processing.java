@@ -578,6 +578,7 @@ public class Processing {
 		animate(className);
 	}
 	public static void animate(String name){
+		canvas.isAnimation();
 		try {
 			Class<?> c = Class.forName(name);
 			callingClass = c;
@@ -600,7 +601,7 @@ public class Processing {
 
 		ActionListener taskPerformer = new ActionListener() {
 			//boolean firstFrame = true;
-			int frame = 1;
+			int frameCount = 1;
 			public void actionPerformed(ActionEvent evt) {
 				// Must include the two catch blocks to stop exceptions
 				try{
@@ -660,7 +661,9 @@ public class Processing {
 				}
 				catch (IllegalAccessException iae){
 					iae.printStackTrace();
-				}    	      
+				}
+				canvas.endDraw(saveFrame, frameCount);
+				frameCount++;
 			}
 		};
 		timer = new Timer(delay, taskPerformer);

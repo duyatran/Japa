@@ -48,19 +48,22 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	private DrawCanvas drawCanvas;
 	private BufferedImage buffer;
 	private String fileName;
-	private String fileType;
+	private String fileType = "png";
 
 	// testing purposes
 	private static Queue<InputEvent> eventQ = new LinkedList<InputEvent>(); 
 	private Graphics2D bufferGraphics;
-
+	private long time;
+	private boolean animation;
+	private BufferedImage outputImage;
+	
 	public ProcessingCanvas(){
 		this(canvasWidth, canvasHeight);
 	}
 
 	public ProcessingCanvas(int w, int h){
 		// make buffer available as soon as possible for drawing
-		// putting it on the EDT might not give it enough time to finish drawing.
+		// putting it on the EDT seems to be slower and still produces flicker for student14.
 		canvasWidth = w;
 		canvasHeight = h;
 		buffer = new BufferedImage(canvasWidth, 
@@ -77,8 +80,9 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	}
 
 	private void createAndShowGUI(int w, int h){
-
+		time = System.currentTimeMillis();
 		// testing draw to image
+		
 		drawCanvas = new DrawCanvas();
 		drawCanvas.setPreferredSize(new Dimension(w,h));
 
@@ -107,7 +111,6 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			// set minimum size for the window frame
 			this.setMinimumSize(new Dimension(Consts.MIN_CANVAS_SIZE + 50, Consts.MIN_CANVAS_SIZE + 50));
 		}
-
 		this.setLocationRelativeTo(null); // center the window on the screen
 		this.setVisible(true);
 	}
@@ -117,8 +120,9 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			g.drawImage(buffer, 0, 0, this);	
-			if (save){
+			g.drawImage(buffer, 0, 0, this);
+			System.out.println(System.currentTimeMillis()-time);
+			if (save && !animation){
 				saveImage();
 			}
 		}
@@ -128,6 +132,10 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 ***************** HELPER METHODS *********************
 	 ******************************************************/
 
+	public void isAnimation() {
+		animation = true;
+	}
+	
 	private void paintImage(Shape s) {
 		if (s.getAttributes().getSmooth())
 			bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
@@ -136,7 +144,15 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
 					RenderingHints.VALUE_ANTIALIAS_OFF);
 		s.paintShape(bufferGraphics);
-		repaint(); // inefficient BUT essential call
+		repaint();
+	}
+	
+	public void endDraw(boolean saveFrame, int frameCount) {
+		repaint();
+		if (saveFrame) {
+			fileName = "test" + frameCount + ".png";
+			saveImage();
+		}
 	}
 
 	private void clearImage() {
@@ -148,22 +164,16 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 
 	private void saveImage() {
 		SwingWorker<Void, Void> worker = new SwingWorker<Void,Void>() {
-			private BufferedImage outputImage;
 			@Override
 			protected Void doInBackground() {
 				int outputFormat = (fileType.equals("png") || fileType.equals("gif")) ?
 						BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;
-				
-				if (outputFormat == BufferedImage.TYPE_INT_ARGB)
-					outputImage = buffer;
-				else {
-					outputImage = new BufferedImage(canvasWidth, 
-							canvasHeight, outputFormat);
-				     Graphics2D gtemp = outputImage.createGraphics();
-				     gtemp.drawImage(buffer, 0, 0, null);
-				     gtemp.dispose();
-				}
-				
+				outputImage = new BufferedImage(canvasWidth, 
+						canvasHeight, outputFormat);
+				Graphics2D gtemp = outputImage.createGraphics();
+				gtemp.drawImage(buffer, 0, 0, null);
+				gtemp.dispose();
+
 				try {
 					ImageIO.write(outputImage, fileType, new File(fileName));
 				}
@@ -179,6 +189,22 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		worker.execute();
 	}
 
+	/******************************************************
+	 ***************** SAVING IMAGES *********************
+	 ******************************************************/
+
+	public void save(String fileName){
+		this.save = true;
+		if (fileName.indexOf(".") == -1){
+			fileType = "png";
+			fileName = fileName.concat(".png");
+		}
+		else {
+			fileType = fileName.substring(fileName.indexOf(".") + 1).toLowerCase();
+		}
+		this.fileName = fileName;
+	}
+	
 	/******************************************************
 	 *********** CANVAS AND SHAPE ATTRIBUTES **************
 	 ******************************************************/
@@ -445,22 +471,6 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		for (Shape s: currentShape.getShapeList()) {
 			paintImage(s);
 		}
-	}
-
-	/******************************************************
-	 ***************** SAVING IMAGES *********************
-	 ******************************************************/
-
-	public void save(String fileName){
-		this.save = true;
-		if (fileName.indexOf(".") == -1){
-			fileType = "png";
-			fileName = fileName.concat(".png");
-		}
-		else {
-			fileType = fileName.substring(fileName.indexOf(".") + 1).toLowerCase();
-		}
-		this.fileName = fileName;
 	}
 
 	/******************************************************

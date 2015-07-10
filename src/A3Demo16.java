@@ -50,7 +50,7 @@ public class A3Demo16 {
 		if(moveX>850) {
 			moveX = Processing.width-1600 ;
 		}
-
+		Processing.saveFrame();
 
 	}
 	//this are the shaped grass I used

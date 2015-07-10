@@ -805,13 +805,13 @@ public class A2Demo {
 		  Processing.point(xVal, yVal);
 		  }
 		}
-
+		
 		Processing.save("student14.png");
 	}
 
     public static void main(String[] args) throws IOException{
     	Processing.randomSeed(13);
-    	student8();
+    	student14();
     }
 
 
