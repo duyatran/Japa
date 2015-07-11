@@ -156,8 +156,12 @@ public class Processing {
 	 * to an image.
 	 * @throws IOException
 	 */
-	public static void background(String image){
-		canvas.background(image);
+	public static void loadImage(String image){
+		canvas.loadImage(image);
+	}
+	
+	public static void showImage() {
+		canvas.showImage();
 	}
 	
 	/**

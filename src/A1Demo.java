@@ -1075,8 +1075,11 @@ public class A1Demo {
     static int value = 0;
 //    static int x = 20;
     public static void test() {
-    	Processing.size();
-    	Processing.background("sundayriver.jpg");
+    	Processing.size(960, 642);
+    	Processing.loadImage("sundayriver.jpg");
+    	Processing.tint(199, 213, 0, 110);
+    	Processing.loadImage("harborsunset.jpg");
+    	Processing.showImage();
     	//Processing.animate("A1Demo", "demo");
 //    	Processing.fill(0, 102);
 

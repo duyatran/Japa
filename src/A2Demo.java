@@ -402,7 +402,10 @@ public class A2Demo {
 //		Processing.tint(199, 213, 0, 110);
 //		img = loadImage("harborsunset.jpg");
 //		Processing.image(img, 0, 0, 960, 642);
-
+		Processing.loadImage("sundayriver.jpg");
+    	Processing.tint(199, 213, 0, 110);
+    	Processing.loadImage("harborsunset.jpg");
+		
 		//black line building #1
 		Processing.fill(0);
 
@@ -448,17 +451,17 @@ public class A2Demo {
 		while (bar2Y<Processing.height) {
 		  //even iteration
 		  if (oddEven %2 == 0) {
-		    System.out.println("even ");
+		    //System.out.println("even ");
 		    Processing.fill(0, 120);
 		  }
 		  else {
-		    System.out.println("odd ");
+		   // System.out.println("odd ");
 		    Processing.fill(129, 96, 131, 160);
 		  }
 		  Processing.rect(bar2X, bar2Y, bar2Width, bar2Thickness);
 		  bar2Y = bar2Y + bar2Thickness;
 
-		  System.out.println("oddEven" + oddEven);
+		  //System.out.println("oddEven" + oddEven);
 		  oddEven = oddEven + 1;
 		}
 
@@ -530,10 +533,10 @@ public class A2Demo {
 		  while(BLKrectY1<670) {
 		       on = Processing.random (0,2);
 		  if (on < 1) {
-		    System.out.println("lightOn");
+		    //System.out.println("lightOn");
 		    Processing.fill(0);
 		  } else {
-		    System.out.println("lightOff");
+		    //System.out.println("lightOff");
 		    Processing.fill(255, 247, 0, 100);
 		  }
 		    Processing.rect(BLKrectX1, BLKrectY1, windowSize, windowSize);
@@ -541,7 +544,7 @@ public class A2Demo {
 		  }
 		  BLKrectY1 = 370;
 		}
-
+		//Processing.save("test.png");
 		//for some reason, trying to save a copy png file of the image created was simply not working
 		//and was really messing with the way processing saved my files so I could not do it
 		//I am perfectly fine with you doing this and picking whatever looks nice for the website, I don't have a preference!
@@ -811,7 +814,7 @@ public class A2Demo {
 
     public static void main(String[] args) throws IOException{
     	Processing.randomSeed(13);
-    	student8();
+    	student11();
     }
 
 

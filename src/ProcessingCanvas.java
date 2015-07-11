@@ -2,13 +2,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.awt.event.KeyEvent;
@@ -44,7 +42,7 @@ import javax.swing.SwingWorker;
 
 @SuppressWarnings("serial")
 public class ProcessingCanvas extends JFrame implements MouseListener, 
-					MouseMotionListener, MouseWheelListener, KeyListener {
+MouseMotionListener, MouseWheelListener, KeyListener {
 	private static int canvasWidth = Consts.DEFAULT_WIDTH;
 	private static int canvasHeight = Consts.DEFAULT_HEIGHT;
 	private boolean animation;
@@ -53,19 +51,25 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	private ArrayList<Shape> shapeList = new ArrayList<Shape>();
 	private ShapeAttributes att = new ShapeAttributes();
 	private DrawCanvas drawCanvas;
-	private BufferedImage buffer;
+	private BufferedImage buffer = new BufferedImage(canvasWidth, 
+			canvasHeight, BufferedImage.TYPE_INT_ARGB);
 	private String outputFileName;
 	private String outputFileType = "png";
 
 	// testing purposes
 	private static Queue<InputEvent> eventQ = new LinkedList<InputEvent>(); 
-	private Graphics2D bufferGraphics;
+	private Graphics2D bufferGraphics = buffer.createGraphics();
 	private long time;
 	private BufferedImage outputImage;
 	private BufferedImage backgroundImage;
+	private Graphics2D bgGraphics;
 	private SwingWorker<Void, Void> saveWorker;
 	private SwingWorker<Void, Void> bgWorker;
-
+	private Color tintColor;
+	private BufferedImage compatibleImage;
+	private Graphics2D compatibleGraphics;
+	private boolean useImage;
+	private boolean requestRepaint; 
 	public ProcessingCanvas(){
 		this(canvasWidth, canvasHeight);
 	}
@@ -75,11 +79,14 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		// putting it on the EDT seems to be slower and still produces flicker for student14.
 		canvasWidth = w;
 		canvasHeight = h;
-		buffer = new BufferedImage(canvasWidth, 
+		backgroundImage = new BufferedImage(canvasWidth, 
 				canvasHeight, BufferedImage.TYPE_INT_ARGB);
-		bufferGraphics = buffer.createGraphics();
+		compatibleImage = new BufferedImage(canvasWidth, 
+				canvasHeight, BufferedImage.TYPE_INT_ARGB);
+		bgGraphics = backgroundImage.createGraphics();
+		compatibleGraphics = compatibleImage.createGraphics();
+
 		clearGraphics(bufferGraphics);
-		
 		// Create the JFrame and JPanel on the EDT
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -89,7 +96,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	}
 
 	private void createAndShowGUI(int w, int h){
-		
+
 		drawCanvas = new DrawCanvas();
 		drawCanvas.setPreferredSize(new Dimension(w,h));
 
@@ -110,7 +117,8 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			this.add(drawCanvas);			
 			this.pack();
 		}
-		else { // If canvas is smaller than 200x200
+		else { 
+			// If canvas is smaller than 200x200
 			// GridBagLayout with default GridBagConstraints will center the canvas
 			// no need to do setLayout(null) or worry about insets
 			this.setLayout(new GridBagLayout());
@@ -155,7 +163,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	public void isAnimation() {
 		animation = true;
 	}
-	
+
 	private void paintImage(Shape s) {
 		if (animation) { // if animation, use buffer to draw
 			if (s.getAttributes().getSmooth())
@@ -165,12 +173,12 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 				bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
 						RenderingHints.VALUE_ANTIALIAS_OFF);
 			s.paintShape(bufferGraphics);
-			}
+		}
 		else { // if static, just let Swing take care of drawing
 			shapeList.add(s);
 		}
 	}
-	
+
 	public void endDraw(boolean saveFrame, int frameCount) {
 		repaint();
 		if (saveFrame) {
@@ -181,15 +189,13 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	}
 
 	private void clearGraphics(Graphics g) {
-		if (backgroundImage == null) {
+		if (!useImage) {
 			// setColor and fillRect are used because setBackground
 			// DO NOT set background color. Read API for more info.
 			g.setColor(backgroundColor);
 			g.fillRect(0, 0, canvasWidth, canvasHeight);
 		}
 		else {
-			System.out.println("correct in clearGraphics");
-			System.out.println(backgroundImage);
 			g.drawImage(backgroundImage, 0, 0, null);
 		}
 	}
@@ -211,7 +217,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 					drawCanvas.paint(gtemp);
 				}
 				gtemp.dispose();
-				
+
 				try {
 					ImageIO.write(outputImage, outputFileType, new File(outputFileName));
 				}
@@ -224,7 +230,6 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 				return null;
 			}
 		};
-		//saveWorker.execute();
 	}
 
 	/******************************************************
@@ -247,7 +252,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			}
 		});
 	}
-	
+
 	/******************************************************
 	 *********** CANVAS AND SHAPE ATTRIBUTES **************
 	 ******************************************************/
@@ -256,100 +261,108 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		backgroundColor = c;
 		clearGraphics(bufferGraphics);
 	}
-	
-	public void background(final String image){
-		bgWorker = new SwingWorker<Void, Void>() {
-		private final GraphicsConfiguration CONFIGURATION =
-			            GraphicsEnvironment.getLocalGraphicsEnvironment().
-			                    getDefaultScreenDevice().getDefaultConfiguration();	
-			@Override
-			public Void doInBackground() {
-				try {
-					BufferedImage temp = ImageIO.read(new File(image));
-					if (temp.getColorModel().equals(CONFIGURATION.getColorModel())) {
-			            backgroundImage = temp;
-			        }
-					else {
-						System.out.println(temp.getType());
-						BufferedImage compatibleImage = CONFIGURATION.createCompatibleImage(
-								temp.getWidth(), temp.getHeight(), temp.getTransparency());
-						Graphics g = compatibleImage.getGraphics();
-						g.drawImage(temp, 0, 0, null);
-						g.dispose();
-						backgroundImage = compatibleImage;
-						System.out.println(compatibleImage.getType());
+
+	public void loadImage(final String image){ // works but looks ugly, also ImageIO.read is TOO SLOW
+		useImage = true;
+		if (tintColor != null) {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						BufferedImage temp = ImageIO.read(new File(image));
+						compatibleGraphics.drawImage(temp, 0, 0, null);
+						doTint(tintColor);
+						bgGraphics.drawImage(compatibleImage, 0, 0, null);
 					}
-				} 
-				catch (IOException e) {
-					e.printStackTrace();
+					catch (IOException e) {
+						e.printStackTrace();
+					}			
 				}
-				return null;
-			}
-			@Override
-			public void done() {
-				tint(new Color(199, 213, 0));
-				repaint();
-			}
-		};
-		bgWorker.execute();
+			});
+		}
+		else {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						BufferedImage temp = ImageIO.read(new File(image));
+						compatibleGraphics.drawImage(temp, 0, 0, null);
+						bgGraphics.drawImage(compatibleImage, 0, 0, null);
+					}
+					catch (IOException e) {
+						e.printStackTrace();
+					}			
+				}
+			});
+		}
 	}
-	
+
 	public void tint(Color c) {
-        int width = backgroundImage.getWidth();
-        int height = backgroundImage.getHeight();
-
-        int[] pixels = new int[width * height];
-        //GraphicsUtilities.setPixels(src, 0, 0, width, height, pixels);
-        int imageType = backgroundImage.getType();
-        if (imageType == BufferedImage.TYPE_INT_ARGB ||
-            imageType == BufferedImage.TYPE_INT_RGB) {
-            Raster raster = backgroundImage.getRaster();
-            pixels = (int[]) raster.getDataElements(0, 0, width, height, pixels);
-        }
-        else {
-        	System.out.println(backgroundImage.getType());
-
-        	pixels = backgroundImage.getRGB(0, 0, width, height, pixels, 0, width);
-        }
-        
-        //mixColor(pixels);
-        int tintColor = c.getRGB();
-        int tintA = (tintColor >> 24) & 0xff;
-        int tintR = (tintColor >> 16) & 0xff;
-        int tintG = (tintColor >> 8) & 0xff;
-        int tintB = (tintColor) & 0xff;
-        
-        for (int i = 0; i < pixels.length; i++) {
-        	int argb = pixels[i];
-        	//int a = (argb >> 24) & 0xff;
-            int a = tintColor & 0xFF000000;
-            int r = (argb >> 16) & 0xff;
-            int g = (argb >> 8) & 0xff;
-            int b = (argb) & 0xff;
-            
-        	//int tintedA = (tintA * a);
-//        	int tintedR = (tintR * r);
-//        	int tintedG = (tintG * g);
-//        	int tintedB = (tintB * b);
-//        	pixels[i] = a | tintedR << 16 | tintedG << 8 | tintedB;
-
-            pixels[i] = a |
-                    (((r * tintR) & 0xff00) << 8) |
-                    ((g * tintG) & 0xff00) |
-                    (((b * tintB) & 0xff00) >> 8);
-        }
-        
-//       GraphicsUtilities.setPixels(dst, 0, 0, width, height, pixels);
-        if (imageType == BufferedImage.TYPE_INT_ARGB ||
-            imageType == BufferedImage.TYPE_INT_RGB) {
-            WritableRaster wr = backgroundImage.getRaster();
-        	wr.setDataElements(0, 0, width, height, pixels);
-        }
-        else{
-        	backgroundImage.setRGB(0, 0, width, height, pixels, 0, width);
-        }
+		tintColor = c;
 	}
-	
+
+	private void doTint(Color c) {
+		int width = compatibleImage.getWidth();
+		int height = compatibleImage.getHeight();
+
+		int[] pixels = new int[width * height];
+
+		//GraphicsUtilities.setPixels(src, 0, 0, width, height, pixels);
+		//int imageType = backgroundImage.getType();
+		// if (imageType == BufferedImage.TYPE_INT_ARGB ||
+		//    imageType == BufferedImage.TYPE_INT_RGB) {
+		Raster raster = compatibleImage.getRaster();
+		pixels = (int[]) raster.getDataElements(0, 0, width, height, pixels);
+		// }
+		//else {
+		//  	pixels = backgroundImage.getRGB(0, 0, width, height, pixels, 0, width);
+		//  }
+
+		//mixColor(pixels);
+		int tintARGB = c.getRGB();
+		int tintA = (tintARGB >> 24) & 0xff;
+		int tintR = (tintARGB >> 16) & 0xff;
+		int tintG = (tintARGB >> 8) & 0xff;
+		int tintB = (tintARGB) & 0xff;
+
+		//        if (imageType == BufferedImage.TYPE_INT_RGB) {
+		//            int a = tintARGB & 0xFF000000;
+		//            for (int i = 0; i < pixels.length; i++) {
+		//            	int argb = pixels[i];
+		//            	int r = (argb >> 16) & 0xff;
+		//            	int g = (argb >> 8) & 0xff;
+		//            	int b = (argb) & 0xff;
+		//
+		//            	pixels[i] = a |
+		//            			(((r * tintR) & 0xff00) << 8) |
+		//            			((g * tintG) & 0xff00) |
+		//            			(((b * tintB) & 0xff00) >> 8);
+		//            }
+		//        }
+		//        else { //TYPE_INT_ARGB
+		for (int i = 0; i < pixels.length; i++) {
+			int argb = pixels[i];
+			int a = (argb >> 24) & 0xff;
+			int r = (argb >> 16) & 0xff;
+			int g = (argb >> 8) & 0xff;
+			int b = (argb) & 0xff;
+
+			pixels[i] = (((a * tintA) & 0xff00) << 16) |
+					(((r * tintR) & 0xff00) << 8) |
+					((g * tintG) & 0xff00) |
+					(((b * tintB) & 0xff00) >> 8);
+		}
+		//        }
+
+		//       GraphicsUtilities.setPixels(dst, 0, 0, width, height, pixels);
+		//if (imageType == BufferedImage.TYPE_INT_ARGB ||
+		//     imageType == BufferedImage.TYPE_INT_RGB) {
+		WritableRaster wr = compatibleImage.getRaster();
+		wr.setDataElements(0, 0, width, height, pixels);
+		//  }
+		// else {
+		// 	backgroundImage.setRGB(0, 0, width, height, pixels, 0, width);
+		//  }
+	}
+
 	/**
 	 * Modifies the quality of forms created with curve().
 	 * @param t  the tension value of the cardinal curve
