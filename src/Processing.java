@@ -160,10 +160,6 @@ public class Processing {
 		canvas.loadImage(image);
 	}
 	
-	public static void showImage() {
-		canvas.showImage();
-	}
-	
 	/**
 	 * Sets the gray-scale color used for the background of 
 	 * the display canvas. The default background is light gray.

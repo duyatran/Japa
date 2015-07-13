@@ -1079,7 +1079,6 @@ public class A1Demo {
     	Processing.loadImage("sundayriver.jpg");
     	Processing.tint(199, 213, 0, 110);
     	Processing.loadImage("harborsunset.jpg");
-    	Processing.showImage();
     	//Processing.animate("A1Demo", "demo");
 //    	Processing.fill(0, 102);
 
@@ -1155,8 +1154,9 @@ public class A1Demo {
 		Processing.fill(255);
 		Processing.ellipse(x, y, 20, 20);
 	}
+	
     public static void main(String[] args) throws IOException{
-    	test();
+    	realcool();
     }
 
 

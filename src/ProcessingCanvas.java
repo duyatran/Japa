@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
@@ -51,25 +50,22 @@ MouseMotionListener, MouseWheelListener, KeyListener {
 	private ArrayList<Shape> shapeList = new ArrayList<Shape>();
 	private ShapeAttributes att = new ShapeAttributes();
 	private DrawCanvas drawCanvas;
-	private BufferedImage buffer = new BufferedImage(canvasWidth, 
-			canvasHeight, BufferedImage.TYPE_INT_ARGB);
+	private BufferedImage buffer;
 	private String outputFileName;
 	private String outputFileType = "png";
 
 	// testing purposes
 	private static Queue<InputEvent> eventQ = new LinkedList<InputEvent>(); 
-	private Graphics2D bufferGraphics = buffer.createGraphics();
-	private long time;
+	private Graphics2D bufferGraphics;
 	private BufferedImage outputImage;
 	private BufferedImage backgroundImage;
 	private Graphics2D bgGraphics;
 	private SwingWorker<Void, Void> saveWorker;
-	private SwingWorker<Void, Void> bgWorker;
 	private Color tintColor;
 	private BufferedImage compatibleImage;
 	private Graphics2D compatibleGraphics;
 	private boolean useImage;
-	private boolean requestRepaint; 
+	
 	public ProcessingCanvas(){
 		this(canvasWidth, canvasHeight);
 	}
@@ -79,11 +75,17 @@ MouseMotionListener, MouseWheelListener, KeyListener {
 		// putting it on the EDT seems to be slower and still produces flicker for student14.
 		canvasWidth = w;
 		canvasHeight = h;
+		
+		buffer = new BufferedImage(canvasWidth, 
+				canvasHeight, BufferedImage.TYPE_INT_ARGB);
+		bufferGraphics = buffer.createGraphics();
+		
 		backgroundImage = new BufferedImage(canvasWidth, 
 				canvasHeight, BufferedImage.TYPE_INT_ARGB);
+		bgGraphics = backgroundImage.createGraphics();
+
 		compatibleImage = new BufferedImage(canvasWidth, 
 				canvasHeight, BufferedImage.TYPE_INT_ARGB);
-		bgGraphics = backgroundImage.createGraphics();
 		compatibleGraphics = compatibleImage.createGraphics();
 
 		clearGraphics(bufferGraphics);
@@ -165,18 +167,16 @@ MouseMotionListener, MouseWheelListener, KeyListener {
 	}
 
 	private void paintImage(Shape s) {
-		if (animation) { // if animation, use buffer to draw
-			if (s.getAttributes().getSmooth())
-				bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
-						RenderingHints.VALUE_ANTIALIAS_ON);
-			else
-				bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
-						RenderingHints.VALUE_ANTIALIAS_OFF);
-			s.paintShape(bufferGraphics);
-		}
-		else { // if static, just let Swing take care of drawing
+		if (!animation) {
 			shapeList.add(s);
 		}
+		if (s.getAttributes().getSmooth())
+			bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+					RenderingHints.VALUE_ANTIALIAS_ON);
+		else
+			bufferGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+					RenderingHints.VALUE_ANTIALIAS_OFF);
+		s.paintShape(bufferGraphics);
 	}
 
 	public void endDraw(boolean saveFrame, int frameCount) {
@@ -209,13 +209,7 @@ MouseMotionListener, MouseWheelListener, KeyListener {
 				outputImage = new BufferedImage(canvasWidth, 
 						canvasHeight, outputFormat);
 				Graphics2D gtemp = outputImage.createGraphics();
-				if (animation) {
-					gtemp.drawImage(buffer, 0, 0, null);
-				}
-				else {
-					System.out.println("correct in save");
-					drawCanvas.paint(gtemp);
-				}
+				gtemp.drawImage(buffer, 0, 0, null);
 				gtemp.dispose();
 
 				try {
@@ -305,39 +299,15 @@ MouseMotionListener, MouseWheelListener, KeyListener {
 
 		int[] pixels = new int[width * height];
 
-		//GraphicsUtilities.setPixels(src, 0, 0, width, height, pixels);
-		//int imageType = backgroundImage.getType();
-		// if (imageType == BufferedImage.TYPE_INT_ARGB ||
-		//    imageType == BufferedImage.TYPE_INT_RGB) {
 		Raster raster = compatibleImage.getRaster();
 		pixels = (int[]) raster.getDataElements(0, 0, width, height, pixels);
-		// }
-		//else {
-		//  	pixels = backgroundImage.getRGB(0, 0, width, height, pixels, 0, width);
-		//  }
 
-		//mixColor(pixels);
 		int tintARGB = c.getRGB();
 		int tintA = (tintARGB >> 24) & 0xff;
 		int tintR = (tintARGB >> 16) & 0xff;
 		int tintG = (tintARGB >> 8) & 0xff;
 		int tintB = (tintARGB) & 0xff;
 
-		//        if (imageType == BufferedImage.TYPE_INT_RGB) {
-		//            int a = tintARGB & 0xFF000000;
-		//            for (int i = 0; i < pixels.length; i++) {
-		//            	int argb = pixels[i];
-		//            	int r = (argb >> 16) & 0xff;
-		//            	int g = (argb >> 8) & 0xff;
-		//            	int b = (argb) & 0xff;
-		//
-		//            	pixels[i] = a |
-		//            			(((r * tintR) & 0xff00) << 8) |
-		//            			((g * tintG) & 0xff00) |
-		//            			(((b * tintB) & 0xff00) >> 8);
-		//            }
-		//        }
-		//        else { //TYPE_INT_ARGB
 		for (int i = 0; i < pixels.length; i++) {
 			int argb = pixels[i];
 			int a = (argb >> 24) & 0xff;
@@ -350,17 +320,9 @@ MouseMotionListener, MouseWheelListener, KeyListener {
 					((g * tintG) & 0xff00) |
 					(((b * tintB) & 0xff00) >> 8);
 		}
-		//        }
-
-		//       GraphicsUtilities.setPixels(dst, 0, 0, width, height, pixels);
-		//if (imageType == BufferedImage.TYPE_INT_ARGB ||
-		//     imageType == BufferedImage.TYPE_INT_RGB) {
+		
 		WritableRaster wr = compatibleImage.getRaster();
 		wr.setDataElements(0, 0, width, height, pixels);
-		//  }
-		// else {
-		// 	backgroundImage.setRGB(0, 0, width, height, pixels, 0, width);
-		//  }
 	}
 
 	/**
