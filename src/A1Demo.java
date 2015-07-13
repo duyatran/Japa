@@ -1120,7 +1120,7 @@ public class A1Demo {
 	static double distX; // X-axis distance to move
 	static double distY; // Y-axis distance to move
 	static double exponent = 3.0; // Determines the curve
-	static double x = 0.0; // Current x-coordinate
+//	static double x = 0.0; // Current x-coordinate
 	static double y = 0.0; // Current y-coordinate
 	static double step = 0.01; // Size of each step along the path
 	static double pct = 0.0; // Percentage traveled (0.0 to 1.0)
@@ -1154,9 +1154,26 @@ public class A1Demo {
 		Processing.fill(255);
 		Processing.ellipse(x, y, 20, 20);
 	}
-	
+	static double x = 0.0;
+
+	public static void setup() {
+		Processing.size(200, 200);
+    	Processing.animate("A1Demo", "draw1");
+	}
+
+
+	public static void draw1() {
+		Processing.background(204);
+		Processing.line(x, 0, x, Processing.height); 	
+	}
+
+	public static void mousePressed() {
+		x += 1;
+		Processing.redraw();	
+	}
+
     public static void main(String[] args) throws IOException{
-    	realcool();
+    	setup();
     }
 
 

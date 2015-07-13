@@ -79,7 +79,8 @@ MouseMotionListener, MouseWheelListener, KeyListener {
 		buffer = new BufferedImage(canvasWidth, 
 				canvasHeight, BufferedImage.TYPE_INT_ARGB);
 		bufferGraphics = buffer.createGraphics();
-		
+		clearGraphics(bufferGraphics);
+
 		backgroundImage = new BufferedImage(canvasWidth, 
 				canvasHeight, BufferedImage.TYPE_INT_ARGB);
 		bgGraphics = backgroundImage.createGraphics();
@@ -88,7 +89,6 @@ MouseMotionListener, MouseWheelListener, KeyListener {
 				canvasHeight, BufferedImage.TYPE_INT_ARGB);
 		compatibleGraphics = compatibleImage.createGraphics();
 
-		clearGraphics(bufferGraphics);
 		// Create the JFrame and JPanel on the EDT
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

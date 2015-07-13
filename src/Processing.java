@@ -40,6 +40,7 @@ public class Processing {
 	private static Timer timer;
 	private static int frameRate = 60;
 	private static String method = "draw";
+	private static boolean loop = true;
 	// TESTING EVENT LISTENER
 	public static char key;
 	public static int keyCode;//???
@@ -52,6 +53,7 @@ public class Processing {
 	public static int mouseButton;
 	private static Method eventMethod;
 	private static boolean saveFrame;
+	private static boolean redraw;
 	
 
 	/** This method sets up the canvas and defines the dimension of
@@ -611,6 +613,18 @@ public class Processing {
 	public static void frameRate(int rate){
 		frameRate = rate;
 	}
+	
+	public static void noLoop() {
+		loop = false;
+	}
+	
+	public static void loop() {
+		loop = true;
+	}
+	
+	public static void redraw() {
+		redraw = true;
+	}
 
 	public static void animate(String className, String methodName){
 		method = methodName;
@@ -644,7 +658,10 @@ public class Processing {
 			public void actionPerformed(ActionEvent evt) {
 				// Must include the two catch blocks to stop exceptions
 				try{
-					drawMethod.invoke(null, (Object[]) null);
+					if (loop || redraw) {
+						drawMethod.invoke(null, (Object[]) null);
+						redraw = false;
+					}
 					Queue<InputEvent> events = canvas.getEventQ();
 					while (!events.isEmpty()){
 						InputEvent e = events.remove();
