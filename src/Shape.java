@@ -99,6 +99,5 @@ public abstract class Shape {
 	}
 
 	abstract ShapeAttributes getAttributes();
-
 	abstract void paintShape(Graphics2D g2);
 }

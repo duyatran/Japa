@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
@@ -58,7 +57,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	private SwingWorker<Void, Void> saveWorker;
 	private String outputFileName = "image.png";
 	private String outputFileType = "png";
-
+	private boolean save;
 	// Buffer and background
 	private boolean useImageAsBackground;
 	private BufferedImage bufferImage;
@@ -172,8 +171,14 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			else {
 				Graphics2D g2 = (Graphics2D) g;
 				clearGraphics(g2);
+				clearGraphics(bufferGraphics);
 				for (Shape s : displayList) {
 					s.paintShape(g2);
+					s.paintShape(bufferGraphics);
+				}
+				if (save) {
+					createSaveWorker();
+					saveWorker.execute();
 				}
 			}
 		}
@@ -211,16 +216,17 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 						outputFormat);
 				outputGraphics = outputImage.createGraphics();
 				
-				if (!isAnimation) { // not animation, paint background and shapes on the output
-					clearGraphics(outputGraphics);
-					for (Shape s: displayList) {
-						s.paintShape(outputGraphics);
-					}
+				if (!isAnimation && useImageAsBackground) { // not animation, paint background and shapes on the output
+//					clearGraphics(outputGraphics);
+//					for (Shape s: displayList) {
+//						s.paintShape(outputGraphics);
+//					}
+					outputGraphics.drawImage(bufferImage, 0, 0, null);
 				}
-//				else if (!isAnimation && !useImageAsBackground) {
-//					System.out.println("static, draw from buffer");
-//					outputGraphics.drawImage(bufferImage, 0, 0, null);
-//				}
+				else if (!isAnimation && !useImageAsBackground) {
+					System.out.println("static, draw from buffer");
+					outputGraphics.drawImage(bufferImage, 0, 0, null);
+				}
 				else { // if animation, just draw the buffer
 					outputGraphics.drawImage(bufferImage, 0, 0, null);
 				}
@@ -264,12 +270,13 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 * @param s
 	 */
 	private void paintImage(Shape s) {
-		if (!isAnimation) { // not animation, paint background and shapes on the output
+		if (!isAnimation && useImageAsBackground) { // static w/ image background
 			displayList.add(s);
 		}
-//		else if (!isAnimation && !useImageAsBackground) {
-//			s.paintShape(bufferGraphics);
-//		}
+		else if (!isAnimation && !useImageAsBackground) {
+			displayList.add(s);
+			//s.paintShape(bufferGraphics);
+		}
 		else { // if animation, paint the shape on the buffer right away
 			s.paintShape(bufferGraphics);
 		}
@@ -287,13 +294,14 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 					.toLowerCase();
 		}
 		this.outputFileName = fileName;
+		save = true;
 		// Putting saveImage() on the EDT to let the drawing by Swing finishes first
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createSaveWorker();
-				saveWorker.execute();
-			}
-		});
+//		SwingUtilities.invokeLater(new Runnable() {
+//			public void run() {
+//				createSaveWorker();
+//				saveWorker.execute();
+//			}
+//		});
 	}
 
 	/******************************************************

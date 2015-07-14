@@ -67,7 +67,7 @@ public class ProcessingArc extends Shape {
 	public ShapeAttributes getAttributes() {
 		return this.att;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Arc[x=" + x + ",y=" + y + ",w=" + w + ",h=" + h

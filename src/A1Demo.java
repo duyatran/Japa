@@ -1104,7 +1104,7 @@ public class A1Demo {
 	}
 
 	public static void main(String[] args) throws IOException {
-		test();
+		realcool();
 	}
 
 }

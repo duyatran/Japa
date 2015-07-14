@@ -542,7 +542,7 @@ public class A2Demo {
 			}
 			BLKrectY1 = 370;
 		}
-		Processing.save("test.png");
+		Processing.save("student11.png");
 		// for some reason, trying to save a copy png file of the image created
 		// was simply not working
 		// and was really messing with the way processing saved my files so I
@@ -838,7 +838,7 @@ public class A2Demo {
 
 	public static void main(String[] args) throws IOException {
 		Processing.randomSeed(13);
-		student9();
+		student11();
 	}
 
 }
