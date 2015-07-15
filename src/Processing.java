@@ -204,7 +204,7 @@ public class Processing {
 	 * @throws IOException
 	 */
 	public static void loadImage(String image) {
-		canvas.loadImage(image);
+			canvas.loadImage(image);
 	}
 
 	/**

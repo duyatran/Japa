@@ -57,7 +57,8 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	private SwingWorker<Void, Void> saveWorker;
 	private String outputFileName = "image.png";
 	private String outputFileType = "png";
-	private boolean save;
+	private boolean saveStatic;
+	
 	// Buffer and background
 	private boolean useImageAsBackground;
 	private BufferedImage bufferImage;
@@ -93,7 +94,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		bufferImage = new BufferedImage(canvasWidth, canvasHeight,
 				BufferedImage.TYPE_INT_ARGB);
 		bufferGraphics = bufferImage.createGraphics();
-		//clearGraphics(bufferGraphics);
+		clearGraphics(bufferGraphics);
 
 		// the actual background image that compatible image(s) draw to
 		backgroundImage = new BufferedImage(canvasWidth, canvasHeight,
@@ -162,24 +163,19 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			
-			// If animation, draw to the JPanel graphics from the buffer
-			if (isAnimation) {
-				g.drawImage(bufferImage, 0, 0, this);
-			}
-			// If static images, let Swing do the drawing (and repaint)
-			else {
-				Graphics2D g2 = (Graphics2D) g;
-				clearGraphics(g2);
+			// if not animation, paint the buffer first and draw it on JPanel;
+			// if animation, just draw the buffer on the JPanel
+			if (!isAnimation) {
 				clearGraphics(bufferGraphics);
 				for (Shape s : displayList) {
-					s.paintShape(g2);
 					s.paintShape(bufferGraphics);
 				}
-				if (save) {
-					createSaveWorker();
-					saveWorker.execute();
-				}
+			}
+			g.drawImage(bufferImage, 0, 0, this);
+			
+			if (saveStatic) {
+				createSaveWorker();
+				saveWorker.execute();
 			}
 		}
 	}
@@ -208,39 +204,19 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	private void createSaveWorker() {
 		saveWorker = new SwingWorker<Void, Void>() {
 			@Override
-			protected Void doInBackground() {
+			protected Void doInBackground() throws IOException {
 				int outputFormat = (outputFileType.equals("png") || outputFileType
 						.equals("gif")) ? BufferedImage.TYPE_INT_ARGB
 						: BufferedImage.TYPE_INT_RGB;
+				
 				outputImage = new BufferedImage(canvasWidth, canvasHeight,
 						outputFormat);
 				outputGraphics = outputImage.createGraphics();
-				
-				if (!isAnimation && useImageAsBackground) { // not animation, paint background and shapes on the output
-//					clearGraphics(outputGraphics);
-//					for (Shape s: displayList) {
-//						s.paintShape(outputGraphics);
-//					}
-					outputGraphics.drawImage(bufferImage, 0, 0, null);
-				}
-				else if (!isAnimation && !useImageAsBackground) {
-					System.out.println("static, draw from buffer");
-					outputGraphics.drawImage(bufferImage, 0, 0, null);
-				}
-				else { // if animation, just draw the buffer
-					outputGraphics.drawImage(bufferImage, 0, 0, null);
-				}
-				
+				outputGraphics.drawImage(bufferImage, 0, 0, null);
 				outputGraphics.dispose();
-
-				try {
-					ImageIO.write(outputImage, outputFileType, new File(
-							outputFileName));
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				} catch (IllegalArgumentException ex) {
-					ex.printStackTrace();
-				}
+				
+				ImageIO.write(outputImage, outputFileType, new File(outputFileName));
+				saveStatic = false; // finish saving, no need to save next time JPanel repainted
 				return null;
 			}
 		};
@@ -270,84 +246,17 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 * @param s
 	 */
 	private void paintImage(Shape s) {
-		if (!isAnimation && useImageAsBackground) { // static w/ image background
+		if (!isAnimation) { // static image
 			displayList.add(s);
-		}
-		else if (!isAnimation && !useImageAsBackground) {
-			displayList.add(s);
-			//s.paintShape(bufferGraphics);
 		}
 		else { // if animation, paint the shape on the buffer right away
 			s.paintShape(bufferGraphics);
 		}
 	}
 	
-	/******************************************************
-	 ***************** SAVING IMAGES *********************
-	 ******************************************************/
-
-	public void save(String fileName) {
-		if (fileName.indexOf(".") == -1) {
-			fileName = fileName.concat(".png");
-		} else {
-			outputFileType = fileName.substring(fileName.indexOf(".") + 1)
-					.toLowerCase();
-		}
-		this.outputFileName = fileName;
-		save = true;
-		// Putting saveImage() on the EDT to let the drawing by Swing finishes first
-//		SwingUtilities.invokeLater(new Runnable() {
-//			public void run() {
-//				createSaveWorker();
-//				saveWorker.execute();
-//			}
-//		});
-	}
-
-	/******************************************************
-	 *********** CANVAS AND SHAPE ATTRIBUTES **************
-	 ******************************************************/
-
-	public void background(Color c) {
-		backgroundColor = c;
-		clearGraphics(bufferGraphics);
-	}
-
-	public void loadImage(final String image) { // works but looks ugly, also
-												// ImageIO.read is TOO SLOW
-		useImageAsBackground = true;
-		if (tintColor != null) {
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						BufferedImage temp = ImageIO.read(new File(image));
-						compatibleGraphics.drawImage(temp, 0, 0, null);
-						doTint(tintColor);
-						bgGraphics.drawImage(compatibleImage, 0, 0, null);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		} else {
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						BufferedImage temp = ImageIO.read(new File(image));
-						compatibleGraphics.drawImage(temp, 0, 0, null);
-						bgGraphics.drawImage(compatibleImage, 0, 0, null);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-	}
-
-	public void tint(Color c) {
-		tintColor = c;
-	}
-
+	/**
+	 * @param c
+	 */
 	private void doTint(Color c) {
 		int width = compatibleImage.getWidth();
 		int height = compatibleImage.getHeight();
@@ -378,29 +287,95 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		WritableRaster wr = compatibleImage.getRaster();
 		wr.setDataElements(0, 0, width, height, pixels);
 	}
+	
+	/******************************************************
+	 ************ LOADING & SAVING IMAGES *****************
+	 ******************************************************/
+	
+	/**
+	 * @param image
+	 */
+	public void loadImage(final String image) { // works but looks ugly, also
+		// ImageIO.read is TOO SLOW
+		useImageAsBackground = true;
+		final Color t = tintColor;
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					BufferedImage temp = ImageIO.read(new File(image));
+					compatibleGraphics.drawImage(temp, 0, 0, null);
+					if (t != null) {
+						doTint(t);
+					}
+					bgGraphics.drawImage(compatibleImage, 0, 0, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	/**
+	 * @param fileName
+	 */
+	public void save(String fileName) {
+		if (fileName.indexOf(".") == -1) {
+			fileName = fileName.concat(".png");
+		} else {
+			outputFileType = fileName.substring(fileName.indexOf(".") + 1)
+					.toLowerCase();
+		}
+		this.outputFileName = fileName;
+		saveStatic = true;
+	}
+
+	/******************************************************
+	 *********** CANVAS AND SHAPE ATTRIBUTES **************
+	 ******************************************************/
+
+	/**
+	 * @param c
+	 */
+	public void background(Color c) {
+		backgroundColor = c;
+		clearGraphics(bufferGraphics);
+	}
+
+	/**
+	 * @param c
+	 */
+	public void tint(Color c) {
+		tintColor = c;
+	}
 
 	/**
 	 * Modifies the quality of forms created with curve().
 	 * 
-	 * @param t
-	 *            the tension value of the cardinal curve
+	 * @param t - the tension value of the cardinal curve
 	 */
 	public void curveTightness(double t) {
 		att.setCurveTightness(t);
 	}
 
 	/**
-	 * 
+	 * @param mode
 	 */
 	public void ellipseMode(int mode) {
 		att.setEllipseMode(mode);
 	}
 
+	/**
+	 * @param c
+	 */
 	public void fill(Color c) {
 		att.setFill(true);
 		att.setFillColor(c);
 	}
 
+	/**
+	 * @param c
+	 */
 	public void stroke(Color c) {
 		att.setStroke(true);
 		att.setStrokeColor(c);
@@ -409,8 +384,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * Sets the style for rendering stroke endings.
 	 * 
-	 * @param cap
-	 *            - either SQUARE, ROUND or PROJECT
+	 * @param cap - either SQUARE, ROUND or PROJECT
 	 */
 	public void setStrokeCap(int cap) {
 		att.setStrokeCap(cap);
@@ -419,8 +393,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * Sets the style of the joints between strokes.
 	 * 
-	 * @param join
-	 *            - either MITER, BEVEL, and ROUND
+	 * @param join - either MITER, BEVEL, and ROUND
 	 * @throws IllegalArgumentException
 	 */
 	public void setStrokeJoin(int join) {
@@ -430,7 +403,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * Sets the width (in pixels) of the stroke used for lines, points, and the
 	 * border around shapes.
-	 * 
+	 * @param w - stroke width (weight)
 	 * @throws IllegalArgumentException
 	 */
 	public void setStrokeWeight(float w) {
@@ -479,21 +452,13 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * Adds an arc to the displayList.
 	 * 
-	 * @param x
-	 *            by default, x-coordinate of the ellipse
-	 * @param y
-	 *            by default, y-coordinate of the ellipse
-	 * @param w
-	 *            by default, width of the rectangle
-	 * @param h
-	 *            by default, height of the rectangle
-	 * @param start
-	 *            - The starting angle of the arc in degrees.
-	 * @param stop
-	 *            - The angular extent of the arc in degrees.
-	 * @param mode
-	 *            - The closure type for the arc: Arc2D.OPEN, Arc2D.CHORD, or
-	 *            Arc2D.PIE.
+	 * @param x - by default, x-coordinate of the ellipse
+	 * @param y - by default, y-coordinate of the ellipse
+	 * @param w - by default, width of the rectangle
+	 * @param h - by default, height of the rectangle
+	 * @param start - The starting angle of the arc in degrees.
+	 * @param stop - The angular extent of the arc in degrees.
+	 * @param mode - The closure type for the arc: Arc2D.OPEN, Arc2D.CHORD, or Arc2D.PIE.
 	 */
 	public void arc(double x, double y, double w, double h, double start,
 			double stop, int mode) {
@@ -508,22 +473,14 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * Adds a curve to the displayList.
 	 * 
-	 * @param x1
-	 *            x-coordinate of the first anchor point
-	 * @param y1
-	 *            y-coordinate of the first anchor point
-	 * @param x2
-	 *            x-coordinate of the first control point
-	 * @param y2
-	 *            y-coordinate of the first control point
-	 * @param x3
-	 *            x-coordinate of the second control point
-	 * @param y3
-	 *            y-coordinate of the second control point
-	 * @param x4
-	 *            x-coordinate of the second anchor point
-	 * @param y4
-	 *            y-coordinate of the second anchor point
+	 * @param x1 - x-coordinate of the first anchor point
+	 * @param y1 - y-coordinate of the first anchor point
+	 * @param x2 - x-coordinate of the first control point
+	 * @param y2 - y-coordinate of the first control point
+	 * @param x3 - x-coordinate of the second control point
+	 * @param y3 - y-coordinate of the second control point
+	 * @param x4 - x-coordinate of the second anchor point
+	 * @param y4 - y-coordinate of the second anchor point
 	 */
 	public void curve(double x1, double y1, double x2, double y2, double x3,
 			double y3, double x4, double y4, int type) {
@@ -535,16 +492,10 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * Adds an ellipse to the displayList.
 	 * 
-	 * @param x
-	 *            by default, x-coordinate of the rectangle containing the
-	 *            ellipse
-	 * @param y
-	 *            by default, y-coordinate of the rectangle containing the
-	 *            ellipse
-	 * @param w
-	 *            by default, width of the ellipse
-	 * @param h
-	 *            by default, height of the ellipse
+	 * @param x - by default, x-coordinate of the rectangle containing the ellipse
+	 * @param y - by default, y-coordinate of the rectangle containing the ellipse
+	 * @param w - by default, width of the ellipse
+	 * @param h - by default, height of the ellipse
 	 */
 	public void ellipse(double x, double y, double w, double h) {
 		paintImage(new ProcessingEllipse(x, y, w, h, att));
@@ -553,14 +504,10 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * Adds a line to the displayList.
 	 * 
-	 * @param x1
-	 *            x-coordinate of the first point
-	 * @param y1
-	 *            y-coordinate of the first point
-	 * @param x2
-	 *            x-coordinate of the second point
-	 * @param y2
-	 *            y-coordinate of the second point
+	 * @param x1 - x-coordinate of the first point
+	 * @param y1 - y-coordinate of the first point
+	 * @param x2 - x-coordinate of the second point
+	 * @param y2 - y-coordinate of the second point
 	 */
 	public void line(double x1, double y1, double x2, double y2) {
 		paintImage(new ProcessingLine(x1, y1, x2, y2, att));
@@ -569,10 +516,8 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * Adds a point to the displayList.
 	 * 
-	 * @param x1
-	 *            x-coordinate of the point
-	 * @param y1
-	 *            y-coordinate of the point
+	 * @param x1 - x-coordinate of the point
+	 * @param y1 - y-coordinate of the point
 	 */
 	public void point(double x, double y) {
 		paintImage(new ProcessingLine(x, y, x + Consts.EPSILON, y
@@ -582,22 +527,14 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * Adds a polygon (triangle and quad) to the screen
 	 * 
-	 * @param x1
-	 *            x-coordinate of the first corner
-	 * @param y1
-	 *            y-coordinate of the first corner
-	 * @param x2
-	 *            x-coordinate of the second corner
-	 * @param y2
-	 *            y-coordinate of the second corner
-	 * @param x3
-	 *            x-coordinate of the third corner
-	 * @param y3
-	 *            y-coordinate of the third corner
-	 * @param x4
-	 *            x-coordinate of the fourth corner
-	 * @param y4
-	 *            y-coordinate of the fourth corner
+	 * @param x1 - x-coordinate of the first corner
+	 * @param y1 - y-coordinate of the first corner
+	 * @param x2 - x-coordinate of the second corner
+	 * @param y2 - y-coordinate of the second corner
+	 * @param x3 - x-coordinate of the third corner
+	 * @param y3 - y-coordinate of the third corner
+	 * @param x4 - x-coordinate of the fourth corner
+	 * @param y4 - y-coordinate of the fourth corner
 	 */
 	public void polygon(double[] x, double[] y) {
 		paintImage(new ProcessingPolygon(x, y, att));
@@ -606,19 +543,25 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * Adds a rectangle to the displayList.
 	 * 
-	 * @param x
-	 *            by default, x-coordinate of the rectangle
-	 * @param y
-	 *            by default, y-coordinate of the rectangle
-	 * @param w
-	 *            by default, width of the rectangle
-	 * @param h
-	 *            by default, height of the rectangle
+	 * @param x - by default, x-coordinate of the rectangle
+	 * @param y - by default, y-coordinate of the rectangle
+	 * @param w - by default, width of the rectangle
+	 * @param h - by default, height of the rectangle
 	 */
 	public void rect(double x, double y, double w, double h) {
 		paintImage(new ProcessingRect(x, y, w, h, att));
 	}
 
+	/**
+	 * @param v1
+	 * @param v2
+	 * @param v3
+	 * @param v4
+	 * @param tl
+	 * @param tr
+	 * @param br
+	 * @param bl
+	 */
 	public void rect(double v1, double v2, double v3, double v4, double tl,
 			double tr, double br, double bl) {
 		beginShape(Consts.POLYGON);

@@ -1007,7 +1007,7 @@ public class A1Demo {
 		Processing.curveVertex(390, 440);
 		Processing.endShape();
 
-		Processing.save("student7.jpeg");
+		Processing.save("student7");
 	}
 
 	// static double y = 50.0;
@@ -1019,14 +1019,14 @@ public class A1Demo {
 	// static int x = 20;
 	public static void test() {
 		Processing.size(960, 642);
-		Processing.loadImage("sundayriver.jpg");
-		Processing.tint(199, 213, 0, 110);
-		Processing.loadImage("harborsunset.jpg");
-		Processing.save("sh.png");
+//		Processing.loadImage("sundayriver.jpg");
+//		Processing.tint(199, 213, 0, 110);
+//		Processing.loadImage("harborsunset.jpg");
+//		Processing.save("sh.png");
 		// Processing.animate("A1Demo", "demo");
 		// Processing.fill(0, 102);
 
-		// Processing.strokeWeight(8);
+		 Processing.strokeWeight(8);
 
 		// Processing.stroke(255);
 		// Processing.noFill();
@@ -1035,11 +1035,11 @@ public class A1Demo {
 		// Processing.noStroke();
 		// Processing.ellipseMode(Consts.RADIUS);
 		//
-		// Processing.animate("A1Demo");
+		 Processing.animate("A1Demo");
 	}
 
 	public static void demo() {
-	}
+	
 
 	// public static void draw(){
 	// Processing.fill(0, 10);
@@ -1057,10 +1057,10 @@ public class A1Demo {
 	// 240-(i/16.0), 300+(i/8.0));
 	// }
 
-	// Processing.background(204);
-	// Processing.line(Processing.mouseX, Processing.mouseY, Processing.pmouseX,
-	// Processing.pmouseY);
-	// }
+	 Processing.background(204);
+	 Processing.line(Processing.mouseX, Processing.mouseY, Processing.pmouseX,
+	 Processing.pmouseY);
+	 }
 	static double beginX = 20.0; // Initial x-coordinate
 	static double beginY = 10.0; // Initial y-coordinate
 	static double endX = 70.0; // Final x-coordinate
