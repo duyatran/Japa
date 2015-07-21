@@ -1,3 +1,4 @@
+package japa;
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library Consts.java Purpose:
  * Create public class that holds all constants for convenience
@@ -52,7 +53,7 @@ public final class Consts {
 	public static final int CORNER = 2;
 	public static final int CORNERS = 3;
 
-	// Shape kinds for use with beginShape/endShape
+	// AbstractShape kinds for use with beginShape/endShape
 	public static final int POINTS = 0;
 	public static final int LINES = 1;
 	public static final int TRIANGLES = 2;

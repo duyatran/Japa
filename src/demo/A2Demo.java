@@ -1,3 +1,7 @@
+package demo;
+import japa.Consts;
+import japa.Processing;
+
 import java.io.IOException;
 
 /**
@@ -835,10 +839,52 @@ public class A2Demo {
 
 		Processing.save("student14.png");
 	}
-
+	static boolean up = true;
+	static int i=0;
+	static int colour = 0;
+	
+	public static void coolstuff() {
+		    Processing.size(400, 400);
+		    Processing.background(200);
+		    i = 0;
+		    up = true;
+		    Processing.noStroke();
+		    Processing.animate("A2Demo");
+	}
+	public static void draw(){
+		Processing.background(200);
+		    if (colour > 2) colour = 0;
+		    if (colour == 0) Processing.fill(255, 0, 0, i);
+		    if (colour == 1) Processing.fill(0, 255, 0, i);
+		    if (colour == 2) Processing.fill(0, 0, 255, i);
+		    Processing.rect(i, i, 50, 50);
+		    Processing.rect(i, 350 - i, 50, 50);
+		    Processing.rect(i, 175, 50, 50);
+		    Processing.rect(350 - i, 175, 50, 50);
+		    Processing.rect(175, 350 - i, 50, 50);
+		    Processing.rect(175, i, 50, 50);
+		    Processing.rect(350 - i, i, 50, 50);
+		    Processing.rect(350 - i, 350 - i, 50, 50);
+		    
+		    if (Processing.mousePressed) colour += 1;
+		    
+		    
+		    if (up){
+		        i ++;
+		    }
+		    else{
+		        i --;
+		    }
+		    if (i == 350 || i == -5) {
+		        up = !up;
+		    }
+		    Processing.saveFrame();
+		}
+	
+	
 	public static void main(String[] args) throws IOException {
-		Processing.randomSeed(13);
-		student11();
+		//Processing.randomSeed(13);
+		student14();
 	}
 
 }

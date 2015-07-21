@@ -1,3 +1,4 @@
+package japa;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
@@ -10,7 +11,6 @@ import java.awt.Color;
  */
 
 public class ShapeAttributes {
-	private BasicStroke strokeStyle;
 	private float strokeWeight = 1;
 	private int strokeCap = BasicStroke.CAP_ROUND;
 	private int strokeJoin = BasicStroke.JOIN_MITER;
@@ -26,7 +26,6 @@ public class ShapeAttributes {
 	private double curveTightness = 0;
 
 	public ShapeAttributes() {
-		setStrokeStyle();
 	}
 
 	/**
@@ -42,12 +41,11 @@ public class ShapeAttributes {
 		newAtt.setStrokeWeight(this.getStrokeWeight());
 		newAtt.setStrokeCap(this.getStrokeCap());
 		newAtt.setStrokeJoin(this.getStrokeJoin());
-		newAtt.setStrokeStyle();
 		return newAtt;
 	}
 
 	/***************************************
-	 * Getters and setters of all attributes
+	  Getters and setters of all attributes
 	 ***************************************/
 
 	public boolean getSmooth() {
@@ -71,7 +69,7 @@ public class ShapeAttributes {
 	}
 
 	public BasicStroke getStrokeStyle() {
-		return strokeStyle;
+		return new BasicStroke(strokeWeight, strokeCap, strokeJoin);
 	}
 
 	public int getStrokeCap() {
@@ -86,50 +84,72 @@ public class ShapeAttributes {
 		return strokeWeight;
 	}
 
+	public int getRectMode() {
+		return rectMode;
+	}
+
+	public int getEllipseMode() {
+		return ellipseMode;
+	}
+
+	public double getCurveTightness() {
+		return curveTightness;
+	}
+	
+	/**
+	 * @param b
+	 */
 	public void setSmooth(boolean b) {
 		smooth = b;
 	}
 
+	/**
+	 * @param b
+	 */
 	public void setFill(boolean b) {
 		fill = b;
 	}
 
+	/**
+	 * @param c
+	 */
 	public void setFillColor(Color c) {
 		fillColor = c;
 	}
 
+	/**
+	 * @param b
+	 */
 	public void setStroke(boolean b) {
 		stroke = b;
 	}
 
+	/**
+	 * @param c
+	 */
 	public void setStrokeColor(Color c) {
 		strokeColor = c;
 	}
 
+	/**
+	 * @param i
+	 */
 	public void setStrokeCap(int i) {
 		strokeCap = i;
-		setStrokeStyle();
-	}
-
-	public void setStrokeJoin(int i) {
-		strokeJoin = i;
-		setStrokeStyle();
-	}
-
-	public void setStrokeWeight(float w) {
-		strokeWeight = w;
-		setStrokeStyle();
-	}
-
-	public void setStrokeStyle() {
-		strokeStyle = new BasicStroke(strokeWeight, strokeCap, strokeJoin);
 	}
 
 	/**
-	 * @return the rectMode
+	 * @param i
 	 */
-	public int getRectMode() {
-		return rectMode;
+	public void setStrokeJoin(int i) {
+		strokeJoin = i;
+	}
+
+	/**
+	 * @param w
+	 */
+	public void setStrokeWeight(float w) {
+		strokeWeight = w;
 	}
 
 	/**
@@ -141,25 +161,11 @@ public class ShapeAttributes {
 	}
 
 	/**
-	 * @return the ellipseMode
-	 */
-	public int getEllipseMode() {
-		return ellipseMode;
-	}
-
-	/**
 	 * @param ellipseMode
 	 *            the ellipseMode to set
 	 */
 	public void setEllipseMode(int mode) {
 		this.ellipseMode = mode;
-	}
-
-	/**
-	 * @return the curveTension
-	 */
-	public double getCurveTightness() {
-		return curveTightness;
 	}
 
 	/**
@@ -172,9 +178,9 @@ public class ShapeAttributes {
 
 	@Override
 	public String toString() {
-		return ("stroke weight: " + strokeStyle.getLineWidth()
-				+ "stroke join: " + strokeStyle.getLineJoin() + "stroke cap: "
-				+ strokeStyle.getEndCap() + " strokeColor: " + strokeColor
+		return ("stroke weight: " + getStrokeWeight()
+				+ "stroke join: " + getStrokeJoin() + "stroke cap: "
+				+ getStrokeCap() + " strokeColor: " + strokeColor
 				+ " fillColor: " + fillColor + " fill: " + fill + " stroke: "
 				+ stroke + " smooth: " + smooth);
 	}

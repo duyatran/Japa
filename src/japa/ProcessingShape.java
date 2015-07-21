@@ -1,3 +1,4 @@
+package japa;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Path2D;
@@ -12,24 +13,27 @@ import java.util.ArrayList;
  * @version 1.0 6/10/2015
  */
 
-public class ProcessingShape extends Shape {
+public class ProcessingShape extends AbstractShape {
 	private ArrayList<Point2D.Double> vertices;
 	private ArrayList<Point2D.Double> curveVertices;
-	private ArrayList<Shape> shapeList;
+	private ArrayList<AbstractShape> shapeList;
 	private Path2D.Double path;
 	private ShapeAttributes att;
 	private int kind;
 	private int vertexIndex = 0;
+	private int vertexCount;
 	private double[] xCoords;
 	private double[] yCoords;
-	private int vertexCount;
 
-	/**
+	/** 
+	 * @param current - the current ShapeAttributes object
+	 * @param kind - the kind of shape, POINTS, LINES, TRIANGLES, TRIANGLE_STRIP, TRIANGLE_FAN,
+	 * QUADS, QUAD_STRIP or POLYGON
 	 */
 	public ProcessingShape(ShapeAttributes current, int kind) {
 		vertices = new ArrayList<Point2D.Double>();
 		curveVertices = new ArrayList<Point2D.Double>();
-		shapeList = new ArrayList<Shape>();
+		shapeList = new ArrayList<AbstractShape>();
 		path = new Path2D.Double();
 		this.att = current.copy();
 		this.kind = kind;
@@ -42,10 +46,9 @@ public class ProcessingShape extends Shape {
 		vertices.add(new Point2D.Double(x, y));
 		vertexCount = vertices.size();
 
-		switch (this.kind) {
+		switch (kind) {
 
 		case Consts.POINTS:
-			// stroke cap of points must be ROUND
 			shapeList.add(new ProcessingLine(x, y, x + Consts.EPSILON, y
 					+ Consts.EPSILON, att));
 			break;
@@ -86,19 +89,17 @@ public class ProcessingShape extends Shape {
 
 		case Consts.TRIANGLE_FAN:
 			if (vertexCount >= 3) {
-				// From Processing: This is an unfortunate implementation
-				// because the stroke for an
-				// adjacent triangle will be repeated. However, if the stroke is
-				// not
-				// redrawn, it will replace the adjacent line (when it lines up
-				// perfectly) or show a faint line (when off by a small amount).
-				// The alternative would be to wait, then draw the shape as a
-				// polygon fill, followed by a series of verticesSet. But that's
-				// a
-				// poor method when used with PDF, DXF, or other recording
-				// objects,
-				// since discrete triangles would likely be preferred.
-
+				/*
+				 From Processing: This is an unfortunate implementation
+				 because the stroke for an adjacent triangle will be repeated. 
+				 However, if the stroke is not redrawn, it will replace the 
+				 adjacent line (when it lines up
+				 perfectly) or show a faint line (when off by a small amount).
+				 The alternative would be to wait, then draw the shape as a
+				 polygon fill, followed by a series of verticesSet. But that's
+				 a poor method when used with PDF, DXF, or other recording
+				 objects, since discrete triangles would likely be preferred.
+				 */
 				xCoords = new double[] { vertices.get(0).getX(),
 						vertices.get(vertexCount - 2).getX(), x };
 
@@ -136,6 +137,7 @@ public class ProcessingShape extends Shape {
 				shapeList.add(new ProcessingPolygon(xCoords, yCoords, att));
 			}
 			break;
+			
 		case Consts.POLYGON:
 			if (vertices.size() == 1) {
 				path.moveTo(x, y);
@@ -145,69 +147,83 @@ public class ProcessingShape extends Shape {
 		}
 	}
 
+	/**
+	 * @param x
+	 * @param y
+	 */
 	public void addCurveVertex(double x, double y) {
+		// If this is the first vertex, simply move to that point, or add it
+		// to the curve vertex list
 		if (vertices.isEmpty() && curveVertices.isEmpty()) {
 			path.moveTo(x, y);
 			curveVertices.add(new Point2D.Double(x, y));
-		} else {
+		} 
+		else {
 			curveVertices.add(new Point2D.Double(x, y));
-			drawCurveSegment();
-		}
-
-	}
-
-	private void drawCurveSegment() {
-		if (curveVertices.size() >= 4) {
-			Point2D.Double[] currentSet = new Point2D.Double[4];
-			for (int i = 0; i < 4; i++) {
-				currentSet[i] = curveVertices.get(vertexIndex);
-				vertexIndex++;
+			if (curveVertices.size() >= 4) { // enough points to start drawing curve segments
+				// Produce curve from the set of 4 control points
+				Point2D.Double[] currentSet = new Point2D.Double[4];
+				for (int i = 0; i < 4; i++) {
+					currentSet[i] = curveVertices.get(vertexIndex);
+					vertexIndex++;
+				}
+				vertexIndex -= 3; // the next set of 4 control points need to keep the last set of 3
+				Point2D.Double[] coords = produceCurve(currentSet,
+						Consts.CATMULL_ROM, att.getCurveTightness());
+				add(coords[1].getX(), coords[1].getY(), coords[2].getX(),
+						coords[2].getY(), coords[3].getX(), coords[3].getY());
 			}
-			vertexIndex -= 3;
-			Point2D.Double[] coords = produceCurve(currentSet,
-					Consts.CATMULL_ROM, att.getCurveTightness());
-			path.curveTo(coords[1].getX(), coords[1].getY(), coords[2].getX(),
-					coords[2].getY(), coords[3].getX(), coords[3].getY());
 		}
 	}
 
-	// quadratic
+	// If there are six arguments, use quadTo to draw a quadratic curve segment
 	public void add(double x1, double y1, double x2, double y2) {
 		path.quadTo(x1, y1, x2, y2);
 	}
 
-	// bezier
+	// If there are six arguments, use curveTo to draw a Bezier curve segment
 	public void add(double x1, double y1, double x2, double y2, double x3,
 			double y3) {
 		path.curveTo(x1, y1, x2, y2, x3, y3);
 	}
 
+	/**
+	 * @param mode
+	 */
 	public void closePath(int mode) {
 		if (mode == Consts.CLOSE) {
 			path.closePath();
 		}
-		shapeList.add(this);// lol, really?
+		shapeList.add(this);
 	}
 
-	/*
+	/**
 	 * @return the arc's attributes object.
 	 * 
-	 * @see Shape#getAttributes()
+	 * @see AbstractShape#getAttributes()
 	 */
 	public ShapeAttributes getAttributes() {
 		return this.att;
 	}
 
+
+	/**
+	 * @return
+	 */
+	public ArrayList<AbstractShape> getShapeList() {
+		return shapeList;
+	}
+	
 	@Override
 	public String toString() {
 		// TO-DO;
 		return "A custom shape " + this.kind;
 	}
 
-	/*
+	/**
 	 * Do the actual drawing of the shape.
 	 * 
-	 * @see Shape#paintShape(java.awt.Graphics2D)
+	 * @see AbstractShape#paintShape(java.awt.Graphics2D)
 	 */
 	public void paintShape(Graphics2D g2) {
 		if (att.getSmooth())
@@ -227,10 +243,4 @@ public class ProcessingShape extends Shape {
 			g2.draw(path);
 		}
 	}
-
-	public ArrayList<Shape> getShapeList() {
-		// TODO Auto-generated method stub
-		return shapeList;
-	}
-
 }

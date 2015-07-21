@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
  * from Resemble.js, https://github.com/Huddle/Resemble.js
  * 
  * @author Andrea Aime - GeoSolutions
- * 
+ * Edited by Duy Tran: remove Java Advanced Imaging dependency
  */
 public class ImageComparator {
 
@@ -239,7 +239,6 @@ public class ImageComparator {
         		components[0]   = (pixel1ARGB >> 16) & 0xff;
         		components[1] = (pixel1ARGB >>  8) & 0xff;
         		components[2]  = (pixel1ARGB      ) & 0xff;
-        		//                    it1.getPixel(c, r, components);
         		px1.init(components);
 
         		int pixel2ARGB = pixels2[r * width + c];
@@ -247,7 +246,6 @@ public class ImageComparator {
         		components[0]   = (pixel2ARGB >> 16) & 0xff;
         		components[1] = (pixel2ARGB >>  8) & 0xff;
         		components[2]  = (pixel2ARGB      ) & 0xff;
-        		//it2.getPixel(c, r, components);
         		px2.init(components);
 
         		if (mode == Mode.IgnoreColors) {

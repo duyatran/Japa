@@ -1,3 +1,7 @@
+package demo;
+import japa.Consts;
+import japa.Processing;
+
 import java.io.IOException;
 
 /**
@@ -54,7 +58,7 @@ public class A3Demo19 {
 		moonColorStart = (moonColorStart + .4) % 100;
 		drawHouses();
 		// noLoop();
-		Processing.saveFrame();
+		//Processing.saveFrame();
 	}
 
 	public static void drawHill() { // This image is stationary and does not

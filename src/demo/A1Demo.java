@@ -1,3 +1,7 @@
+package demo;
+import japa.Consts;
+import japa.Processing;
+
 import java.io.IOException;
 
 /**
@@ -961,7 +965,7 @@ public class A1Demo {
 		Processing.endShape();
 
 		// SHAPES DANGLING FROM RIGHTMOST BRANCH (from left to right)
-		// Shape 4
+		// AbstractShape 4
 		Processing.fill(255, 0, 30);
 		Processing.line(219, 317, 219, 329);
 		Processing.beginShape();
@@ -975,7 +979,7 @@ public class A1Demo {
 		Processing.curveVertex(210, 350);
 		Processing.curveVertex(210, 350);
 		Processing.endShape();
-		// Shape 5
+		// AbstractShape 5
 		Processing.fill(203, 21, 85);
 		Processing.line(298, 315, 298, 350);
 		Processing.beginShape();
@@ -991,7 +995,7 @@ public class A1Demo {
 		Processing.curveVertex(290, 400);
 		Processing.curveVertex(290, 400);
 		Processing.endShape();
-		// Shape 6
+		// AbstractShape 6
 		Processing.fill(30, 34, 147);
 		Processing.line(418, 354, 416, 420);
 		Processing.beginShape();
@@ -1018,7 +1022,7 @@ public class A1Demo {
 
 	// static int x = 20;
 	public static void test() {
-		Processing.size(960, 642);
+		Processing.size();
 //		Processing.loadImage("sundayriver.jpg");
 //		Processing.tint(199, 213, 0, 110);
 //		Processing.loadImage("harborsunset.jpg");
@@ -1026,16 +1030,16 @@ public class A1Demo {
 		// Processing.animate("A1Demo", "demo");
 		// Processing.fill(0, 102);
 
-		 Processing.strokeWeight(8);
+//		 Processing.strokeWeight(8);
 
-		// Processing.stroke(255);
-		// Processing.noFill();
+		 Processing.stroke(255);
+		 Processing.noFill();
 
 		// Processing.smooth();
 		// Processing.noStroke();
 		// Processing.ellipseMode(Consts.RADIUS);
 		//
-		 Processing.animate("A1Demo");
+		 Processing.animate("A1Demo", "demo");
 	}
 
 	public static void demo() {
@@ -1051,15 +1055,15 @@ public class A1Demo {
 	// direction = -direction;
 	// }
 
-	// Processing.background(0);
-	// for (int i = 0; i < 200; i += 20) {
-	// Processing.bezier(Processing.mouseX-(i/2.0), 40+i, 410, 20, 440, 300,
-	// 240-(i/16.0), 300+(i/8.0));
-	// }
+	 Processing.background(0);
+	 for (int i = 0; i < 200; i += 20) {
+	 Processing.bezier(Processing.mouseX-(i/2.0), 40+i, 410, 20, 440, 300,
+	 240-(i/16.0), 300+(i/8.0));
+	 }
 
-	 Processing.background(204);
-	 Processing.line(Processing.mouseX, Processing.mouseY, Processing.pmouseX,
-	 Processing.pmouseY);
+//	 Processing.background(204);
+//	 Processing.line(Processing.mouseX, Processing.mouseY, Processing.pmouseX,
+//	 Processing.pmouseY);
 	 }
 	static double beginX = 20.0; // Initial x-coordinate
 	static double beginY = 10.0; // Initial y-coordinate
@@ -1103,8 +1107,14 @@ public class A1Demo {
 		Processing.ellipse(x, y, 20, 20);
 	}
 
+	public static void what() {
+		Processing.size(200, 200);
+		Processing.strokeWeight(20);
+		Processing.rect(20, 20, 50, 50);
+	}
+	
 	public static void main(String[] args) throws IOException {
-		realcool();
+		what();
 	}
 
 }

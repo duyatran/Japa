@@ -1,3 +1,4 @@
+package japa;
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
  * ProcessingPolygon.java
@@ -11,18 +12,15 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Path2D;
 
-public class ProcessingPolygon extends Shape {
+public class ProcessingPolygon extends AbstractShape {
 	private double[] x;
 	private double[] y;
 	private ShapeAttributes att;
 
 	/**
-	 * @param xCoor
-	 *            : x-coordinates array
-	 * @param yCoor
-	 *            : y-coordinates array
-	 * @param current
-	 *            : the current ShapeAttributes object
+	 * @param xCoor - x-coordinates array
+	 * @param yCoor - y-coordinates array
+	 * @param current - the current ShapeAttributes object
 	 */
 	public ProcessingPolygon(double[] xCoor, double[] yCoor,
 			ShapeAttributes current) {
@@ -38,7 +36,7 @@ public class ProcessingPolygon extends Shape {
 	/*
 	 * @return the arc's attributes object.
 	 * 
-	 * @see Shape#getAttributes()
+	 * @see AbstractShape#getAttributes()
 	 */
 	public ShapeAttributes getAttributes() {
 		return this.att;
@@ -53,7 +51,7 @@ public class ProcessingPolygon extends Shape {
 	/*
 	 * Do the actual drawing of the polygon.
 	 * 
-	 * @see Shape#paintShape(java.awt.Graphics2D)
+	 * @see AbstractShape#paintShape(java.awt.Graphics2D)
 	 */
 	public void paintShape(Graphics2D g2) {
 		if (att.getSmooth())

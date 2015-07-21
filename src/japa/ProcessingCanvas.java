@@ -1,3 +1,4 @@
+package japa;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -46,7 +47,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	private static int canvasWidth = Consts.DEFAULT_WIDTH;
 	private static int canvasHeight = Consts.DEFAULT_HEIGHT;
 	private Color backgroundColor = Color.LIGHT_GRAY;
-	private ArrayList<Shape> displayList = new ArrayList<Shape>();
+	private ArrayList<AbstractShape> displayList = new ArrayList<AbstractShape>();
 	private ShapeAttributes att = new ShapeAttributes();
 	private ProcessingShape currentShape;
 	private DrawCanvas drawCanvas;
@@ -73,20 +74,12 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	private static Queue<InputEvent> eventQ = new LinkedList<InputEvent>();
 
 	/**
-	 * 
-	 */
-	public ProcessingCanvas() {
-		this(canvasWidth, canvasHeight);
-	}
-
-	/**
+	 * Create various buffered images and put createAndShowGUI on EDT
 	 * @param w
 	 * @param h
 	 */
 	public ProcessingCanvas(int w, int h) {
 		// make bufferImage available as soon as possible for drawing
-		// putting it on the EDT seems to be slower and still produces flicker
-		// for student14.
 		canvasWidth = w;
 		canvasHeight = h;
 		
@@ -115,6 +108,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	}
 
 	/**
+	 * Do what its name says
 	 * @param w
 	 * @param h
 	 */
@@ -139,7 +133,6 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 
 		if (w >= Consts.MIN_CANVAS_SIZE && h >= Consts.MIN_CANVAS_SIZE) {
 			this.add(drawCanvas);
-			this.pack();
 		} else {
 			// If canvas is smaller than 200x200, GridBagLayout with default
 			// GridBagConstraints will center the canvas, so no need to do 
@@ -150,13 +143,13 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			this.setMinimumSize(new Dimension(Consts.MIN_CANVAS_SIZE + 50,
 					Consts.MIN_CANVAS_SIZE + 50));
 		}
+		this.pack();
 		this.setLocationRelativeTo(null); // center the window on the screen
 		this.setVisible(true);
 	}
 
 	/**
-	 * @author Duy
-	 *
+	 * A private class for the JPanel.
 	 */
 	private class DrawCanvas extends JPanel {
 		// why make a new class and not just create a JPanel?
@@ -164,18 +157,21 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			// if not animation, paint the buffer first and draw it on JPanel;
-			// if animation, just draw the buffer on the JPanel
+			// if animation, just draw the buffer on the JPanel. Cannot use
+			// displayList when drawing frames for animation, as it would grow too big
 			if (!isAnimation) {
 				clearGraphics(bufferGraphics);
-				for (Shape s : displayList) {
+				for (AbstractShape s : displayList) {
 					s.paintShape(bufferGraphics);
 				}
 			}
 			g.drawImage(bufferImage, 0, 0, this);
 			
+			// For saving static images only. This is called
+			// after the drawing of bufferImage is done because
+			// it is saving the buffer.
 			if (saveStatic) {
-				createSaveWorker();
-				saveWorker.execute();
+				saveBuffer();
 			}
 		}
 	}
@@ -185,6 +181,8 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 ******************************************************/
 	
 	/**
+	 * Clear the graphics context g with either the background color
+	 * or the background image.
 	 * @param g
 	 */
 	private void clearGraphics(Graphics g) {
@@ -199,9 +197,10 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	}
 
 	/**
-	 * 
+	 * Do the actual saving buffer to file. Saving is done by a SwingWorker
+	 * so as to not interfere with EDT and the display.
 	 */
-	private void createSaveWorker() {
+	private void saveBuffer() {
 		saveWorker = new SwingWorker<Void, Void>() {
 			@Override
 			protected Void doInBackground() throws IOException {
@@ -216,13 +215,16 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 				outputGraphics.dispose();
 				
 				ImageIO.write(outputImage, outputFileType, new File(outputFileName));
-				saveStatic = false; // finish saving, no need to save next time JPanel repainted
+				saveStatic = false; // finish saving static image, no need to save next time JPanel repainted
 				return null;
 			}
 		};
+		saveWorker.execute();
 	}
 	
 	/**
+	 * For animation only. Update the display when drawing for a frame is done.
+	 * Also, save frame with corresponding frameCount if saveFrame is true.
 	 * @param saveFrame
 	 * @param frameCount
 	 */
@@ -230,22 +232,22 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		repaint();
 		if (saveFrame) {
 			outputFileName = "screen-" + frameCount + ".png";
-			createSaveWorker();
-			saveWorker.execute();
+			saveBuffer();
 		}
 	}
 	
 	/**
-	 * 
+	 * Boolean for animation or static
 	 */
 	public void isAnimation() {
 		isAnimation = true;
 	}
 
 	/**
+	 * Add shape to displayList or paint to buffer
 	 * @param s
 	 */
-	private void paintImage(Shape s) {
+	private void paintImage(AbstractShape s) {
 		if (!isAnimation) { // static image
 			displayList.add(s);
 		}
@@ -255,6 +257,8 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	}
 	
 	/**
+	 * Tint the current compatibleImage with color c.
+	 * This is equivalent to multiply blend mode in image processing software.
 	 * @param c
 	 */
 	private void doTint(Color c) {
@@ -293,10 +297,11 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 ******************************************************/
 	
 	/**
+	 * Load an image to be the background of the canvas
 	 * @param image
 	 */
-	public void loadImage(final String image) { // works but looks ugly, also
-		// ImageIO.read is TOO SLOW
+	public void loadImage(final String image) {
+		// ImageIO.read is so slow it hurts
 		useImageAsBackground = true;
 		final Color t = tintColor;
 
@@ -308,6 +313,8 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 					if (t != null) {
 						doTint(t);
 					}
+					// draw compatibleImage onto backgroundImage to allow
+					// more than overlapping background image
 					bgGraphics.drawImage(compatibleImage, 0, 0, null);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -317,6 +324,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	}
 	
 	/**
+	 * Save method for static images
 	 * @param fileName
 	 */
 	public void save(String fileName) {
@@ -327,6 +335,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 					.toLowerCase();
 		}
 		this.outputFileName = fileName;
+		// Sets the flag to save, but saving is only done after buffer has done drawing.
 		saveStatic = true;
 	}
 
@@ -463,9 +472,8 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	public void arc(double x, double y, double w, double h, double start,
 			double stop, int mode) {
 		// Arguments modified to produce Processing-like arc with Java2D Arc2D
-		// constructor,
-		// which draws arc counter-clockwise and use 'extent' instead of 'stop'
-		// angle.
+		// constructor, which draws arc counter-clockwise and use 'extent' instead 
+		// of 'stop' angle.
 		paintImage(new ProcessingArc(x, y, w, h, Consts.TWO_PI - stop, stop
 				- start, mode, att));
 	}
@@ -553,6 +561,8 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	}
 
 	/**
+	 * Adds a rounded rectangle to the displayList. Rounded
+	 * rectangles are drawn with straight lines and quadratic curves.
 	 * @param v1
 	 * @param v2
 	 * @param v3
@@ -595,6 +605,23 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	/**
 	 * 
 	 */
+	public void beginShape(int kind) {
+		currentShape = new ProcessingShape(att, kind);
+	}
+
+	/**
+	 * 
+	 */
+	public void endShape(int mode) {
+		currentShape.closePath(mode);
+		for (AbstractShape s : currentShape.getShapeList()) {
+			paintImage(s);
+		}
+	}
+	
+	/**
+	 * 
+	 */
 	public void vertex(double x, double y) {
 		currentShape.addVertex(x, y);
 	}
@@ -621,27 +648,12 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		currentShape.add(x1, y1, x2, y2, x3, y3);
 	}
 
-	/**
-	 * 
-	 */
-	public void beginShape(int kind) {
-		currentShape = new ProcessingShape(att, kind);
-	}
-
-	/**
-	 * 
-	 */
-	public void endShape(int mode) {
-		currentShape.closePath(mode);
-		for (Shape s : currentShape.getShapeList()) {
-			paintImage(s);
-		}
-	}
-
 	/******************************************************
 	 ***************** EVENT-HANDLING *********************
 	 ******************************************************/
 
+	// Add all mouse and key events to eventQ to process after frame is drawn
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		eventQ.add(e);

@@ -1,3 +1,4 @@
+package japa;
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
  * ProcessingCurve.java
@@ -12,33 +13,23 @@ import java.awt.RenderingHints;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
 
-public class ProcessingCurve extends Shape {
-	private double[] x;
-	private double[] y;
+public class ProcessingCurve extends AbstractShape {
 	private Point2D.Double[] points;
 	private int type; // either Consts.BEZIER or Consts.CATMULLROM
 	private double tension = 0;
 	private ShapeAttributes att;
 
 	/**
-	 * @param xCoor
-	 *            : x-coordinates array
-	 * @param yCoor
-	 *            : y-coordinates array
-	 * @param t
-	 *            : the tension value (0.0 to 1.0)
-	 * @param current
-	 *            : the current ShapeAttributes object
+	 * @param xCoor - x-coordinates array
+	 * @param yCoor - y-coordinates array
+	 * @param t - the tension value (0.0 to 1.0)
+	 * @param current - the current ShapeAttributes object
 	 */
 	public ProcessingCurve(double[] xCoor, double[] yCoor, int t,
 			ShapeAttributes current) {
-		x = new double[xCoor.length];
-		y = new double[yCoor.length];
 		points = new Point2D.Double[4];
 		for (int i = 0; i < xCoor.length; i++) {
-			x[i] = xCoor[i];
-			y[i] = yCoor[i];
-			points[i] = new Point2D.Double(x[i], y[i]);
+			points[i] = new Point2D.Double(xCoor[i], yCoor[i]);
 		}
 		this.att = current.copy();
 		this.type = t;
@@ -48,7 +39,7 @@ public class ProcessingCurve extends Shape {
 	/*
 	 * @return the arc's attributes object.
 	 * 
-	 * @see Shape#getAttributes()
+	 * @see AbstractShape#getAttributes()
 	 */
 	public ShapeAttributes getAttributes() {
 		return this.att;
@@ -63,7 +54,7 @@ public class ProcessingCurve extends Shape {
 	/*
 	 * Do the actual drawing of the curve.
 	 * 
-	 * @see Shape#paintShape(java.awt.Graphics2D)
+	 * @see AbstractShape#paintShape(java.awt.Graphics2D)
 	 */
 	public void paintShape(Graphics2D g2) {
 		Point2D.Double[] c = produceCurve(points, type, tension);

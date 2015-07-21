@@ -1,3 +1,4 @@
+package japa;
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
  * ProcessingArc.java
@@ -11,7 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Arc2D;
 
-public class ProcessingArc extends Shape {
+public class ProcessingArc extends AbstractShape {
 
 	private double x;
 	private double y;
@@ -24,22 +25,14 @@ public class ProcessingArc extends Shape {
 	private ShapeAttributes att;
 
 	/**
-	 * @param x
-	 *            : x-coordinate of the arc's ellipse
-	 * @param y
-	 *            : y-coordinate of the arc' ellipse
-	 * @param w
-	 *            : width of the arc's ellipse
-	 * @param h
-	 *            : height of the arc's ellipse
-	 * @param start
-	 *            : angle to start the arc (in degrees).
-	 * @param stop
-	 *            : angle to stop the arc (in degrees).
-	 * @param mode
-	 *            : the closure type for the arc, either OPEN, CHORD, or PIE.
-	 * @param current
-	 *            : the current ShapeAttributes object
+	 * @param x - x-coordinate of the arc's ellipse
+	 * @param y - y-coordinate of the arc' ellipse
+	 * @param w - width of the arc's ellipse
+	 * @param h - height of the arc's ellipse
+	 * @param start - angle to start the arc (in degrees).
+	 * @param stop - angle to stop the arc (in degrees).
+	 * @param mode - the closure type for the arc, either OPEN, CHORD, or PIE.
+	 * @param current - the current ShapeAttributes object
 	 */
 	public ProcessingArc(double x, double y, double w, double h, double start,
 			double stop, int mode, ShapeAttributes current) {
@@ -62,7 +55,7 @@ public class ProcessingArc extends Shape {
 	/*
 	 * @return the arc's attributes object.
 	 * 
-	 * @see Shape#getAttributes()
+	 * @see AbstractShape#getAttributes()
 	 */
 	public ShapeAttributes getAttributes() {
 		return this.att;
@@ -77,7 +70,7 @@ public class ProcessingArc extends Shape {
 	/*
 	 * Do the actual drawing of the arc.
 	 * 
-	 * @see Shape#paintShape(java.awt.Graphics2D)
+	 * @see AbstractShape#paintShape(java.awt.Graphics2D)
 	 */
 	public void paintShape(Graphics2D g2) {
 		if (att.getSmooth())

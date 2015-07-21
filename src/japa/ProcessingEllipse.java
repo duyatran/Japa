@@ -1,3 +1,4 @@
+package japa;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
@@ -10,25 +11,20 @@ import java.awt.geom.Ellipse2D;
  * @version 1.0 6/10/2015
  */
 
-public class ProcessingEllipse extends Shape {
+public class ProcessingEllipse extends AbstractShape {
 	private double x;
 	private double y;
 	private double w;
 	private double h;
-	private int ellipseMode = Consts.CENTER;
+	private int ellipseMode;
 	private ShapeAttributes att;
 
 	/**
-	 * @param x
-	 *            : by default, x-coordinate of the ellipse
-	 * @param y
-	 *            : by default, y-coordinate of the ellipse
-	 * @param w
-	 *            : by default, width of the ellipse
-	 * @param h
-	 *            : by default, height of the ellipse
-	 * @param current
-	 *            : the current ShapeAttributes object
+	 * @param x - by default, x-coordinate of the ellipse
+	 * @param y - by default, y-coordinate of the ellipse
+	 * @param w - by default, width of the ellipse
+	 * @param h - by default, height of the ellipse
+	 * @param current - the current ShapeAttributes object
 	 */
 	public ProcessingEllipse(double v1, double v2, double v3, double v4,
 			ShapeAttributes current) {
@@ -44,7 +40,7 @@ public class ProcessingEllipse extends Shape {
 	/*
 	 * @return the arc's attributes object.
 	 * 
-	 * @see Shape#getAttributes()
+	 * @see AbstractShape#getAttributes()
 	 */
 	public ShapeAttributes getAttributes() {
 		return this.att;
@@ -59,7 +55,7 @@ public class ProcessingEllipse extends Shape {
 	/*
 	 * Do the actual drawing of the ellipse.
 	 * 
-	 * @see Shape#paintShape(java.awt.Graphics2D)
+	 * @see AbstractShape#paintShape(java.awt.Graphics2D)
 	 */
 	public void paintShape(Graphics2D g2) {
 		if (att.getSmooth())

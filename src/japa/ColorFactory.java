@@ -1,3 +1,4 @@
+package japa;
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library
  * ColorFactory.java

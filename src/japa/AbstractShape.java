@@ -1,15 +1,16 @@
+package japa;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
 /**
- * Summer 2015 - Processing-inspired Java Graphics Library Shape.java Purpose:
- * Provides a Shape interface for geometric objects.
+ * Summer 2015 - Processing-inspired Java Graphics Library AbstractShape.java Purpose:
+ * Provides a AbstractShape interface for geometric objects.
  *
  * @author Duy Tran
  * @version 1.0 6/10/2015
  */
 
-public abstract class Shape {
+public abstract class AbstractShape {
 
 	/**
 	 * @return the actual curve to be drawn

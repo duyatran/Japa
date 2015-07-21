@@ -1,3 +1,7 @@
+package demo;
+import japa.Consts;
+import japa.Processing;
+
 import java.io.IOException;
 
 /**
@@ -27,7 +31,7 @@ public class A3Demo18 {
 			Processing.fill(255, 255, 255, 90);
 			Processing.ellipse(dotsX, dotsY, dotsSize, dotsSize);
 		}
-		Processing.animate("A3Demo18");
+		Processing.animate("demo.A3Demo18");
 	}
 
 	static int fgH = 359;
