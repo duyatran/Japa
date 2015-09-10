@@ -50,7 +50,6 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	private ArrayList<AbstractShape> displayList = new ArrayList<AbstractShape>();
 	private ShapeAttributes att = new ShapeAttributes();
 	private ProcessingShape arbitraryShape;
-	private DrawCanvas drawCanvas;
 	
 	// Save() variables
 	private BufferedImage outputImage;
@@ -113,18 +112,39 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 * @param h
 	 */
 	private void createAndShowGUI(int w, int h) {
-
-		drawCanvas = new DrawCanvas();
-		drawCanvas.setPreferredSize(new Dimension(w, h));
+		JPanel drawPanel = new JPanel () {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				// if not animation, paint the buffer first and draw it on JPanel;
+				// if animation, just draw the buffer on the JPanel. Cannot use
+				// displayList when drawing frames for animation, as it would grow too big
+				if (!isAnimation) {
+					clearGraphics(bufferGraphics);
+					for (AbstractShape s : displayList) {
+						s.paintShape(bufferGraphics);
+					}
+				}
+				g.drawImage(bufferImage, 0, 0, this);
+				
+				// For saving static images only. This is called
+				// after the drawing of bufferImage is done because
+				// it is saving the buffer.
+				if (saveStatic) {
+					saveBuffer();
+				}
+			}
+		};
+		drawPanel.setPreferredSize(new Dimension(w, h));
 
 		// to listen for key events right away
-		drawCanvas.setFocusable(true);
-		drawCanvas.requestFocusInWindow();
+		drawPanel.setFocusable(true);
+		drawPanel.requestFocusInWindow();
 
 		// add the event listeners
-		drawCanvas.addMouseListener(this);
-		drawCanvas.addMouseMotionListener(this);
-		drawCanvas.addKeyListener(this);
+		drawPanel.addMouseListener(this);
+		drawPanel.addMouseMotionListener(this);
+		drawPanel.addKeyListener(this);
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false); // must be set before this.pack() so Swing
@@ -132,13 +152,13 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		this.setTitle("My Canvas");
 
 		if (w >= Consts.MIN_CANVAS_SIZE && h >= Consts.MIN_CANVAS_SIZE) {
-			this.add(drawCanvas);
+			this.add(drawPanel);
 		} else {
 			// If canvas is smaller than 200x200, GridBagLayout with default
 			// GridBagConstraints will center the canvas, so no need to do 
 			// setLayout(null) or worry about insets
 			this.setLayout(new GridBagLayout());
-			this.add(drawCanvas, new GridBagConstraints());
+			this.add(drawPanel, new GridBagConstraints());
 			// set minimum size for the window frame
 			this.setMinimumSize(new Dimension(Consts.MIN_CANVAS_SIZE + 50,
 					Consts.MIN_CANVAS_SIZE + 50));
@@ -147,34 +167,6 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		this.setLocationRelativeTo(null); // center the window on the screen
 		// Do we need this.requestFocus()?
 		this.setVisible(true);
-	}
-
-	/**
-	 * A private class for the JPanel.
-	 */
-	private class DrawCanvas extends JPanel {
-		// why make a new class and not just create a JPanel?
-		@Override
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			// if not animation, paint the buffer first and draw it on JPanel;
-			// if animation, just draw the buffer on the JPanel. Cannot use
-			// displayList when drawing frames for animation, as it would grow too big
-			if (!isAnimation) {
-				clearGraphics(bufferGraphics);
-				for (AbstractShape s : displayList) {
-					s.paintShape(bufferGraphics);
-				}
-			}
-			g.drawImage(bufferImage, 0, 0, this);
-			
-			// For saving static images only. This is called
-			// after the drawing of bufferImage is done because
-			// it is saving the buffer.
-			if (saveStatic) {
-				saveBuffer();
-			}
-		}
 	}
 
 	/******************************************************
@@ -188,8 +180,8 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 */
 	private void clearGraphics(Graphics g) {
 		if (!useImageAsBackground) {
-			// setColor and fillRect are used because setBackground
-			// DO NOT set background color. Read API for more info.
+			// setColor and fillRect are used because setBackground DO NOT
+			// actually set background color. Read Java API for more info.
 			g.setColor(backgroundColor);
 			g.fillRect(0, 0, canvasWidth, canvasHeight);
 		} else {
