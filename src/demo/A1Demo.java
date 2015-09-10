@@ -74,7 +74,7 @@ public class A1Demo {
 		Processing.line(540, 200, 540, 220);
 		Processing.line(480, 140, 460, 140);
 
-		Processing.save("student1");
+		//Processing.save("student1");
 	}
 
 	public static void student2() throws IOException {
@@ -1084,7 +1084,7 @@ public class A1Demo {
 		Processing.smooth();
 		distX = endX - beginX;
 		distY = endY - beginY;
-		Processing.animate("A1Demo");
+		Processing.animate("demo.A1Demo");
 	}
 
 	public static void draw() {
@@ -1106,15 +1106,9 @@ public class A1Demo {
 		Processing.fill(255);
 		Processing.ellipse(x, y, 20, 20);
 	}
-
-	public static void what() {
-		Processing.size(200, 200);
-		Processing.strokeWeight(20);
-		Processing.rect(20, 20, 50, 50);
-	}
 	
 	public static void main(String[] args) throws IOException {
-		what();
+		realcool();
 	}
 
 }

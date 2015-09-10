@@ -40,7 +40,7 @@ public class A3Demo19 {
 			Processing.stroke(220, 90, 59 - i * .15);
 			Processing.line(i, 0, i, 500);
 		}
-		Processing.animate("A3Demo19");
+		Processing.animate("demo.A3Demo19");
 	}
 
 	// background color of the screen

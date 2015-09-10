@@ -30,7 +30,7 @@ public class A3Demo17 {
 		Processing.smooth();
 		Processing.noStroke();
 		Processing.frameRate(30);
-		Processing.animate("A3Demo17");
+		Processing.animate("demo.A3Demo17");
 	}
 
 	static boolean isDay = true;

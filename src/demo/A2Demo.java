@@ -111,7 +111,7 @@ public class A2Demo {
 			i = i + 85;
 		}
 
-		Processing.save("student8.png");
+		//Processing.save("student8.png");
 	}
 
 	public static void student9() {
@@ -837,7 +837,7 @@ public class A2Demo {
 			}
 		}
 
-		Processing.save("student14.png");
+		//Processing.save("student14.png");
 	}
 	static boolean up = true;
 	static int i=0;
@@ -849,7 +849,7 @@ public class A2Demo {
 		    i = 0;
 		    up = true;
 		    Processing.noStroke();
-		    Processing.animate("A2Demo");
+		    Processing.animate("demo.A2Demo");
 	}
 	public static void draw(){
 		Processing.background(200);
@@ -878,13 +878,13 @@ public class A2Demo {
 		    if (i == 350 || i == -5) {
 		        up = !up;
 		    }
-		    Processing.saveFrame();
+		    //Processing.saveFrame();
 		}
 	
 	
 	public static void main(String[] args) throws IOException {
 		//Processing.randomSeed(13);
-		student14();
+		student8();
 	}
 
 }

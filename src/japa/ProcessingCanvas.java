@@ -49,7 +49,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	private Color backgroundColor = Color.LIGHT_GRAY;
 	private ArrayList<AbstractShape> displayList = new ArrayList<AbstractShape>();
 	private ShapeAttributes att = new ShapeAttributes();
-	private ProcessingShape currentShape;
+	private ProcessingShape arbitraryShape;
 	private DrawCanvas drawCanvas;
 	
 	// Save() variables
@@ -145,6 +145,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 		}
 		this.pack();
 		this.setLocationRelativeTo(null); // center the window on the screen
+		// Do we need this.requestFocus()?
 		this.setVisible(true);
 	}
 
@@ -301,10 +302,10 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 * @param image
 	 */
 	public void loadImage(final String image) {
-		// ImageIO.read is so slow it hurts
+		// ImageIO.read is so slow it hurts, loading bytes would be faster
 		useImageAsBackground = true;
 		final Color t = tintColor;
-
+		// image is part of display, so this must be on EDT
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -313,8 +314,8 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 					if (t != null) {
 						doTint(t);
 					}
-					// draw compatibleImage onto backgroundImage to allow
-					// more than overlapping background image
+					// compatibleImage is used to let Java convert image input 
+					// to a unified format, while allowing multiple, overlapping background images
 					bgGraphics.drawImage(compatibleImage, 0, 0, null);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -332,7 +333,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			fileName = fileName.concat(".png");
 		} else {
 			outputFileType = fileName.substring(fileName.indexOf(".") + 1)
-					.toLowerCase();
+									 .toLowerCase();
 		}
 		this.outputFileName = fileName;
 		// Sets the flag to save, but saving is only done after buffer has done drawing.
@@ -576,7 +577,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 			double tr, double br, double bl) {
 		beginShape(Consts.POLYGON);
 
-		double[] temp = currentShape.setCoordinates(att.getRectMode(), v1, v2,
+		double[] temp = arbitraryShape.setCoordinates(att.getRectMode(), v1, v2,
 				v3, v4);
 		double x = temp[0];
 		double y = temp[1];
@@ -606,15 +607,15 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 * 
 	 */
 	public void beginShape(int kind) {
-		currentShape = new ProcessingShape(att, kind);
+		arbitraryShape = new ProcessingShape(att, kind);
 	}
 
 	/**
 	 * 
 	 */
 	public void endShape(int mode) {
-		currentShape.closePath(mode);
-		for (AbstractShape s : currentShape.getShapeList()) {
+		arbitraryShape.closePath(mode);
+		for (AbstractShape s : arbitraryShape.getShapeList()) {
 			paintImage(s);
 		}
 	}
@@ -623,21 +624,21 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 * 
 	 */
 	public void vertex(double x, double y) {
-		currentShape.addVertex(x, y);
+		arbitraryShape.addVertex(x, y);
 	}
 
 	/**
 	 * 
 	 */
 	public void curveVertex(double x, double y) {
-		currentShape.addCurveVertex(x, y);
+		arbitraryShape.addCurveVertex(x, y);
 	}
 
 	/**
 	 * 
 	 */
 	public void quadraticVertex(double x1, double y1, double x2, double y2) {
-		currentShape.add(x1, y1, x2, y2);
+		arbitraryShape.add(x1, y1, x2, y2);
 	}
 
 	/**
@@ -645,7 +646,7 @@ public class ProcessingCanvas extends JFrame implements MouseListener,
 	 */
 	public void bezierVertex(double x1, double y1, double x2, double y2,
 			double x3, double y3) {
-		currentShape.add(x1, y1, x2, y2, x3, y3);
+		arbitraryShape.add(x1, y1, x2, y2, x3, y3);
 	}
 
 	/******************************************************

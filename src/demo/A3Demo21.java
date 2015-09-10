@@ -19,7 +19,7 @@ public class A3Demo21 {
 		Processing.noStroke();
 		Processing.smooth();
 		Processing.frameRate(15);
-		Processing.animate("A3Demo21");
+		Processing.animate("demo.A3Demo21");
 	}
 
 	static double windCount = 0;

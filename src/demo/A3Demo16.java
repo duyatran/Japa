@@ -17,7 +17,7 @@ public class A3Demo16 {
 		Processing.size(800, 500);
 		Processing.smooth();
 		Processing.frameRate(30);
-		Processing.animate("A3Demo16");
+		Processing.animate("demo.A3Demo16");
 	}
 
 	static int bulbSize = 50;

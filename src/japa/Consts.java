@@ -1,4 +1,7 @@
 package japa;
+
+import java.awt.Color;
+
 /**
  * Summer 2015 - Processing-inspired Java Graphics Library Consts.java Purpose:
  * Create public class that holds all constants for convenience
@@ -19,9 +22,9 @@ public final class Consts {
 	public static float DEFAULT_BRIGHTNESS = 100;
 	public static float DEFAULT_ALPHA = 100;
 
-	// Default width and height of canvas
+	// Default width, height and background color of canvas
 	public static int DEFAULT_WIDTH = 800;
-	public static int DEFAULT_HEIGHT = 600;
+	public static int DEFAULT_HEIGHT = 600;	
 	public static int MIN_CANVAS_SIZE = 200;
 
 	// Stroke Cap and Join modes

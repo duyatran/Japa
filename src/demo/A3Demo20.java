@@ -43,7 +43,7 @@ public class A3Demo20 {
 		Processing.smooth();
 		Processing.strokeWeight(2);
 		Processing.frameRate(30);
-		Processing.animate("A3Demo20");
+		Processing.animate("demo.A3Demo20");
 	}
 
 	// background color of the screen
