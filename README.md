@@ -1,4 +1,4 @@
-Processing-inspired Java Graphics Library
+EDITED: Processing-inspired Java Graphics Library
 ==========================================
 
 
